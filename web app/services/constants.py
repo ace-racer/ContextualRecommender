@@ -1,0 +1,2 @@
+select_view_by_user_query = "SELECT userid, cardid, cardtitle, streamid, streamname, timestamp, moduleid, modulename from customer_card_view where userid = {0} order by cardid"
+card_title_str = "cardtitle"
