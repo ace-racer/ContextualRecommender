@@ -10,12 +10,38 @@
 2. Run the below set of commands to import data from CSV to a .db file for SQLite 3
 
 Navigate to the folder with the data CSVs and then type the below one by one in a sqlite3 prompt
-a. .mode csv
-b. .open <db_name>.db
-c. .import <file>.csv <file>
-d. .schema <file>
+   a. .mode csv
+   b. .open <db_name>.db
+   c. .import <file>.csv <file>
+   d. .schema <file>
 
 ### Run the service 
 
 1. python /path_to_app.py_in_service_folder/app.py
 2. Navigate to the URL in your browser that is shown in the console when executing 1
+
+### Service endpoints
+
+1. Get views by user id: 
+   GET /views/<userid> 
+   
+   E.g. http:127.0.0.1:5000/views/1007
+
+2. Add new view of user: 
+   
+   POST /views/add
+   Request header: Content-Type:application/json
+   Request body:
+   
+   ```json
+   {
+	"userid":"1007",
+	"streamid":"561",
+	"moduleid":"491",
+	"cardid":"8889"
+   }
+   ```
+   
+   E.g. http://127.0.0.1:5000/views/add
+   
+   Note: A text response is sent which can be checked for errors
