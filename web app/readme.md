@@ -23,7 +23,7 @@ Navigate to the folder with the data CSVs and then type the below one by one in 
 ### Service endpoints
 
 1. Get views by user id: 
-   GET /views/<userid> 
+   GET /views/<<user_id>> 
    
    E.g. http://127.0.0.1:5000/views/1007
 
