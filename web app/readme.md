@@ -29,9 +29,9 @@ Navigate to the folder with the data CSVs and then type the below one by one in 
 
 2. Add new view of user: 
    
-   POST /views/add
-   Request header: Content-Type:application/json
-   Request body:
+   POST /views/add  
+   Request header: Content-Type:application/json  
+   Request body:  
    
    ```json
    {
@@ -42,6 +42,6 @@ Navigate to the folder with the data CSVs and then type the below one by one in 
    }
    ```
    
-   E.g. http://127.0.0.1:5000/views/add
-   
+   E.g. http://127.0.0.1:5000/views/add  
+     
    Note: A text response is sent which can be checked for errors. A text of "OK" is sent for success, else an error text is returned.
