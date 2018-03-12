@@ -12,8 +12,8 @@
 Navigate to the folder with the data CSVs and then type the below one by one in a sqlite3 prompt
    1. .mode csv
    2. .open <db_name>.db
-   3. .import <<file>>.csv <<db_name>>
-   4. .schema <<file>>
+   3. .import <<input_file>>.csv <<db_name>>
+   4. .schema <<input_file>>
 
 ### Run the service 
 
