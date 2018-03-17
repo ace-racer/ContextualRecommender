@@ -1,11 +1,12 @@
 ## A contextual recommender for an organization that wants to drive user engagement by suggesting relevant contents to the users of their app
 
 ### Project components
-1. The data that is inside the data folder can be found here: https://nusu.sharepoint.com/:f:/r/sites/IW_ContextualReco2/Shared%20Documents/Data/Sample?csf=1&e=MbgWYn
+1. The data that is inside the data folder can be found here: https://drive.google.com/drive/u/0/folders/17PlasXUfiDhYC2eHyR8gWKZbl42moZMp
 2. Refer here: http://jupyter.readthedocs.io/en/latest/install.html to understand the how to install Anaconda Python distribution and use Jupyter notebooks to execute the code
+3. Python 3.6.3
 
 ### Description of the Jupyter notebooks and the generated files
-|	File name	| Description |	Source code | notebook file |
+| # |	File name	| Description |	Source code notebook file |
 | --- | --- | --- | --- |
 | 1 |	content_views_per_user.csv |	The number of times a stream is viewed by a user	| DataProcessor |
 | 2	| content_views_per_user_scaled.csv |	The content views for the users scaled by MinMax transformation along the total number of views for the stream across all users. A 1 means that this user has watched the stream the most number of times	| DataProcessor |
