@@ -1,5 +1,7 @@
 from flask import Flask, request
 from views_controller import views_controller
+from recommendations_controller import cc_recommender_controller
+from content_controller import content_controller
 
 import constants
 
@@ -35,6 +37,12 @@ def addUserView():
         if not operation_result[0]:
             return operation_result[1]
     return "OK"
+
+@app.route('/streams/neighbors/<streamid>')
+def getStreamDetails(streamid):
+    if streamid:
+        controller = cc_recommender_controller()
+        return controller.get_nearest_neighbors_by_streamid(streamid)
 
 if __name__ == '__main__':
     app.run(debug=True)

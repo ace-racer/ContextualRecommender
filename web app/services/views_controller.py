@@ -23,7 +23,7 @@ class views_controller:
         """
         if userId:
             print("UserId: " + userId)
-            conn = sqlite3.connect(configurations.views_db_location)
+            conn = sqlite3.connect(configurations.db_location)
             try:
                 c = conn.cursor()
                 c.execute(constants.select_view_by_user_query.format(userId))
@@ -47,7 +47,7 @@ class views_controller:
             cardId = card_view_details.get(constants.cardid_str, "")
             print("UserId: " + userId)
             if userId and cardId:
-                conn = sqlite3.connect(configurations.views_db_location)
+                conn = sqlite3.connect(configurations.db_location)
                 try:
                     c = conn.cursor()
                     moduleId = card_view_details.get(constants.moduleid_str, "")
