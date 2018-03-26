@@ -30,7 +30,7 @@ class content_controller:
         :param streamids: The ID of the streams
         :return: The details of all the streams
         """
-        select_query_details = "select organization, streamid, streamname, cardid, cardname from {0} where streamid in ({1})"
+        select_query_details = "select organization, streamid, streamname, cardid, cardname from {0} where streamid in ({1}) order by streamid"
 
         # envelop the stream Ids in quotes
         streamids = ["\"" + streamid + "\"" for streamid in streamids]
