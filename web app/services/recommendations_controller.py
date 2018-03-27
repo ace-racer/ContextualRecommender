@@ -20,9 +20,10 @@ class cc_recommender_controller:
         """
         all_stream_details = {}
         controller = content_controller()
-        original_stream_details = controller.get_stream_details([streamid])
+        original_stream_details_list = controller.get_stream_details([streamid])
 
-        if original_stream_details is not None:
+        if original_stream_details_list is not None and len(original_stream_details_list) > 0:
+            original_stream_details = original_stream_details_list[0]
             all_stream_details["Target"] = original_stream_details
             nearest_neighbor_query = "select n1streamid, n2streamid, n3streamid, n4streamid, n5streamid from nearest_neighbor_streams where targetstreamid = \"{0}\""
             nearest_neighbor_query_updated = nearest_neighbor_query.format(streamid)

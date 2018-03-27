@@ -30,6 +30,7 @@ class content_controller:
         :param streamids: The ID of the streams
         :return: The details of all the streams
         """
+        all_stream_details_formatted = []
         select_query_details = "select organization, streamid, streamname, cardid, cardname from {0} where streamid in ({1}) order by streamid"
 
         # envelop the stream Ids in quotes
@@ -46,10 +47,35 @@ class content_controller:
             c.execute(select_query_details_updated)
             stream_details = c.fetchall()
             print("Number of results: " + str(len(stream_details)))
+            num_stream_details = len(stream_details)
+            print(stream_details)
+
+            itr = 0
+            while itr < num_stream_details:
+                stream_details_formatted = {}
+                current_stream_id = stream_details[itr][1]
+                stream_details_formatted["streamid"] = current_stream_id
+                stream_details_formatted["organization"] = stream_details[itr][0]
+                stream_details_formatted["streamname"] = stream_details[itr][2]
+
+                jtr = itr
+                cards = []
+                while jtr < num_stream_details and stream_details[jtr][1] == current_stream_id:
+                    card_details = {}
+                    card_details["cardid"] = stream_details[jtr][3]
+                    card_details["cardname"] = stream_details[jtr][4]
+                    cards.append(card_details)
+
+                    jtr += 1
+
+                stream_details_formatted["cards"] = cards
+                all_stream_details_formatted.append(stream_details_formatted)
+                itr = jtr
+
 
             # TODO: Add code to get tags for the streams and concatenate them
 
-            return stream_details
+            return all_stream_details_formatted
         except Exception as e:
             print(e)
             return None
