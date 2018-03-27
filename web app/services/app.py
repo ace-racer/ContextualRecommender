@@ -42,7 +42,10 @@ def addUserView():
 def getStreamDetails(streamid):
     if streamid:
         controller = cc_recommender_controller()
-        return controller.get_nearest_neighbors_by_streamid(streamid)
+        stream_details = controller.get_nearest_neighbors_by_streamid(streamid)
+        if stream_details is None:
+            return "No streams with the streamid {0}".format(streamid)
+        return stream_details
 
 if __name__ == '__main__':
     app.run(debug=True)

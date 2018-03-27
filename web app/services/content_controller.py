@@ -50,6 +50,10 @@ class content_controller:
             c = conn.cursor()
             c.execute(select_query_details_updated)
             stream_details = c.fetchall()
+
+            if stream_details is None:
+                return None
+
             # print("Number of results: " + str(len(stream_details)))
             num_stream_details = len(stream_details)
             # print(stream_details)
