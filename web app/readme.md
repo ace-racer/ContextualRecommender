@@ -5,15 +5,9 @@
 
 #### How to execute the application
 
-### Set up the data base and load the data - Note this DB needs to be dropped on completion of the project
-1. Install SQLite and add it to path. Please follow this: https://www.tutorialspoint.com/sqlite/sqlite_installation.htm
-2. Run the below set of commands to import data from CSV to a .db file for SQLite 3
-
-Navigate to the folder with the data CSVs and then type the below one by one in a sqlite3 prompt
-   1. .mode csv
-   2. .open <db_name>.db
-   3. .import <<input_file>>.csv <<db_name>>
-   4. .schema <<input_file>>
+### Update the path to the database
+1. Navigate to configurations.py file in the services folder
+2. Update the value in the variable db_location to the location where your database (.db) file is present
 
 ### Run the service 
 
