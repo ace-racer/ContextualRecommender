@@ -54,7 +54,7 @@ Navigate to the folder with the data CSVs and then type the below one by one in 
    The response from the service is of the below format:
    ```json
    {
-  "Target": {
+    "Target": {
     "streamid": "580",
     "organization": "28",
     "streamname": "Nokia 6",
@@ -341,8 +341,8 @@ Navigate to the folder with the data CSVs and then type the below one by one in 
           "cardid": "4800",
           "cardname": "Nokia 6 Quiz"
         }
-      ]
-    }
-  ]
-}
+       ]
+      }
+     ]
+   }
    ```
