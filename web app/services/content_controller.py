@@ -36,19 +36,34 @@ class content_controller:
         # envelop the stream Ids in quotes
         streamids = ["\"" + streamid + "\"" for streamid in streamids]
         selectids_select_param = ",".join(streamids)
-        print("Select param: " + selectids_select_param)
+        # print("Select param: " + selectids_select_param)
 
         select_query_details_updated = select_query_details.format(constants.stream_details_table_name, selectids_select_param)
-        print("Complete query: " + select_query_details_updated)
+        # print("Complete query: " + select_query_details_updated)
+
+        stream_tag_query = "select streamid, tagname from {0} where streamid in ({1}) order by streamid"
+        stream_tag_query_updated = stream_tag_query.format(constants.stream_tag_mapping_table_name, selectids_select_param)
+        # print("Stream tag query: " + stream_tag_query_updated)
 
         conn = sqlite3.connect(configurations.db_location)
         try:
             c = conn.cursor()
             c.execute(select_query_details_updated)
             stream_details = c.fetchall()
-            print("Number of results: " + str(len(stream_details)))
+            # print("Number of results: " + str(len(stream_details)))
             num_stream_details = len(stream_details)
-            print(stream_details)
+            # print(stream_details)
+
+            c.execute(stream_tag_query_updated)
+            stream_tag_mapping_query_results = c.fetchall()
+            all_stream_tag_mapping = {}
+            for stream_tag_mapping_query_result in stream_tag_mapping_query_results:
+                if all_stream_tag_mapping.get(stream_tag_mapping_query_result[0]):
+                    all_stream_tag_mapping[stream_tag_mapping_query_result[0]].append(stream_tag_mapping_query_result[1])
+                else:
+                    all_stream_tag_mapping[stream_tag_mapping_query_result[0]] = [stream_tag_mapping_query_result[1]]
+
+            #print(all_stream_tag_mapping)
 
             itr = 0
             while itr < num_stream_details:
@@ -57,6 +72,7 @@ class content_controller:
                 stream_details_formatted["streamid"] = current_stream_id
                 stream_details_formatted["organization"] = stream_details[itr][0]
                 stream_details_formatted["streamname"] = stream_details[itr][2]
+                stream_details_formatted["tags"] = all_stream_tag_mapping.get(current_stream_id, [])
 
                 jtr = itr
                 cards = []
@@ -71,9 +87,6 @@ class content_controller:
                 stream_details_formatted["cards"] = cards
                 all_stream_details_formatted.append(stream_details_formatted)
                 itr = jtr
-
-
-            # TODO: Add code to get tags for the streams and concatenate them
 
             return all_stream_details_formatted
         except Exception as e:
