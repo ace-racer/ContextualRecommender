@@ -1,0 +1,33 @@
+{
+  "name": "shriya",
+  "version": "1.0.0",
+  "description": "Contexual Recommender",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shriya Shekhar",
+  "license": "ISC",
+  "devDependencies": {
+    "grunt": "^1.0.1",
+    "grunt-clean": "^0.4.0",
+    "grunt-cli": "^1.2.0",
+    "grunt-combine-js": "^0.1.13",
+    "grunt-contrib-clean": "^1.1.0",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-jade": "^1.0.0",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-less": "^1.4.1",
+    "grunt-contrib-uglify": "^2.3.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-less-formatter": "^0.1.0",
+    "grunt-open": "^0.2.3",
+    "grunt-serve": "^0.1.6",
+    "jade": "^1.11.0",
+    "jit-grunt": "^0.10.0"
+  },
+  "dependencies": {
+    "grunt-cli": "^1.2.0",
+    "npm": "^5.6.0"
+  }
+}
