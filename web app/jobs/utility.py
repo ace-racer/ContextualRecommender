@@ -11,7 +11,8 @@ def add_job(job_name, log_handle):
         c = conn.cursor()
         now = datetime.datetime.now()
         start_timestamp = now.strftime(constants.date_format)
-        insert_query = "insert into jobs(name, start_time, status) values (\"{0}\", \"{1}\", \"{2}\");".format(job_name, start_timestamp, constants.STARTED_STATUS_STR)
+        insert_query = "insert into job_status(name, start_time, status) values (\"{0}\", \"{1}\", \"{2}\");".format(job_name, start_timestamp, constants.STARTED_STATUS_STR)
+        log_handle.info(insert_query)
         c.execute(insert_query)
         conn.commit()
         return True
