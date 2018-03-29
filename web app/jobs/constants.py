@@ -1,0 +1,8 @@
+LOG_FILE_EXTENSION = ".log"
+CC_RECOMMENDER_NAME = "CONTENT_CONTENT_RECO"
+JOBS_TABLE_NAME = "jobs"
+date_format = "%d-%m-%Y %H:%M"
+STARTED_STATUS_STR = "started"
+RUNNING_STATUS_STR = "running"
+STOPPED_STATUS_STR = "stopped"
+ERROR_STATUS_STR = "error"
