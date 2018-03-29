@@ -12,6 +12,6 @@ class cc_recommender(base_operations):
             self.LOG_HANDLE.info("Execution started for: %s", constants.CC_RECOMMENDER_NAME)
             add_status = utility.add_job(constants.CC_RECOMMENDER_NAME, self.LOG_HANDLE)
             if add_status:
-                pass
+                self.LOG_HANDLE.info("Running job")
         except Exception as e:
             self.LOG_HANDLE.error("An error occurred. Details: %s", str(e))
