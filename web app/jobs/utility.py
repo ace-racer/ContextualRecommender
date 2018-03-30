@@ -15,18 +15,54 @@ def add_job(job_name, log_handle):
         log_handle.info(insert_query)
         c.execute(insert_query)
         conn.commit()
-        return True
+
+        # get the row ID
+        c.execute(constants.LAST_ROWID_QUERY)
+        query_results = c.fetchall()
+        job_id = query_results[0][0]
+        print(job_id)
+        return job_id
     except Exception as e:
         log_handle.error("An error occurred while starting the job: %s", str(e))
-        return False
+        return -1
     finally:
         conn.close()
 
 
-def update_job(job_id, values):
+def update_job(job_id, values, log_handle, end_job = False):
     """
     :param job_id: The integer Job Id
     :param values: A dictionary of values that need to be updated
     :return: True, if the operation is a success
     """
-    pass
+    if job_id < 0:
+        return False
+
+    update_query = "update job_status set {0} where id = {1}"
+    update_str = ""
+
+    if end_job:
+        now = datetime.datetime.now()
+        end_timestamp = now.strftime(constants.date_format)
+        values["end_time"] = end_timestamp
+
+    for k, v in values.items():
+        update_str += "{0} = \"{1}\",".format(k, v)
+
+    # remove the last ,
+    update_str_no_last_comma = update_str[:-1]
+
+    update_query_updated = update_query.format(update_str_no_last_comma, job_id)
+    conn = sqlite3.connect(configurations.OPERATIONS_DATBASE_LOCATION)
+    try:
+        c = conn.cursor()
+        log_handle.info(update_query_updated)
+        c.execute(update_query_updated)
+        conn.commit()
+        return True
+    except Exception as e:
+        log_handle.error("An error occurred while updating the job: %s", str(e))
+        return False
+    finally:
+        conn.close()
+

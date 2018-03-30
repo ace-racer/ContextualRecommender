@@ -4,6 +4,7 @@ import configurations
 
 import schedule
 import time
+import constants
 
 
 def schedule_operations():
@@ -13,6 +14,8 @@ def schedule_operations():
 
 if __name__=="__main__":
     schedule_operations()
+
+    print(constants.JOB_SCHEDULER_NAME)
 
     while True:
         schedule.run_pending()
