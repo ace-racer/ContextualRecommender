@@ -2,11 +2,13 @@ from flask import Flask, request
 from views_controller import views_controller
 from recommendations_controller import cc_recommender_controller
 from content_controller import content_controller
+from flask_cors import CORS
 
 import constants
 
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/')
 def index():
