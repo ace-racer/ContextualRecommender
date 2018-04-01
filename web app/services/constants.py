@@ -8,7 +8,8 @@ moduleid_str = "moduleid"
 cardid_str = "cardid"
 content_view_fields = [userid_str, streamid_str, moduleid_str, cardid_str]
 
-date_format = "%d-%m-%Y %H:%M"
+# this is the date format used by SQLite
+date_format = "%Y-%m-%d %H:%M"
 
 all_tags_table_name = "all_tags"
 customer_card_view_table_name = "customer_card_view"
