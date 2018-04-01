@@ -6,5 +6,20 @@ $(document).ready(function($) {
 		$(this).toggleClass('share-expanded');
     });
   
+
+  $.ajax({
+    url: 'http://127.0.0.1:5000/streams/neighbors/580',
+    dataType: 'json',
+    headers: {"Access-Control-Allow-Origin": '*'},
+    crossDomain: true,
+    jsonpCallback: 'callback',
+    type: 'GET',
+    success: function (data) {
+        console.log(data);
+    }
+});
+  
+
+  
 });
  

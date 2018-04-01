@@ -81,6 +81,7 @@ h2 {
 .card {
   background-color: #fff;
   margin-bottom: 1.6rem;
+  list-style-type: none;
 }
 .card__padding {
   padding: 1.6rem;
@@ -94,6 +95,12 @@ h2 {
   max-width: 100%;
   display: block;
 }
+.related-stream .card__image img {
+  width: 75%;
+  max-width: 100%;
+  display: block;
+  margin: 0 auto;
+}
 .card__content {
   position: relative;
 }
@@ -103,9 +110,21 @@ h2 {
   color: #bbb;
   margin-left: 0.8rem;
 }
+.card__meta a {
+  font-size: 2.5rem;
+}
+.card__meta a.org {
+  font-size: 1.5rem;
+  margin: 10px 0 10px 0;
+}
+.card__meta a.tag {
+  font-size: 1.5rem;
+  margin: 10px 0 10px 0;
+}
 /* card article */
 .card__article a {
   text-decoration: none;
+  font-size: 1.5rem;
   color: #444;
   transition: all 0.5s ease;
 }

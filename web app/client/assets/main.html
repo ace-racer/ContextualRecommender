@@ -14,6 +14,9 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <!-- Linking external CSS File-->
     <link rel="stylesheet" type="text/css" href="../assets/css/styles.css">
+    <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+    <!-- online jquery.js-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
   </head>
   <body>
     <header>
@@ -21,40 +24,113 @@
         <div class="row">
           <div class="col-md-12 main-section">
             <div class="row">
-              <div class="wrapper">
-                <div class="card radius shadowDepth1">
-                  <div class="card__image border-tlr-radius"><img src="../assets/images/nokia.jpg" alt="image" class="border-tlr-radius"></div>
-                  <div class="card__content card__padding">
-                    <div class="card__share">
-                      <div class="card__social"><a href="#" class="share-icon facebook"><span class="fa fa-facebook"></span></a><a href="#" class="share-icon twitter"><span class="fa fa-twitter"></span></a><a href="#" class="share-icon googleplus"><span class="fa fa-google-plus"></span></a></div><a id="share" href="#" class="share-toggle share-icon"></a>
-                    </div>
-                    <div class="card__meta"><a href="#">Nokia 5133</a>
-                      <time>17th March 2018</time>
-                    </div>
-                    <article class="card__article">
-                      <h2><a href="#">Design Card - Blog Article</a></h2>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus harum...</p>
-                    </article>
-                  </div>
-                </div>
-              </div>
-              <div class="wrapper">
-                <div class="card radius shadowDepth1">
-                  <div class="card__image border-tlr-radius"><img src="../assets/images/nokia.jpg" alt="image" class="border-tlr-radius"></div>
-                  <div class="card__content card__padding">
-                    <div class="card__share">
-                      <div class="card__social"><a href="#" class="share-icon facebook"><span class="fa fa-facebook"></span></a><a href="#" class="share-icon twitter"><span class="fa fa-twitter"></span></a><a href="#" class="share-icon googleplus"><span class="fa fa-google-plus"></span></a></div><a id="share" href="#" class="share-toggle share-icon"></a>
-                    </div>
-                    <div class="card__meta"><a href="#">Nokia 5233</a>
-                      <time>18th March 2018</time>
-                    </div>
-                    <article class="card__article">
-                      <h2><a href="#">Design Card - Blog Article</a></h2>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus harum...</p>
-                    </article>
-                  </div>
-                </div>
-              </div>
+              <h3>Stream Detail</h3><!DOCTYPE html>
+              <html lang="en">
+                <head>
+                  <meta charset="utf-8">
+                  <title>Concise Handlebars.js</title>
+                  <!-- 0a. CSS-->
+                  <link rel="stylesheet" href="style.css">
+                  <!-- 0a. JS-->
+                  <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+                  <!-- online jquery.js-->
+                  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
+                  <!-- online handlebars.js-->
+                </head>
+                <body>
+                  <!-- 1. Data (json format!)-->
+                  <script>var url='http://127.0.0.1:5000/streams/neighbors/580';</script>
+                  <div id="anchor"> </div>
+                  <script id="tpl11" type="text/template">
+                    {{#Target}}
+                    <div class="wrapper">
+                              <div class="card radius shadowDepth1">
+                                <div class="card__image border-tlr-radius"><img src="../assets/images/phonehd.jpg" alt="image" class="border-tlr-radius"></div>
+                                <div class="card__content card__padding">
+                                  <div class="card__meta">Stream: <a href="#">{{streamname}}</a>
+                                    <time>18th March 2018</time>
+                                  </div>
+                                  <article class="card__article">
+                                    <h2><a href="#">Description</a></h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus harum...</p>
+                                  </article>
+                                  <article class="tags">
+                                    <h6>Tag:<a href="#">{{tags}}</a></h6>
+                                  </article>
+                                  <article class="card-names">
+                                      <ul>
+                                      {{#each cards}}
+                                          <li class="card"><a href="#">{{cardid}} :</a><a href="#">{{cardname}}</a></li>
+                                      {{/each}}
+                                      </ul>
+                                  </article>
+                                </div>
+                              </div>
+                          </div>
+                    {{/Target}}
+                  </script>
+                  <script>
+                    var slingshot = function (url, tplId, anchor) {
+                    $.getJSON(url, function(data) {
+                    var template = $(tplId).html();
+                    var stone = Handlebars.compile(template)(data);
+                    $(anchor).append(stone);
+                    });
+                    }
+                    slingshot('http://127.0.0.1:5000/streams/neighbors/580', '#tpl11', '#anchor'); // since url = 'data.json' , we can use both notations.
+                  </script>
+                </body>
+              </html>
+            </div>
+            <div class="row">
+              <h3>Related Streams</h3><!DOCTYPE html>
+              <html lang="en">
+                <head>
+                  <meta charset="utf-8">
+                  <title>Concise Handlebars.js</title>
+                  <!-- 0a. CSS-->
+                  <link rel="stylesheet" href="style.css">
+                  <!-- 0a. JS-->
+                  <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+                  <!-- online jquery.js-->
+                  <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
+                  <!-- online handlebars.js-->
+                </head>
+                <body>
+                  <!-- 1. Data (json format!)-->
+                  <script>var url='http://127.0.0.1:5000/streams/neighbors/580'; </script>
+                  <div id="anchor1"> </div>
+                  <script id="tpl22" type="text/template">
+                    {{#each Neighbors}}
+                    <div class="wrapper related-stream">
+                              <div class="card radius shadowDepth1">
+                                <div class="card__image border-tlr-radius"><img src="../assets/images/nokia.jpg" alt="image" class="border-tlr-radius"></div>
+                                <div class="card__content card__padding">
+                                  <div class="card__meta">Stream:<a href="#">{{streamname}} </a>
+                                    <time>17th March 2018</time>
+                                    <h2> <a href="#" class="org">Organization:{{organization}}</a></h2>
+                                  </div>
+                                  <article class="card__article">
+                                    <h2><a href="#" class="tag">Tag: {{tags}}</a></h2>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus harum...</p>
+                                  </article>
+                                </div>
+                              </div>
+                            </div>
+                    {{/each}}
+                  </script>
+                  <script>
+                    var slingshot = function (url, tplId , anchor) {
+                    $.getJSON(url, function(data) {
+                    var template = $(tplId).html();
+                    var stone = Handlebars.compile(template)(data);
+                    $(anchor).append(stone);
+                    });
+                    }
+                    slingshot('http://127.0.0.1:5000/streams/neighbors/580', '#tpl22', '#anchor1'); // since url = 'data.json' , we can use both notations.
+                  </script>
+                </body>
+              </html>
             </div>
           </div>
         </div>
@@ -62,6 +138,7 @@
       <!-- JQuery CDN-->
       <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
       <!-- Latest compiled and minified JavaScript-->
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
       <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
       <!--custom js files-->
       <script src="../assets/js/script.js"></script>

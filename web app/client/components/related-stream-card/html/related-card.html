@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Concise Handlebars.js</title>
+    <!-- 0a. CSS-->
+    <link rel="stylesheet" href="style.css">
+    <!-- 0a. JS-->
+    <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+    <!-- online jquery.js-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
+    <!-- online handlebars.js-->
+  </head>
+  <body>
+    <!-- 1. Data (json format!)-->
+    <script>var url='http://127.0.0.1:5000/streams/neighbors/580'; </script>
+    <div id="anchor1"> </div>
+    <script id="tpl22" type="text/template">
+      {{#each Neighbors}}
+      <div class="wrapper related-stream">
+                <div class="card radius shadowDepth1">
+                  <div class="card__image border-tlr-radius"><img src="../assets/images/nokia.jpg" alt="image" class="border-tlr-radius"></div>
+                  <div class="card__content card__padding">
+                    <div class="card__meta">Stream:<a href="#">{{streamname}} </a>
+                      <time>17th March 2018</time>
+                      <h2> <a href="#" class="org">Organization:{{organization}}</a></h2>
+                    </div>
+                    <article class="card__article">
+                      <h2><a href="#" class="tag">Tag: {{tags}}</a></h2>
+                      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus harum...</p>
+                    </article>
+                  </div>
+                </div>
+              </div>
+      {{/each}}
+    </script>
+    <script>
+      var slingshot = function (url, tplId , anchor) {
+      $.getJSON(url, function(data) {
+      var template = $(tplId).html();
+      var stone = Handlebars.compile(template)(data);
+      $(anchor).append(stone);
+      });
+      }
+      slingshot('http://127.0.0.1:5000/streams/neighbors/580', '#tpl22', '#anchor1'); // since url = 'data.json' , we can use both notations.
+    </script>
+  </body>
+</html>

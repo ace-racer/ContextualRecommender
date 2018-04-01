@@ -1,45 +1,57 @@
-.wrapper
-  .card.radius.shadowDepth1
-    .card__image.border-tlr-radius
-      img.border-tlr-radius(src='../assets/images/nokia.jpg', alt='image')
-    .card__content.card__padding
-      .card__share
-        .card__social
-          a.share-icon.facebook(href='#')
-            span.fa.fa-facebook
-          a.share-icon.twitter(href='#')
-            span.fa.fa-twitter
-          a.share-icon.googleplus(href='#')
-            span.fa.fa-google-plus
-        a#share.share-toggle.share-icon(href='#')
-      .card__meta
-        a(href='#') Nokia 5133
-        time 17th March 2018
-      article.card__article
-        h2
-          a(href='#') Design Card - Blog Article
-        p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus harum...
-.wrapper
-  .card.radius.shadowDepth1
-    .card__image.border-tlr-radius
-      img.border-tlr-radius(src='../assets/images/nokia.jpg', alt='image')
-    .card__content.card__padding
-      .card__share
-        .card__social
-          a.share-icon.facebook(href='#')
-            span.fa.fa-facebook
-          a.share-icon.twitter(href='#')
-            span.fa.fa-twitter
-          a.share-icon.googleplus(href='#')
-            span.fa.fa-google-plus
-        a#share.share-toggle.share-icon(href='#')
-      .card__meta
-        a(href='#') Nokia 5233
-        time 18th March 2018
-      article.card__article
-        h2
-          a(href='#') Design Card - Blog Article
-        p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus harum...
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Concise Handlebars.js
+    // 0a. CSS
+    link(rel='stylesheet', href='style.css')
+    // 0a. JS
+    script(src='//code.jquery.com/jquery-2.0.3.min.js')
+    // online jquery.js
+    script(src='//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js')
+    // online handlebars.js
+  body
+    // 1. Data (json format!)
+    script.
+      var url='http://127.0.0.1:5000/streams/neighbors/580';
+    #anchor
+      | 
+    script#tpl11(type='text/template').
+          {{#Target}}
+          <div class="wrapper">
+                    <div class="card radius shadowDepth1">
+                      <div class="card__image border-tlr-radius"><img src="../assets/images/phonehd.jpg" alt="image" class="border-tlr-radius"></div>
+                      <div class="card__content card__padding">
+                        <div class="card__meta">Stream: <a href="#">{{streamname}}</a>
+                          <time>18th March 2018</time>
+                        </div>
+                        <article class="card__article">
+                          <h2><a href="#">Description</a></h2>
+                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus harum...</p>
+                        </article>
+                        <article class="tags">
+                          <h6>Tag:<a href="#">{{tags}}</a></h6>
+                        </article>
+                        <article class="card-names">
+                            <ul>
+                            {{#each cards}}
+                                <li class="card"><a href="#">{{cardid}} :</a><a href="#">{{cardname}}</a></li>
+                            {{/each}}
+                            </ul>
+                        </article>
+                      </div>
+                    </div>
+                </div>
+          {{/Target}}
+    script.
+      var slingshot = function (url, tplId, anchor) {
+      $.getJSON(url, function(data) {
+      var template = $(tplId).html();
+      var stone = Handlebars.compile(template)(data);
+      $(anchor).append(stone);
+      });
+      }
+      slingshot('http://127.0.0.1:5000/streams/neighbors/580', '#tpl11', '#anchor'); // since url = 'data.json' , we can use both notations.
     
 
 
