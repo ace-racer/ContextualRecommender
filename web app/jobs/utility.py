@@ -66,3 +66,23 @@ def update_job(job_id, values, log_handle, end_job = False):
     finally:
         conn.close()
 
+
+def get_num_records_to_process(table_name, log_handle):
+    if table_name:
+        count_processed_query_str = "select count(processed) from {0} where processed = 0".format(table_name)
+        conn = sqlite3.connect(configurations.CONTENT_DATABASE_LOCATION)
+        try:
+            c = conn.cursor()
+            c.execute(count_processed_query_str)
+            count_results = c.fetchall()
+            if count_results and count_results[0]:
+                return count_results[0][0]
+            return 0
+        except Exception as ex:
+            log_handle.error("An error occurred: " + str(ex))
+            return 0
+        finally:
+            conn.close()
+
+
+

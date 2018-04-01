@@ -13,10 +13,12 @@ def schedule_operations():
 
 
 if __name__=="__main__":
-    schedule_operations()
 
     print(constants.JOB_SCHEDULER_NAME)
+    cc_recommender().perform_operation()
+    #schedule_operations()
 
-    while True:
-        schedule.run_pending()
-        time.sleep(configurations.POLLING_INTERVALS)
+    #while True:
+        #schedule.run_pending()
+        #time.sleep(configurations.POLLING_INTERVALS)
+    print("Execution completed...")
