@@ -13,9 +13,9 @@ def schedule_operations():
 
 
 if __name__=="__main__":
-    schedule_operations()
 
     print(constants.JOB_SCHEDULER_NAME)
+    schedule_operations()
 
     while True:
         schedule.run_pending()
