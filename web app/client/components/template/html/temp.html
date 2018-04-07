@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Concise Handlebars.js</title>
+    <!-- 0a. CSS-->
+    <link rel="stylesheet" href="style.css">
+    <!-- 0a. JS-->
+    <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+    <!-- online jquery.js-->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js"></script>
+    <!-- online handlebars.js-->
+  </head>
+  <body>
+    <!-- 1. Data (json format!)-->
+    <script>var url='http://127.0.0.1:5000/streams/neighbors/580'; </script>
+    <!-- 2. Anchor-->
+    <div id="anchor">This div is the <b>#anchor</b>.</div>
+    <!-- 3. Template-->
+    <script id="tpl" type="text/template">
+      {{#Target}}
+      <div>No thtis{{streamid }}<b>org:{{ organization}}streamname:{{streamname}} tags:{{tags}}</a></b></div>
+        <ul>
+        {{#each cards}}
+            <li><a href="#">{{cardid}}</a><a href="#">{{cardname}}</a></li>
+        {{/each}}
+        </ul>
+      
+      {{/Target}}
+    </script>
+    <!-- 4. Handlebars.js slingshot-->
+    <script>
+      //4a.function creation
+      var slingshot = function (url, tplId, anchor) {
+      $.getJSON(url, function(data) {
+      var template = $(tplId).html();
+      var stone = Handlebars.compile(template)(data);
+      $(anchor).append(stone);
+      });
+      }
+      //4b.function firing
+      slingshot('http://127.0.0.1:5000/streams/neighbors/580', '#tpl', '#anchor'); // since url = 'data.json' , we can use both notations.
+    </script>
+  </body>
+</html>

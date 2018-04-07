@@ -1,0 +1,45 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Concise Handlebars.js
+    // 0a. CSS
+    link(rel='stylesheet', href='style.css')
+    // 0a. JS
+    script(src='//code.jquery.com/jquery-2.0.3.min.js')
+    // online jquery.js
+    script(src='//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js')
+    // online handlebars.js
+  body
+    // 1. Data (json format!)
+    script.
+      var url='http://127.0.0.1:5000/streams/neighbors/580'; 
+    // 2. Anchor
+    #anchor
+      | This div is the 
+      b #anchor
+      | .
+    // 3. Template
+    script#tpl(type='text/template').
+      {{#Target}}
+      <div>No thtis{{streamid }}<b>org:{{ organization}}streamname:{{streamname}} tags:{{tags}}</a></b></div>
+        <ul>
+        {{#each cards}}
+            <li><a href="#">{{cardid}}</a><a href="#">{{cardname}}</a></li>
+        {{/each}}
+        </ul>
+      
+      {{/Target}}
+    // 4. Handlebars.js slingshot
+    script.
+      //4a.function creation
+      var slingshot = function (url, tplId, anchor) {
+      $.getJSON(url, function(data) {
+      var template = $(tplId).html();
+      var stone = Handlebars.compile(template)(data);
+      $(anchor).append(stone);
+      });
+      }
+      //4b.function firing
+      slingshot('http://127.0.0.1:5000/streams/neighbors/580', '#tpl', '#anchor'); // since url = 'data.json' , we can use both notations.
+
