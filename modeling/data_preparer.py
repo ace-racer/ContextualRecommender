@@ -33,9 +33,6 @@ class data_preparer(base_operations):
 
         content_views_df = pd.read_csv(configurations.STREAM_VIEWS_FILE_LOCATION, encoding="ISO-8859-1")
 
-        # Get the content views by user
-        unique_num_content_views_by_user = content_views_df.groupby('USERID')["STREAMID"].nunique()
-
         # Generate a pivot table from the views data
         content_views_by_user = pd.pivot_table(content_views_df, index="USERID", columns="STREAMID", values="TIMESTAMP",
                                                aggfunc="count")
@@ -85,18 +82,20 @@ class data_preparer(base_operations):
 
         # write the ratings output to file
         content_views_by_card_ratings_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, CONTENT_VIEWS_BY_USER_BY_CARD_RATINGS_GENERATED_FILE_NAME)
-        content_views_by_user.to_csv(content_views_by_card_ratings_location)
-        self.LOG_HANDLE.info("Content views by user by card ratings generated: " + content_views_by_card_ratings_location)
+        content_views_by_user.to_csv(content_views_by_card_ratings_location, index=False)
         print("Created the ratings file...")
+
+        content_views_by_user = pd.read_csv(content_views_by_card_ratings_location, header=0, index_col = 0)
 
         # The format of the ratings for further processing is user ; item ; rating ;
         output_ratings_content = ""
-        for stream_id in content_views_by_user:
-            for index, row in content_views_by_user[stream_id].iterrows():
+        for index, row in content_views_by_user.iterrows():
+            for stream_id in content_views_by_user:
                 if row[stream_id] != 0:
-                    output_ratings_content += index + "," + stream_id + "," + row[stream_id] + NEWLINE
+                    output_ratings_content += str(index) + "," + str(stream_id) + "," + str(row[stream_id]) + NEWLINE
 
-        with open(RATINGS_FILE_IN_REQUIRED_FORMAT_FILE_NAME, "w") as fw:
+
+        with open(os.path.join(configurations.OUTPUT_FILES_DIRECTORY, RATINGS_FILE_IN_REQUIRED_FORMAT_FILE_NAME), "w") as fw:
             fw.writelines(output_ratings_content)
 
         self.LOG_HANDLE.info("Generated the ratings file in required format")
