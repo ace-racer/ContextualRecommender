@@ -14,6 +14,8 @@ from base_operations import base_operations
 # constants
 CONTENT_VIEWS_BY_USER_BY_CARD_GENERATED_FILE_NAME = "content_views_by_user_by_card.csv"
 CONTENT_VIEWS_BY_USER_BY_CARD_RATINGS_GENERATED_FILE_NAME = "content_views_user_rating.csv"
+NEWLINE = "\n"
+RATINGS_FILE_IN_REQUIRED_FORMAT_FILE_NAME = "ratings_file_required_format.csv"
 
 
 class data_preparer(base_operations):
@@ -87,3 +89,15 @@ class data_preparer(base_operations):
         self.LOG_HANDLE.info("Content views by user by card ratings generated: " + content_views_by_card_ratings_location)
         print("Created the ratings file...")
 
+        # The format of the ratings for further processing is user ; item ; rating ;
+        output_ratings_content = ""
+        for stream_id in content_views_by_user:
+            for index, row in content_views_by_user[stream_id].iterrows():
+                if row[stream_id] != 0:
+                    output_ratings_content += index + "," + stream_id + "," + row[stream_id] + NEWLINE
+
+        with open(RATINGS_FILE_IN_REQUIRED_FORMAT_FILE_NAME, "w") as fw:
+            fw.writelines(output_ratings_content)
+
+        self.LOG_HANDLE.info("Generated the ratings file in required format")
+        print("Generated ratings file in required format.")
