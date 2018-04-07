@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import configurations
 import os
+import constants
+
 from base_operations import base_operations
 
 
@@ -11,7 +13,7 @@ CONTENT_VIEWS_BY_USER_BY_CARD_GENERATED_FILE_NAME = "content_views_by_user_by_ca
 
 class data_preparer(base_operations):
     def __init__(self):
-        super(cc_recommender, self).__init__(constants.DATA_PREPARER_NAME)
+        super(data_preparer, self).__init__(constants.DATA_PREPARER_NAME)
 
 
     def perform_operation(self):

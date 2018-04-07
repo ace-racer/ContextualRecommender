@@ -8,5 +8,5 @@ OUTPUT_FILES_DIRECTORY = "H:\\TeamStreamz_IW\\code\\data\\generated\\ratings"
 
 # logging parameters
 LOG_LEVEL = logging.INFO
-log_file_folder_location = "H:\\TeamStreamz_IW\\code\\web app\\jobs\\logs"
+log_file_folder_location = "H:\\TeamStreamz_IW\\code\\modeling\\logs"
 log_pattern = "%(asctime)s %(levelname)s %(message)s"
