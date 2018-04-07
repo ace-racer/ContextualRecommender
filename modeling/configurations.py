@@ -5,8 +5,10 @@ STREAM_VIEWS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_views\\0907
 
 OUTPUT_FILES_DIRECTORY = "H:\\TeamStreamz_IW\\code\\data\\generated\\ratings"
 
+# configurations for binning to get the ratings
 RATINGS_LOWER = 1
 RATINGS_UPPER = 5
+SAME_INTERVALS = False
 
 # logging parameters
 LOG_LEVEL = logging.INFO
