@@ -24,7 +24,8 @@
         <div class="row">
           <div class="col-md-12 main-section">
             <div class="row">
-              <h3>Stream Detail</h3><!DOCTYPE html>
+              <h3 class="heading">Stream Detail</h3>
+              <h5 class="subheading">Subheading for Stream Detail goes here.</h5><!DOCTYPE html>
               <html lang="en">
                 <head>
                   <meta charset="utf-8">
@@ -39,28 +40,28 @@
                 </head>
                 <body>
                   <!-- 1. Data (json format!)-->
-                  <script>var url='http://127.0.0.1:5000/streams/neighbors/580';</script>
+                  <script>var url='http://127.0.0.1:5000/streams/neighbors/1104';</script>
                   <div id="anchor"> </div>
                   <script id="tpl11" type="text/template">
                     {{#Target}}
-                    <div class="wrapper">
+                    <div class="wrapper stream">
                               <div class="card radius shadowDepth1">
                                 <div class="card__image border-tlr-radius"><img src="../assets/images/phonehd.jpg" alt="image" class="border-tlr-radius"></div>
                                 <div class="card__content card__padding">
-                                  <div class="card__meta">Stream: <a href="#">{{streamname}}</a>
-                                    <time>18th March 2018</time>
+                                  <div class="card__meta"><a href="#">{{streamname}}</a>
                                   </div>
-                                  <article class="card__article">
-                                    <h2><a href="#">Description</a></h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus harum...</p>
-                                  </article>
                                   <article class="tags">
-                                    <h6>Tag:<a href="#">{{tags}}</a></h6>
+                                    {{#each tags}}
+                                        <h6><a href="#">{{this}}</a></h6>
+                                    {{/each}}
                                   </article>
+                                  <button id="view-card" class="btn">View Cards</button>
                                   <article class="card-names">
                                       <ul>
                                       {{#each cards}}
-                                          <li class="card"><a href="#">{{cardid}} :</a><a href="#">{{cardname}}</a></li>
+                                         
+                                          <li class="inner-card card"> <a href="#">{{cardname}}</a></li>
+                                          
                                       {{/each}}
                                       </ul>
                                   </article>
@@ -77,13 +78,14 @@
                     $(anchor).append(stone);
                     });
                     }
-                    slingshot('http://127.0.0.1:5000/streams/neighbors/580', '#tpl11', '#anchor'); // since url = 'data.json' , we can use both notations.
+                    slingshot('http://127.0.0.1:5000/streams/neighbors/1104', '#tpl11', '#anchor'); // since url = 'data.json' , we can use both notations.
                   </script>
                 </body>
               </html>
             </div>
             <div class="row">
-              <h3>Related Streams</h3><!DOCTYPE html>
+              <h3 class="heading">Related Streams</h3>
+              <h5 class="subheading">Hi User, Hope you have a wonderful day</h5><!DOCTYPE html>
               <html lang="en">
                 <head>
                   <meta charset="utf-8">
@@ -98,21 +100,20 @@
                 </head>
                 <body>
                   <!-- 1. Data (json format!)-->
-                  <script>var url='http://127.0.0.1:5000/streams/neighbors/580'; </script>
+                  <script>var url='http://127.0.0.1:5000/streams/neighbors/1560'; </script>
                   <div id="anchor1"> </div>
                   <script id="tpl22" type="text/template">
                     {{#each Neighbors}}
                     <div class="wrapper related-stream">
                               <div class="card radius shadowDepth1">
-                                <div class="card__image border-tlr-radius"><img src="../assets/images/nokia.jpg" alt="image" class="border-tlr-radius"></div>
+                                <div class="card__image border-tlr-radius"><img src="../assets/images/nokia2.jpg" alt="image" class="border-tlr-radius"></div>
                                 <div class="card__content card__padding">
-                                  <div class="card__meta">Stream:<a href="#">{{streamname}} </a>
-                                    <time>17th March 2018</time>
-                                    <h2> <a href="#" class="org">Organization:{{organization}}</a></h2>
+                                  <div class="card__meta"><a href="#">{{streamname}} </a>
                                   </div>
-                                  <article class="card__article">
-                                    <h2><a href="#" class="tag">Tag: {{tags}}</a></h2>
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus harum...</p>
+                                  <article class="tags">
+                                    {{#each tags}}
+                                        <h6><a href="#">{{this}}</a></h6>
+                                    {{/each}}
                                   </article>
                                 </div>
                               </div>
@@ -127,7 +128,7 @@
                     $(anchor).append(stone);
                     });
                     }
-                    slingshot('http://127.0.0.1:5000/streams/neighbors/580', '#tpl22', '#anchor1'); // since url = 'data.json' , we can use both notations.
+                    slingshot('http://127.0.0.1:5000/streams/neighbors/1104', '#tpl22', '#anchor1'); // since url = 'data.json' , we can use both notations.
                   </script>
                 </body>
               </html>

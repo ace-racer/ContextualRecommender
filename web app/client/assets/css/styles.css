@@ -13,6 +13,7 @@
 }
 .container {
   padding: 2px 16px;
+  background: white;
 }
 *,
 *:after,
@@ -37,7 +38,7 @@ body {
 }
 a {
   text-decoration: none;
-  color: #3498db;
+  color: white;
 }
 a:hover {
   color: #2980b9;
@@ -51,6 +52,54 @@ h2 {
   margin: 50px auto;
   padding-left: 1em;
   padding-right: 1em;
+}
+h3.heading {
+  text-align: left;
+  margin-left: 15px;
+}
+h5.subheading {
+  text-align: left;
+  margin-left: 15px;
+  color: #adadad;
+}
+.stream .tags h6 {
+  display: inline-block;
+  background: #9b59b6;
+  padding: 10px;
+}
+.card-names {
+  display: none;
+}
+.card-names a {
+  color: black;
+}
+.inner-card {
+  padding: 10px;
+}
+.inner-card a {
+  font-size: 14px;
+}
+.btn {
+  background: #f1c40f;
+  -webkit-border-radius: 0;
+  -moz-border-radius: 0;
+  border-radius: 0px;
+  font-family: Arial;
+  color: #ffffff;
+  font-size: 14px;
+  padding: 10px;
+  text-decoration: none;
+  margin-bottom: 15px;
+}
+.btn:hover {
+  background: #f1c40f;
+  color: white;
+  text-decoration: none;
+}
+.related-stream .tags h6 {
+  display: inline-block;
+  background: #aaaaab;
+  padding: 10px;
 }
 /**
  * Helpers
@@ -111,7 +160,8 @@ h2 {
   margin-left: 0.8rem;
 }
 .card__meta a {
-  font-size: 2.5rem;
+  font-size: 2rem;
+  color: #555;
 }
 .card__meta a.org {
   font-size: 1.5rem;

@@ -13,29 +13,29 @@ html(lang='en')
   body
     // 1. Data (json format!)
     script.
-      var url='http://127.0.0.1:5000/streams/neighbors/580';
+      var url='http://127.0.0.1:5000/streams/neighbors/1104';
     #anchor
       | 
     script#tpl11(type='text/template').
           {{#Target}}
-          <div class="wrapper">
+          <div class="wrapper stream">
                     <div class="card radius shadowDepth1">
                       <div class="card__image border-tlr-radius"><img src="../assets/images/phonehd.jpg" alt="image" class="border-tlr-radius"></div>
                       <div class="card__content card__padding">
-                        <div class="card__meta">Stream: <a href="#">{{streamname}}</a>
-                          <time>18th March 2018</time>
+                        <div class="card__meta"><a href="#">{{streamname}}</a>
                         </div>
-                        <article class="card__article">
-                          <h2><a href="#">Description</a></h2>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus harum...</p>
-                        </article>
                         <article class="tags">
-                          <h6>Tag:<a href="#">{{tags}}</a></h6>
+                          {{#each tags}}
+                              <h6><a href="#">{{this}}</a></h6>
+                          {{/each}}
                         </article>
+                        <button id="view-card" class="btn">View Cards</button>
                         <article class="card-names">
                             <ul>
                             {{#each cards}}
-                                <li class="card"><a href="#">{{cardid}} :</a><a href="#">{{cardname}}</a></li>
+                               
+                                <li class="inner-card card"> <a href="#">{{cardname}}</a></li>
+                                
                             {{/each}}
                             </ul>
                         </article>
@@ -51,7 +51,7 @@ html(lang='en')
       $(anchor).append(stone);
       });
       }
-      slingshot('http://127.0.0.1:5000/streams/neighbors/580', '#tpl11', '#anchor'); // since url = 'data.json' , we can use both notations.
+      slingshot('http://127.0.0.1:5000/streams/neighbors/1104', '#tpl11', '#anchor'); // since url = 'data.json' , we can use both notations.
     
 
 
