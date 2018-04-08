@@ -7,15 +7,11 @@ from collections import Counter
 
 import constants
 import math
-
-
 from base_operations import base_operations
 
 # constants
-CONTENT_VIEWS_BY_USER_BY_CARD_GENERATED_FILE_NAME = "content_views_by_user_by_card.csv"
-CONTENT_VIEWS_BY_USER_BY_CARD_RATINGS_GENERATED_FILE_NAME = "content_views_user_rating.csv"
 NEWLINE = "\n"
-RATINGS_FILE_IN_REQUIRED_FORMAT_FILE_NAME = "ratings_file_required_format.csv"
+
 
 
 class data_preparer(base_operations):
@@ -49,8 +45,9 @@ class data_preparer(base_operations):
             else:
                 self.LOG_HANDLE.info("No cards for the stream: " + str(streamId))
 
+        content_views_by_user_by_card_generated_file_name = self.get_latest_output_file_name(configurations.CONTENT_VIEWS_BY_USER_BY_CARD_GENERATED_FILE_NAME)[1]
         content_views_by_card_by_user_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY,
-                                                              CONTENT_VIEWS_BY_USER_BY_CARD_GENERATED_FILE_NAME)
+                                                              content_views_by_user_by_card_generated_file_name)
         content_views_by_user.to_csv(content_views_by_card_by_user_location)
         self.LOG_HANDLE.info("Content views by user by card generated: " + content_views_by_card_by_user_location)
 
@@ -72,8 +69,9 @@ class data_preparer(base_operations):
                 content_views_by_user[stream_id] = pd.qcut(content_views_by_user[stream_id], num_ratings, labels = ratings_labels, duplicates = 'drop')
 
         # write with the NAs
+        content_views_by_user_by_card_ratings_generated_file_name = self.get_latest_output_file_name(configurations.CONTENT_VIEWS_BY_USER_BY_CARD_RATINGS_GENERATED_FILE_NAME)[1]
         content_views_by_card_ratings_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY,
-                                                              CONTENT_VIEWS_BY_USER_BY_CARD_RATINGS_GENERATED_FILE_NAME)
+                                                              content_views_by_user_by_card_ratings_generated_file_name)
         content_views_by_user.to_csv(content_views_by_card_ratings_location)
 
         # fill the NA values with 0 - revert back the NA changes for binning
@@ -81,7 +79,7 @@ class data_preparer(base_operations):
         content_views_by_user = content_views_by_user.fillna(value="0")
 
         # write the ratings output to file
-        content_views_by_card_ratings_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, CONTENT_VIEWS_BY_USER_BY_CARD_RATINGS_GENERATED_FILE_NAME)
+        content_views_by_card_ratings_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, content_views_by_user_by_card_ratings_generated_file_name)
         content_views_by_user.to_csv(content_views_by_card_ratings_location, index=False)
         print("Created the ratings file...")
 
@@ -94,8 +92,8 @@ class data_preparer(base_operations):
                 if row[stream_id] != 0:
                     output_ratings_content += str(index) + "," + str(stream_id) + "," + str(row[stream_id]) + NEWLINE
 
-
-        with open(os.path.join(configurations.OUTPUT_FILES_DIRECTORY, RATINGS_FILE_IN_REQUIRED_FORMAT_FILE_NAME), "w") as fw:
+        ratings_file_in_required_format_file_name = self.get_latest_output_file_name(configurations.RATINGS_FILE_IN_REQUIRED_FORMAT_FILE_NAME)[1]
+        with open(os.path.join(configurations.OUTPUT_FILES_DIRECTORY, ratings_file_in_required_format_file_name), "w") as fw:
             fw.writelines(output_ratings_content)
 
         self.LOG_HANDLE.info("Generated the ratings file in required format")

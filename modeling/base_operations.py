@@ -3,9 +3,12 @@
 
 import logging
 import os
+import re
 
 import configurations
 import constants
+
+FILE_NUMBER_PATTERN = "_([0-9]+).csv$"
 
 class base_operations:
     def __init__(self, source_name):
@@ -23,3 +26,23 @@ class base_operations:
 
     def perform_operation(self):
         pass
+
+    def get_latest_output_file_name(self, file_name_pattern):
+        """
+        Get the name of the latest output file name
+        :param file_name_pattern: The pattern expected in the output file
+        :return: A tuple where the first element is the number of the output file and the second is the complete file name with the number
+        """
+
+        if file_name_pattern:
+            largest_output_file_number = 0
+            for item in os.listdir(configurations.OUTPUT_FILES_DIRECTORY):
+                if os.path.isfile(os.path.join(configurations.OUTPUT_FILES_DIRECTORY, item)) and file_name_pattern in item:
+                    # search if the file number pattern is present in the current file
+                    if re.search(FILE_NUMBER_PATTERN, item):
+                        current_file_number = int(re.findall(FILE_NUMBER_PATTERN, item)[0])
+                        if current_file_number > largest_output_file_number:
+                            largest_output_file_number = current_file_number
+
+            next_file_number = largest_output_file_number + 1
+            return next_file_number, file_name_pattern + constants.UNDERSCORE_STR + str(next_file_number) + constants.CSV_FILE_EXTENSION
