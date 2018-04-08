@@ -1,9 +1,23 @@
 import logging
 
+# configs to be updated as required
+
+# contains the stream details - stream, tag, cards info
 STREAM_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_details.csv"
+
+# contains the stream view information with the timestamps
 STREAM_VIEWS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_views\\0907to0908.csv"
 
+# where all the generated files will be stored - the files follow a sequential numbering scheme
 OUTPUT_FILES_DIRECTORY = "H:\\TeamStreamz_IW\\code\\data\\generated\\ratings"
+
+# operational params - update as required
+GENERATE_RATINGS_FILES = False
+EVALUATE_ALL_MODELS = True
+RUN_BEST_MODEL = True
+
+
+# configs to be updated only if required
 
 CONTENT_VIEWS_BY_USER_BY_CARD_GENERATED_FILE_NAME = "content_views_by_user_by_card"
 CONTENT_VIEWS_BY_USER_BY_CARD_RATINGS_GENERATED_FILE_NAME = "content_views_user_rating"
@@ -19,7 +33,3 @@ LOG_LEVEL = logging.INFO
 log_file_folder_location = "H:\\TeamStreamz_IW\\code\\modeling\\logs"
 log_pattern = "%(asctime)s %(levelname)s %(message)s"
 
-# other params
-GENERATE_RATINGS_FILES = False
-EVALUATE_ALL_MODELS = True
-RUN_BEST_MODEL = True
