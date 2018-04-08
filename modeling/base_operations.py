@@ -27,10 +27,11 @@ class base_operations:
     def perform_operation(self):
         pass
 
-    def get_latest_output_file_name(self, file_name_pattern):
+    def get_latest_output_file_name(self, file_name_pattern, next=True):
         """
         Get the name of the latest output file name
         :param file_name_pattern: The pattern expected in the output file
+        :param next: Whether to return the next file names or the current latest ones
         :return: A tuple where the first element is the number of the output file and the second is the complete file name with the number
         """
 
@@ -44,5 +45,11 @@ class base_operations:
                         if current_file_number > largest_output_file_number:
                             largest_output_file_number = current_file_number
 
-            next_file_number = largest_output_file_number + 1
-            return next_file_number, file_name_pattern + constants.UNDERSCORE_STR + str(next_file_number) + constants.CSV_FILE_EXTENSION
+            if next:
+                next_file_number = largest_output_file_number + 1
+                return next_file_number, file_name_pattern + constants.UNDERSCORE_STR + str(next_file_number) + constants.CSV_FILE_EXTENSION
+            else:
+                if largest_output_file_number == 0:
+                    raise ValueError("No file has been generated yet and so cannot retrieve")
+                return largest_output_file_number, file_name_pattern + constants.UNDERSCORE_STR + str(largest_output_file_number) + constants.CSV_FILE_EXTENSION
+
