@@ -18,3 +18,8 @@ SAME_INTERVALS = True
 LOG_LEVEL = logging.INFO
 log_file_folder_location = "H:\\TeamStreamz_IW\\code\\modeling\\logs"
 log_pattern = "%(asctime)s %(levelname)s %(message)s"
+
+# other params
+GENERATE_RATINGS_FILES = False
+EVALUATE_ALL_MODELS = True
+RUN_BEST_MODEL = True
