@@ -6,6 +6,7 @@ from surprise import Dataset
 from surprise.model_selection import cross_validate
 from surprise.reader import Reader
 from surprise.model_selection import train_test_split
+from surprise import accuracy
 
 
 # standard imports
@@ -57,7 +58,7 @@ class collaborative_filtering_modeller(base_operations):
         :param testset:
         :return:
         """
-        if ratings_dataset:
+        if trainset and testset:
             self.LOG_HANDLE.info("Running SVD on the training set with measures = {0} and CV folds = {1}".format(str(model_params.all_models_training_error_measures), str(model_params.cross_validation_folds)))
 
             # Use the famous SVD algorithm.
