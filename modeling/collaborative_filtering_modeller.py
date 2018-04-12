@@ -5,6 +5,7 @@ from surprise import SVD
 from surprise import Dataset
 from surprise.model_selection import cross_validate
 from surprise.reader import Reader
+from surprise.model_selection import train_test_split
 
 
 # standard imports
@@ -41,16 +42,20 @@ class collaborative_filtering_modeller(base_operations):
         # Params from here: http://surprise.readthedocs.io/en/stable/dataset.html
         ratings_dataset = Dataset.load_from_file(latest_ratings_file_location, reader)
 
+        # Divide the data set into the training and test sets
+        trainset, testset = train_test_split(ratings_dataset, test_size=model_params.test_set_size)
+
         # Run the algorithms one by one and get their performance on the training data
-        self.perform_SVD(ratings_dataset)
+        self.perform_SVD(trainset, testset)
 
         print("All recommender models have been run...")
 
-    def perform_SVD(self, ratings_dataset):
+    def perform_SVD(self, trainset, testset):
         """
         Run SVD on the ratings data set
-        :param ratings_dataset:
-        :return: None
+        :param trainset:
+        :param testset:
+        :return:
         """
         if ratings_dataset:
             self.LOG_HANDLE.info("Running SVD on the training set with measures = {0} and CV folds = {1}".format(str(model_params.all_models_training_error_measures), str(model_params.cross_validation_folds)))
@@ -59,7 +64,13 @@ class collaborative_filtering_modeller(base_operations):
             algo = SVD()
 
             # Run cross-validation and print results
-            cross_validate(algo, ratings_dataset, measures=model_params.all_models_training_error_measures, cv=model_params.cross_validation_folds, verbose=True)
+            # cross_validate(algo, ratings_dataset, measures=model_params.all_models_training_error_measures, cv=model_params.cross_validation_folds, verbose=True)
+            # Train the algorithm on the trainset, and predict ratings for the testset
+            algo.fit(trainset)
+            predictions = algo.test(testset)
+
+            # Then compute RMSE
+            accuracy.rmse(predictions)
 
 
 
