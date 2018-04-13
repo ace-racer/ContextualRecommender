@@ -7,6 +7,7 @@ from surprise.model_selection import cross_validate
 from surprise.reader import Reader
 from surprise.model_selection import train_test_split
 from surprise import accuracy
+from surprise.model_selection import GridSearchCV
 
 
 # standard imports
@@ -19,6 +20,7 @@ import pandas
 import constants
 import configurations
 from base_operations import base_operations
+from svd_algo_wrapper import svd_algo_wrapper
 import model_params
 
 # constants
@@ -32,6 +34,7 @@ class collaborative_filtering_modeller(base_operations):
         super(collaborative_filtering_modeller, self).__init__(constants.COLLABORATIVE_FILTERING_MODELER_NAME)
 
     def perform_operation(self):
+        self.LOG_HANDLE.info("Running the collaborative filtering algorithms...")
         latest_ratings_file_name = self.get_latest_output_file_name(configurations.RATINGS_FILE_IN_REQUIRED_FORMAT_FILE_NAME, next=False)[1]
         latest_ratings_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, latest_ratings_file_name)
         self.LOG_HANDLE.info("Running recommender models on the file here: " + latest_ratings_file_location)
@@ -46,32 +49,14 @@ class collaborative_filtering_modeller(base_operations):
         # Divide the data set into the training and test sets
         trainset, testset = train_test_split(ratings_dataset, test_size=model_params.test_set_size)
 
-        # Run the algorithms one by one and get their performance on the training data
-        self.perform_SVD(trainset, testset)
+        # Add different algorithms here
+        collaborative_algorithms = [svd_algo_wrapper()]
+
+        for collaborative_algorithm in collaborative_algorithms:
+            print(collaborative_algorithm.evaluate_on_test(trainset, testset))
+            collaborative_algorithm.perform_grid_search_with_cv(ratings_dataset)
 
         print("All recommender models have been run...")
-
-    def perform_SVD(self, trainset, testset):
-        """
-        Run SVD on the ratings data set
-        :param trainset:
-        :param testset:
-        :return:
-        """
-        if trainset and testset:
-            self.LOG_HANDLE.info("Running SVD on the training set with measures = {0} and CV folds = {1}".format(str(model_params.all_models_training_error_measures), str(model_params.cross_validation_folds)))
-
-            # Use the famous SVD algorithm.
-            algo = SVD()
-
-            # Run cross-validation and print results
-            # cross_validate(algo, ratings_dataset, measures=model_params.all_models_training_error_measures, cv=model_params.cross_validation_folds, verbose=True)
-            # Train the algorithm on the trainset, and predict ratings for the testset
-            algo.fit(trainset)
-            predictions = algo.test(testset)
-
-            # Then compute RMSE
-            accuracy.rmse(predictions)
 
 
 
