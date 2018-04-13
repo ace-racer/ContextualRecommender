@@ -21,6 +21,7 @@ import constants
 import configurations
 from base_operations import base_operations
 from svd_algo_wrapper import svd_algo_wrapper
+from knn_algo_wrapper import knn_algo_wrapper
 import model_params
 
 # constants
@@ -50,13 +51,21 @@ class collaborative_filtering_modeller(base_operations):
         trainset, testset = train_test_split(ratings_dataset, test_size=model_params.test_set_size)
 
         # Add different algorithms here
-        collaborative_algorithms = [svd_algo_wrapper()]
+        collaborative_algorithms = [svd_algo_wrapper(), knn_algo_wrapper()]
+
+        rmse_values = {}
 
         for collaborative_algorithm in collaborative_algorithms:
-            print(collaborative_algorithm.evaluate_on_test(trainset, testset))
+            print("Started Algorithm: " + collaborative_algorithm.algo_name)
+            rmse_values[collaborative_algorithm.algo_name] = collaborative_algorithm.evaluate_on_test(trainset, testset)
             collaborative_algorithm.perform_grid_search_with_cv(ratings_dataset)
+            print("Completed Algorithm: " + collaborative_algorithm.algo_name)
 
         print("All recommender models have been run...")
+        plt.scatter(rmse_values.keys(), rmse_values.values())
+        plt.legend(rmse_values.keys())
+        plt.show()
+
 
 
 

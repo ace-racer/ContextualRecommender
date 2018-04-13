@@ -3,8 +3,8 @@ from base_operations import base_operations
 
 class collaborative_models(base_operations):
     def __init__(self, algo_name):
+        self.algo_name = algo_name
         super(collaborative_models, self).__init__(algo_name)
-        print("Training the model: " + algo_name)
 
     def evaluate_on_test(self, train_set, test_set):
         """
