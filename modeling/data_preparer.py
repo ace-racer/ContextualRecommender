@@ -22,6 +22,7 @@ class data_preparer(base_operations):
         super(data_preparer, self).__init__(constants.DATA_PREPARER_NAME)
 
     def perform_operation(self):
+        self.LOG_HANDLE.info("Starting the data preparation...")
         stream_details_df = pd.read_csv(configurations.STREAM_DETAILS_FILE_LOCATION, encoding="ISO-8859-1")
 
         # Get the number of cards per stream
