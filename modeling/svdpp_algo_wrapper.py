@@ -71,4 +71,7 @@ class svdpp_algo_wrapper(collaborative_models):
             algo = SVDpp(**model_params.svdpp_best_params)
             algo.fit(ratings_set)
 
+            predictions = algo.test(test_set)
+            print(predictions)
+
 

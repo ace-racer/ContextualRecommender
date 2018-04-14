@@ -6,10 +6,18 @@ from svd_algo_wrapper import svd_algo_wrapper
 from svdpp_algo_wrapper import svdpp_algo_wrapper
 import model_params
 
+# standard imports
+import pandas as pd
+
+# constants
+NEWLINE = "\n"
+
 class best_model_output_generator(base_operations):
     """Generates the outputs from the best model that has been obtained"""
     def __init__(self):
         super(best_model_output_generator, self).__init__(constants.COLLABORATIVE_FILTERING_MODELER_NAME)
+        # the best algorithm
+        self.best_algo = svdpp_algo_wrapper()
 
     def perform_operation(self):
         self.LOG_HANDLE.info("Running the best collaborative filtering algorithm...")
@@ -25,3 +33,24 @@ class best_model_output_generator(base_operations):
         ratings_dataset = Dataset.load_from_file(latest_ratings_file_location, reader)
 
         # Get the users and streams that are of interest
+        latest_actual_ratings_file_name = self.get_latest_output_file_name(configurations.CONTENT_VIEWS_BY_USER_BY_CARD_RATINGS_GENERATED_FILE_NAME, next=False)[1]
+        latest_actual_ratings_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, latest_actual_ratings_file_name)
+
+        self.LOG_HANDLE.info("Reading user ratings from: " + latest_actual_ratings_file_location)
+        print("Reading existing user ratings")
+        user_streams_to_predict = self.get_streams_not_viewed_by_user(latest_actual_ratings_file_location)
+        self.best_algo.train_best_model_generate_ratings_test(ratings_dataset, user_streams_to_predict)
+
+
+    def get_streams_not_viewed_by_user(self, complete_ratings_file_location):
+        if complete_ratings_file_location:
+            ratings_df = pd.read_csv(complete_ratings_file_location)
+            required_ratings = []
+            for index, row in ratings_df.iterrows():
+                for stream_id in ratings_df:
+                    if row[stream_id] == 0:
+                        required_ratings.append([str(index), str(stream_id), str(row[stream_id])])
+                        return pd.DataFrame(required_ratings)
+
+        return None
+

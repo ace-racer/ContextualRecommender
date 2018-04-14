@@ -71,6 +71,9 @@ class svd_algo_wrapper(collaborative_models):
             algo = SVD(**model_params.svd_best_params)
             algo.fit(ratings_set)
 
+            predictions = algo.test(test_set)
+            print(predictions)
+
 
 
 

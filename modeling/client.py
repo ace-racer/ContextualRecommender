@@ -4,6 +4,7 @@ import configurations
 from data_preparer import data_preparer
 from collaborative_filtering_modeller import collaborative_filtering_modeller
 import argparse
+from best_model_output_generator import best_model_output_generator
 
 
 def main():
@@ -31,6 +32,10 @@ def main():
         print("Will evaluate all recommender models...")
         all_modeller = collaborative_filtering_modeller()
         all_modeller.perform_operation()
+
+    print("Will run the best model to generate predicted ratings")
+    best_model_train_executor = best_model_output_generator()
+    best_model_train_executor.perform_operation()
 
 
 if __name__ == "__main__":
