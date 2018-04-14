@@ -22,3 +22,12 @@ class collaborative_models(base_operations):
         :return: Different RMSE and MAE for the different hyper parameters
         """
         pass
+
+    def train_best_model_generate_ratings_test(self, ratings_set, test_set):
+        """
+        Train the best model (with minimum AMSE) on the complete ratings set and then compute the ratings for the test set
+        :param ratings_set: The complete ratings data set
+        :param test_set: The streams for the users for which ratings are not yet available
+        :return: A data frame of the form user, stream, predicted rating
+        """
+        pass

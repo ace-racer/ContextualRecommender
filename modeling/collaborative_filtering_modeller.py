@@ -31,7 +31,7 @@ import model_params
 
 class collaborative_filtering_modeller(base_operations):
     """
-    The class containing the data preparer methods
+    The class containing the collaborative filtering algorithms to choose the best
     """
     def __init__(self):
         super(collaborative_filtering_modeller, self).__init__(constants.COLLABORATIVE_FILTERING_MODELER_NAME)

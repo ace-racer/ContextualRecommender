@@ -57,4 +57,20 @@ class svd_algo_wrapper(collaborative_models):
             print(gs.best_params['rmse'])
             self.LOG_HANDLE.info(gs.best_params['rmse'])
 
+    def train_best_model_generate_ratings_test(self, ratings_set, test_set):
+        """
+        Train the best model (with minimum AMSE) on the complete ratings set and then compute the ratings for the test set
+        :param ratings_set: The complete ratings data set
+        :param test_set: The streams for the users for which ratings are not yet available
+        :return: A data frame of the form user, stream, predicted rating
+        """
+        if ratings_set and test_set:
+            print("Training the best model and generating the ratings for the test data set")
+            self.LOG_HANDLE.info("Training the best model and generating the ratings for the test data set")
+
+            algo = SVD(**model_params.svd_best_params)
+            algo.fit(ratings_set)
+
+
+
 
