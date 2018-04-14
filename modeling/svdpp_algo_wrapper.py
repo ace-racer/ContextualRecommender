@@ -2,17 +2,17 @@ from collaborative_models import collaborative_models
 import constants
 import model_params
 
-from surprise import KNNWithMeans
+from surprise import SVDpp
 from surprise import accuracy
 from surprise.model_selection import GridSearchCV
 
 
-class knn_algo_wrapper(collaborative_models):
+class svdpp_algo_wrapper(collaborative_models):
     """
-    The KNN algorithm
+    The SVDpp algorithm
     """
     def __init__(self):
-        super(knn_algo_wrapper, self).__init__(constants.KNN_ALGO_NAME)
+        super(svdpp_algo_wrapper, self).__init__(constants.SVD_PP_ALGO_NAME)
 
     def evaluate_on_test(self, train_set, test_set):
         """
@@ -25,8 +25,8 @@ class knn_algo_wrapper(collaborative_models):
             print("Evaluate RMSE on test data")
             self.LOG_HANDLE.info("Evaluate RMSE on test data")
 
-            # Use the famous SVD algorithm.
-            algo = KNNWithMeans()
+            # http://surprise.readthedocs.io/en/stable/matrix_factorization.html#surprise.prediction_algorithms.matrix_factorization.SVDpp
+            algo = SVDpp()
 
             # Train the algorithm on the trainset, and predict ratings for the testset
             algo.fit(train_set)
@@ -45,8 +45,8 @@ class knn_algo_wrapper(collaborative_models):
             print("Running grid search to find optimal hyper parameters")
             self.LOG_HANDLE.info("Running grid search to find optimal hyper parameters")
 
-            param_grid = {'k': [30, 40, 50], 'min_k': [1, 3, 5]}
-            gs = GridSearchCV(KNNWithMeans, param_grid, measures=model_params.all_models_training_error_measures, cv=model_params.cross_validation_folds)
+            param_grid = {'n_epochs': [10, 20, 30], 'lr_all': [0.005, 0.006, 0.007, 0.008], 'reg_all': [0.01, 0.02, 0.03, 0.2]}
+            gs = GridSearchCV(SVDpp, param_grid, measures=model_params.all_models_training_error_measures, cv=model_params.cross_validation_folds)
             gs.fit(train_set)
 
             # best RMSE score

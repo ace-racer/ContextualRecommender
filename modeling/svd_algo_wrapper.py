@@ -51,8 +51,10 @@ class svd_algo_wrapper(collaborative_models):
 
             # best RMSE score
             print(gs.best_score['rmse'])
+            self.LOG_HANDLE.info(gs.best_score['rmse'])
 
             # combination of parameters that gave the best RMSE score
             print(gs.best_params['rmse'])
+            self.LOG_HANDLE.info(gs.best_params['rmse'])
 
 

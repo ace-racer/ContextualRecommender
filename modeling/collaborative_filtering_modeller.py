@@ -22,6 +22,8 @@ import configurations
 from base_operations import base_operations
 from svd_algo_wrapper import svd_algo_wrapper
 from knn_algo_wrapper import knn_algo_wrapper
+from normal_algo_wrapper import normal_algo_wrapper
+from svdpp_algo_wrapper import svdpp_algo_wrapper
 import model_params
 
 # constants
@@ -51,7 +53,7 @@ class collaborative_filtering_modeller(base_operations):
         trainset, testset = train_test_split(ratings_dataset, test_size=model_params.test_set_size)
 
         # Add different algorithms here
-        collaborative_algorithms = [svd_algo_wrapper(), knn_algo_wrapper()]
+        collaborative_algorithms = [normal_algo_wrapper(), knn_algo_wrapper(), svd_algo_wrapper(), svdpp_algo_wrapper()]
 
         rmse_values = {}
 
@@ -63,7 +65,8 @@ class collaborative_filtering_modeller(base_operations):
 
         print("All recommender models have been run...")
         plt.scatter(rmse_values.keys(), rmse_values.values())
-        plt.legend(rmse_values.keys())
+        plt.xlabel('Collaborative filtering algorithm')
+        plt.ylabel('Root mean square error (RMSE) on test predictions')
         plt.show()
 
 
