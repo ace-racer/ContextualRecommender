@@ -13,16 +13,19 @@ import os
 # Surprise library imports
 from surprise.reader import Reader
 from surprise import Dataset
+from surprise.dataset import DatasetAutoFolds
+from surprise.model_selection import train_test_split
 
 # constants
 NEWLINE = "\n"
+
 
 class best_model_output_generator(base_operations):
     """Generates the outputs from the best model that has been obtained"""
     def __init__(self):
         super(best_model_output_generator, self).__init__(constants.COLLABORATIVE_FILTERING_MODELER_NAME)
         # the best algorithm
-        self.best_algo = svdpp_algo_wrapper()
+        self.best_algo = svd_algo_wrapper()
 
     def perform_operation(self):
         self.LOG_HANDLE.info("Running the best collaborative filtering algorithm...")
@@ -34,9 +37,6 @@ class best_model_output_generator(base_operations):
         # Params from here: http://surprise.readthedocs.io/en/stable/reader.html
         reader = Reader(sep=constants.COMMA_STR)
 
-        # Params from here: http://surprise.readthedocs.io/en/stable/dataset.html
-        ratings_dataset = Dataset.load_from_file(latest_ratings_file_location, reader)
-
         # Get the users and streams that are of interest
         latest_actual_ratings_file_name = self.get_latest_output_file_name(configurations.CONTENT_VIEWS_BY_USER_BY_CARD_RATINGS_GENERATED_FILE_NAME, next=False)[1]
         latest_actual_ratings_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, latest_actual_ratings_file_name)
@@ -44,13 +44,17 @@ class best_model_output_generator(base_operations):
         self.LOG_HANDLE.info("Reading user ratings from: " + latest_actual_ratings_file_location)
         print("Reading existing user ratings")
 
+        # TODO: Add other logic to get streams for which to predict ratings
         user_streams_to_predict_df = self.get_streams_not_viewed_by_user(latest_actual_ratings_file_location)
-        # load the streams from a dataframe
-        print(user_streams_to_predict_df)
 
-        user_streams_to_predict = Dataset.load_from_df(user_streams_to_predict_df, Reader(rating_scale=(0, configurations.RATINGS_UPPER)))
+        # user_streams_to_predict = Dataset.load_from_df(user_streams_to_predict_df, Reader(rating_scale=(0, configurations.RATINGS_UPPER)))
+        data_auto_folds_train_ratings = DatasetAutoFolds(latest_ratings_file_location, reader)
+        data_auto_folds_test_ratings = DatasetAutoFolds(df=user_streams_to_predict_df, reader = Reader(rating_scale=(0, configurations.RATINGS_UPPER)))
 
-        self.best_algo.train_best_model_generate_ratings_test(ratings_dataset, user_streams_to_predict)
+        ratings_dataset = data_auto_folds_train_ratings.build_full_trainset()
+        test_dataset = data_auto_folds_test_ratings.build_full_trainset().build_testset()
+
+        self.best_algo.train_best_model_generate_ratings_test(ratings_dataset, test_dataset)
 
     def get_streams_not_viewed_by_user(self, complete_ratings_file_location):
         """
