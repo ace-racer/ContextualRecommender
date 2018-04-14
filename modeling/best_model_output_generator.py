@@ -46,6 +46,7 @@ class best_model_output_generator(base_operations):
 
         # TODO: Add other logic to get streams for which to predict ratings
         user_streams_to_predict_df = self.get_streams_not_viewed_by_user(latest_actual_ratings_file_location)
+        user_streams_to_predict_df.to_csv("predict.csv")
 
         # user_streams_to_predict = Dataset.load_from_df(user_streams_to_predict_df, Reader(rating_scale=(0, configurations.RATINGS_UPPER)))
         data_auto_folds_train_ratings = DatasetAutoFolds(latest_ratings_file_location, reader)
@@ -81,7 +82,7 @@ class best_model_output_generator(base_operations):
         :return: A dataframe with the user stream details and 0 as ratings
         """
         if complete_ratings_file_location:
-            ratings_df = pd.read_csv(complete_ratings_file_location)
+            ratings_df = pd.read_csv(complete_ratings_file_location, header=0, index_col = 0)
             required_ratings = []
             for index, row in ratings_df.iterrows():
                 for stream_id in ratings_df:
