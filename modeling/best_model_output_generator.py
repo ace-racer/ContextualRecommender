@@ -8,6 +8,11 @@ import model_params
 
 # standard imports
 import pandas as pd
+import os
+
+# Surprise library imports
+from surprise.reader import Reader
+from surprise import Dataset
 
 # constants
 NEWLINE = "\n"
@@ -38,11 +43,21 @@ class best_model_output_generator(base_operations):
 
         self.LOG_HANDLE.info("Reading user ratings from: " + latest_actual_ratings_file_location)
         print("Reading existing user ratings")
-        user_streams_to_predict = self.get_streams_not_viewed_by_user(latest_actual_ratings_file_location)
+
+        user_streams_to_predict_df = self.get_streams_not_viewed_by_user(latest_actual_ratings_file_location)
+        # load the streams from a dataframe
+        print(user_streams_to_predict_df)
+
+        user_streams_to_predict = Dataset.load_from_df(user_streams_to_predict_df, Reader(rating_scale=(0, configurations.RATINGS_UPPER)))
+
         self.best_algo.train_best_model_generate_ratings_test(ratings_dataset, user_streams_to_predict)
 
-
     def get_streams_not_viewed_by_user(self, complete_ratings_file_location):
+        """
+        Get the streams that have not yet been viewed by the user
+        :param complete_ratings_file_location:
+        :return: A dataframe with the user stream details and 0 as ratings
+        """
         if complete_ratings_file_location:
             ratings_df = pd.read_csv(complete_ratings_file_location)
             required_ratings = []
@@ -50,7 +65,7 @@ class best_model_output_generator(base_operations):
                 for stream_id in ratings_df:
                     if row[stream_id] == 0:
                         required_ratings.append([str(index), str(stream_id), str(row[stream_id])])
-                        return pd.DataFrame(required_ratings)
+            return pd.DataFrame(required_ratings)
 
         return None
 
