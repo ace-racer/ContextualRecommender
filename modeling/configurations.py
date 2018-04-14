@@ -15,7 +15,7 @@ OUTPUT_FILES_DIRECTORY = "H:\\TeamStreamz_IW\\code\\data\\generated\\ratings"
 GENERATE_RATINGS_FILES = False
 EVALUATE_ALL_MODELS = True
 RUN_BEST_MODEL = True
-
+NUM_STREAMS_PER_USER = 5
 
 # configs to be updated only if required
 
@@ -23,6 +23,7 @@ CONTENT_VIEWS_BY_USER_BY_CARD_GENERATED_FILE_NAME = "content_views_by_user_by_ca
 CONTENT_VIEWS_BY_USER_BY_CARD_RATINGS_GENERATED_FILE_NAME = "content_views_user_rating"
 RATINGS_FILE_IN_REQUIRED_FORMAT_FILE_NAME = "ratings_file_required_format"
 PREDICTED_RATINGS_FILE_NAME = "predicted_ratings"
+PREDICTED_STREAMS_FOR_USER = "predicted_streams_for_user"
 
 # configurations for binning to get the ratings
 RATINGS_LOWER = 1

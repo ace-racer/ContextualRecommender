@@ -46,7 +46,6 @@ class best_model_output_generator(base_operations):
 
         # TODO: Add other logic to get streams for which to predict ratings
         user_streams_to_predict_df = self.get_streams_not_viewed_by_user(latest_actual_ratings_file_location)
-        user_streams_to_predict_df.to_csv("predict.csv")
 
         # user_streams_to_predict = Dataset.load_from_df(user_streams_to_predict_df, Reader(rating_scale=(0, configurations.RATINGS_UPPER)))
         data_auto_folds_train_ratings = DatasetAutoFolds(latest_ratings_file_location, reader)
@@ -59,9 +58,15 @@ class best_model_output_generator(base_operations):
 
         # print the predictions to a file - http://surprise.readthedocs.io/en/stable/predictions_module.html?highlight=prediction%20class
         prediction_output = constants.COMMA_STR.join(constants.PREDICTED_RATINGS_FILE_COLUMN_NAMES) + NEWLINE
+        predictions_for_users = {}
 
         for prediction in predictions:
+            # The uid, iid and estimated rating
             prediction_output += str(prediction[0]) + constants.COMMA_STR + str(prediction[1]) + constants.COMMA_STR + str(prediction[3]) + NEWLINE
+            if predictions_for_users.get(str(prediction[0])):
+                predictions_for_users[str(prediction[0])].append((str(prediction[1]), str(prediction[3])))
+            else:
+                predictions_for_users[str(prediction[0])] = [(str(prediction[1]), str(prediction[3]))]
 
         prediction_output_file_name = self.get_latest_output_file_name(configurations.PREDICTED_RATINGS_FILE_NAME)[1]
         prediction_output_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, prediction_output_file_name)
@@ -69,10 +74,30 @@ class best_model_output_generator(base_operations):
         with open(prediction_output_location, "w") as fw:
             fw.writelines(prediction_output)
 
-
         print("Generated the prediction results file")
         self.LOG_HANDLE.info("Generated the prediction results file")
 
+        # Sort the predictions for the users
+        for user in predictions_for_users:
+            predictions_for_users[user] = sorted(predictions_for_users[user], reverse=True, key=lambda x: x[1])
+
+        predicted_streams_content = constants.COMMA_STR.join(constants.PREDICTED_STREAMS_FOR_USER_COLUMN_NAMES) + NEWLINE
+        for user in predictions_for_users:
+            predicted_streams_content += str(user) + constants.COMMA_STR
+            num_streams_for_user = min(configurations.NUM_STREAMS_PER_USER, len(predictions_for_users[user]))
+            for stream_id, _ in predictions_for_users[user][:num_streams_for_user]:
+                predicted_streams_content += str(stream_id) + constants.COMMA_STR
+
+            predicted_streams_content += NEWLINE
+
+        predicted_streams_output_file_name = self.get_latest_output_file_name(configurations.PREDICTED_STREAMS_FOR_USER)[1]
+        predicted_streams_output_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, predicted_streams_output_file_name)
+
+        with open(predicted_streams_output_location, "w") as fw:
+            fw.writelines(predicted_streams_content)
+
+        print("Generated the streams recommended to the user")
+        self.LOG_HANDLE.info("Generated the streams recommended to the user")
 
 
     def get_streams_not_viewed_by_user(self, complete_ratings_file_location):
@@ -82,7 +107,7 @@ class best_model_output_generator(base_operations):
         :return: A dataframe with the user stream details and 0 as ratings
         """
         if complete_ratings_file_location:
-            ratings_df = pd.read_csv(complete_ratings_file_location, header=0, index_col = 0)
+            ratings_df = pd.read_csv(complete_ratings_file_location, header=0, index_col=0)
             required_ratings = []
             for index, row in ratings_df.iterrows():
                 for stream_id in ratings_df:
