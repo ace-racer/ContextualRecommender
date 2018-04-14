@@ -72,7 +72,7 @@ class svd_algo_wrapper(collaborative_models):
             algo.fit(ratings_set)
 
             predictions = algo.test(test_set)
-            print(predictions)
+            return predictions
 
 
 

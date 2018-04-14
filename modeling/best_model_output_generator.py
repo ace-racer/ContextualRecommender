@@ -54,7 +54,25 @@ class best_model_output_generator(base_operations):
         ratings_dataset = data_auto_folds_train_ratings.build_full_trainset()
         test_dataset = data_auto_folds_test_ratings.build_full_trainset().build_testset()
 
-        self.best_algo.train_best_model_generate_ratings_test(ratings_dataset, test_dataset)
+        predictions = self.best_algo.train_best_model_generate_ratings_test(ratings_dataset, test_dataset)
+
+        # print the predictions to a file - http://surprise.readthedocs.io/en/stable/predictions_module.html?highlight=prediction%20class
+        prediction_output = constants.COMMA_STR.join(constants.PREDICTED_RATINGS_FILE_COLUMN_NAMES) + NEWLINE
+
+        for prediction in predictions:
+            prediction_output += str(prediction[0]) + constants.COMMA_STR + str(prediction[1]) + constants.COMMA_STR + str(prediction[3]) + NEWLINE
+
+        prediction_output_file_name = self.get_latest_output_file_name(configurations.PREDICTED_RATINGS_FILE_NAME)[1]
+        prediction_output_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, prediction_output_file_name)
+
+        with open(prediction_output_location, "w") as fw:
+            fw.writelines(prediction_output)
+
+
+        print("Generated the prediction results file")
+        self.LOG_HANDLE.info("Generated the prediction results file")
+
+
 
     def get_streams_not_viewed_by_user(self, complete_ratings_file_location):
         """

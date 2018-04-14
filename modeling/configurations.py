@@ -22,6 +22,7 @@ RUN_BEST_MODEL = True
 CONTENT_VIEWS_BY_USER_BY_CARD_GENERATED_FILE_NAME = "content_views_by_user_by_card"
 CONTENT_VIEWS_BY_USER_BY_CARD_RATINGS_GENERATED_FILE_NAME = "content_views_user_rating"
 RATINGS_FILE_IN_REQUIRED_FORMAT_FILE_NAME = "ratings_file_required_format"
+PREDICTED_RATINGS_FILE_NAME = "predicted_ratings"
 
 # configurations for binning to get the ratings
 RATINGS_LOWER = 1

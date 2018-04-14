@@ -8,3 +8,4 @@ SVD_ALGO_NAME = "SVD"
 KNN_ALGO_NAME = "KNNWithMeans"
 SVD_PP_ALGO_NAME = "SVD++"
 NORMAL_ALGO_NAME = "Random"
+PREDICTED_RATINGS_FILE_COLUMN_NAMES = ["user_id", "stream_id", "estimated_rating"]
