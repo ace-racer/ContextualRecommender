@@ -81,7 +81,7 @@ class best_model_output_generator(base_operations):
         for user in predictions_for_users:
             predictions_for_users[user] = sorted(predictions_for_users[user], reverse=True, key=lambda x: x[1])
 
-        predicted_streams_content = constants.COMMA_STR.join(constants.PREDICTED_STREAMS_FOR_USER_COLUMN_NAMES) + NEWLINE
+        predicted_streams_content = ""
         for user in predictions_for_users:
             predicted_streams_content += str(user) + constants.COMMA_STR
             num_streams_for_user = min(configurations.NUM_STREAMS_PER_USER, len(predictions_for_users[user]))

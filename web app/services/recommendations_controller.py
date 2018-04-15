@@ -5,10 +5,14 @@ import datetime
 import os
 import pandas as pd
 import re
+import math
 
 import constants
 import configurations
 from content_controller import content_controller
+
+# constants
+FILE_NUMBER_PATTERN = "_([0-9]+).csv$"
 
 class recommender_controller:
 
@@ -60,15 +64,19 @@ class recommender_controller:
         :return: Recommendations for the user
         """
         if userid:
+            print("Trying to get recommendations for user: " + userid)
             all_recommended_stream_details = {}
             controller = content_controller()
             try:
+                userid = int(userid)
                 latest_predicted_streams_file_name = self.get_latest_output_file_name(configurations.PREDICTED_STREAMS_FOR_USER, False)[1]
                 latest_predicted_streams_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, latest_predicted_streams_file_name)
-                input_df = pd.read_csv(latest_predicted_streams_file_location, header=0, index_col=0)
+                input_df = pd.read_csv(latest_predicted_streams_file_location, index_col=0, header=None)
+                print(input_df.head())
                 recommended_streams_row = input_df.loc[userid]
+                recommended_streams_row = [str(int(streamid)) for streamid in recommended_streams_row if not math.isnan(streamid)]
                 print(recommended_streams_row)
-                print("Number of recommended streams: " + len(recommended_streams_row))
+                print("Number of recommended streams: " + str(len(recommended_streams_row)))
 
                 recommended_streams = controller.get_stream_details(recommended_streams_row)
                 if recommended_streams:
@@ -78,6 +86,7 @@ class recommender_controller:
 
             except KeyError:
                 print("The user with ID: {0} was not found.".format(userid))
+                raise
             except Exception as ex:
                 print("An exception occurred: " + str(ex))
             return None
