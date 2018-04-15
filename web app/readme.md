@@ -114,7 +114,7 @@
    The response from the service is of the below format:
    ```json
 	{
-  "RecommendedStreams": [
+    "RecommendedStreams": [
     {
       "streamid": "675",
       "organization": "28",
@@ -231,8 +231,8 @@
           "cardid": "3522",
           "cardname": "Kh\ufffdch h\ufffdng v\ufffd ?i?m nh?n b\ufffdn h\ufffdng"
         }
-      ]
+        ]
+      }
+     ]
     }
-  ]
-}
    ```
