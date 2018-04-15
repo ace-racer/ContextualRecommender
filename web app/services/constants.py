@@ -18,3 +18,6 @@ stream_details_table_name = "stream_details"
 stream_tag_mapping_table_name = "stream_tag_mapping"
 tag_frequency_streams = "tag_frequency_streams"
 processed_column_name = "processed"
+
+CSV_FILE_EXTENSION = ".csv"
+UNDERSCORE_STR = "_"

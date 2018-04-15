@@ -1,6 +1,6 @@
 from flask import Flask, request
 from views_controller import views_controller
-from recommendations_controller import cc_recommender_controller
+from recommendations_controller import recommender_controller
 from content_controller import content_controller
 from flask_cors import CORS
 
@@ -43,11 +43,21 @@ def addUserView():
 @app.route('/streams/neighbors/<streamid>')
 def getStreamDetails(streamid):
     if streamid:
-        controller = cc_recommender_controller()
+        controller = recommender_controller()
         stream_details = controller.get_nearest_neighbors_by_streamid(streamid)
         if stream_details is None:
             return "No streams with the streamid {0}".format(streamid)
         return stream_details
+
+@app.route('/streams/recommendations/<userid>')
+def getUserRecommendations(userid):
+    if userid:
+        controller = recommender_controller()
+        recommended_stream_details = controller.get_recommendations_for_user(userid)
+        if recommended_stream_details is None:
+            return "No streams recommended for the user with ID: {0}".format(userid)
+        return recommended_stream_details
+
 
 if __name__ == '__main__':
     app.run(debug=True)
