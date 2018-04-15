@@ -106,3 +106,133 @@
       ]
     }
    ```
+   
+4. Get streams recommended for a user
+   GET /streams/recommendations/<userid>
+   
+   E.g. http://127.0.0.1:5000/streams/recommendations/958
+   The response from the service is of the below format:
+   ```json
+	{
+  "RecommendedStreams": [
+    {
+      "streamid": "675",
+      "organization": "28",
+      "streamname": "Storytelling Skills",
+      "order": 0,
+      "tags": [
+        "Training",
+        "Overcoming Objections",
+        "Win Story",
+        "Manufacturing"
+      ],
+      "cards": [
+        {
+          "cardid": "4661",
+          "cardname": "?????? ????? ?????"
+        },
+        {
+          "cardid": "4662",
+          "cardname": "?????? ????? ?????"
+        },
+        {
+          "cardid": "4663",
+          "cardname": "????? ?????? ?????"
+        },
+        {
+          "cardid": "4664",
+          "cardname": "??? ????? ??? ?????? ??? ????? ???"
+        },
+        {
+          "cardid": "4665",
+          "cardname": "??? ????? ??? ?????? ??? ????? ???"
+        },
+        {
+          "cardid": "4666",
+          "cardname": "??? ????? ??? ?????? ??? ????? ???"
+        }
+      ]
+    },
+    {
+      "streamid": "762",
+      "organization": "28",
+      "streamname": "Ch?p h\ufffdnh tuy?t ??p m?i l\ufffdc",
+      "order": 3,
+      "tags": [
+        "Product Feature",
+        "Overcoming Objections",
+        "Quiz"
+      ],
+      "cards": [
+        {
+          "cardid": "3701",
+          "cardname": "Ch?p h\ufffdnh tuy?t ??p m?i l\ufffdc v?i Nokia 5"
+        },
+        {
+          "cardid": "3702",
+          "cardname": "Ch?p h\ufffdnh tuy?t ??p m?i l\ufffdc v?i Nokia 6"
+        },
+        {
+          "cardid": "3703",
+          "cardname": "?ng d?ng Google Photos"
+        },
+        {
+          "cardid": "3704",
+          "cardname": "?ng d?ng Google Photos"
+        },
+        {
+          "cardid": "3705",
+          "cardname": "photos.google.com"
+        },
+        {
+          "cardid": "3706",
+          "cardname": "photos.google.com"
+        },
+        {
+          "cardid": "3707",
+          "cardname": "Ch?p selfie tuy?t ??p v?i Nokia 3"
+        },
+        {
+          "cardid": "3708",
+          "cardname": "Ch?p h\ufffdnh ??p v\ufffdo m?i th?i ?i?m"
+        }
+      ]
+    },
+    {
+      "streamid": "768",
+      "organization": "28",
+      "streamname": "??i t??ng KH & ?i?m nh?n SP",
+      "order": 1,
+      "tags": [
+        
+      ],
+      "cards": [
+        {
+          "cardid": "3517",
+          "cardname": "Th? h? tr? c?n g\ufffd tr\ufffdn m?t chi?c ?i?n tho?i"
+        },
+        {
+          "cardid": "3518",
+          "cardname": "??i t??ng kh\ufffdch h\ufffdng ?i?n tho?i th\ufffdng minh Nokia"
+        },
+        {
+          "cardid": "3519",
+          "cardname": "Nokia 3310 ??i t??ng kh\ufffdch h\ufffdng"
+        },
+        {
+          "cardid": "3520",
+          "cardname": "Th? h? tr? s?ng c\ufffd m?c ?\ufffdch"
+        },
+        {
+          "cardid": "3521",
+          "cardname": "Selfie tuy?t ??p v?i Nokia 3"
+        },
+        {
+          "cardid": "3522",
+          "cardname": "Kh\ufffdch h\ufffdng v\ufffd ?i?m nh?n b\ufffdn h\ufffdng"
+        }
+      ]
+    }
+  ]
+}
+   ```
