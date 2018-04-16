@@ -12,7 +12,6 @@ from base_operations import base_operations
 # constants
 NEWLINE = "\n"
 comma_str = ","
-stream_name_location = 2
 stream_id_location = 1
 tag_location = 0
 
@@ -23,30 +22,37 @@ class stream_tag_one_hot_encoder(base_operations):
     """
     def __init__(self):
         super(stream_tag_one_hot_encoder, self).__init__(constants.DATA_PREPARER_NAME)
-        self.unique_tags = None
-        self.unique_tags_position_mapping = None
+
 
     def perform_operation(self):
         self.LOG_HANDLE.info("Starting the data preparation for similar streams recommendation...")
 
-        ## Get the unique tags which are non-empty
+        unique_tags = set()
+        unique_tags_position_mapping = None
+
+        ## Get the unique tags which are non-empty and have a name
         with open(configurations.STREAM_TAG_MAPPING_FILE_LOCATION, "r") as fr:
-            unique_tags = {line.split(",")[tag_location].strip() for line in fr.readlines() if
-                           line != "" and line.split(",")[tag_location].strip() != ""}
+            for line in fr.readlines()[1:]:
+                if line:
+                    line_contents = line.split(",")
+                    if len(line_contents) >= tag_location:
+                        tag_name = line_contents[tag_location].strip()
+                        if tag_name:
+                            unique_tags.add(tag_name)
 
         ## Make a tag, position mapping
         unique_tags_position_mapping = {elem[1]: elem[0] for elem in enumerate(unique_tags)}
 
         stream_tag_mapping_original = None
         with open(configurations.STREAM_TAG_MAPPING_FILE_LOCATION, "r") as fr:
-            stream_tag_mapping_original = [tuple(line.strip().split(",")) for line in fr.readlines()]
+            stream_tag_mapping_original = [tuple(line.strip().split(",")[:2]) for line in fr.readlines()]
 
         # set to contain mapping between stream and unique tags
         stream_tag_mapping = {}
         output_file_name = self.get_latest_output_file_name(configurations.TAG_FREQUENCY_STREAMS)[1]
         output_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, output_file_name)
 
-        stream_tag_columns = 3
+        stream_tag_columns = 2
 
         for item in stream_tag_mapping_original:
             if len(item) != stream_tag_columns:
@@ -66,6 +72,7 @@ class stream_tag_one_hot_encoder(base_operations):
 
         # create the column headers
         output_frequency_content += "StreamID" + comma_str + comma_str.join(unique_tags_position_mapping) + NEWLINE
+        print(output_frequency_content)
 
         for stream_id, tag_positions in stream_tag_mapping.items():
             # initialize all tags as 0
