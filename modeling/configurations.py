@@ -14,11 +14,17 @@ STREAM_TAG_MAPPING_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_tag_m
 # where all the generated files will be stored - the files follow a sequential numbering scheme
 OUTPUT_FILES_DIRECTORY = "H:\\TeamStreamz_IW\\code\\data\\generated\\ratings"
 
+# where all the log files will be created
+log_file_folder_location = "H:\\TeamStreamz_IW\\code\\modeling\\logs"
+
+# ******************** Below parameters to be updated only if really required ********************
+
 # operational params - update as required
 GENERATE_RATINGS_FILES = False
 EVALUATE_ALL_MODELS = True
 RUN_BEST_MODEL = True
 NUM_STREAMS_PER_USER = 5
+NUM_SIMILAR_STREAMS = 5
 
 # configs to be updated only if required
 
@@ -28,6 +34,7 @@ RATINGS_FILE_IN_REQUIRED_FORMAT_FILE_NAME = "ratings_file_required_format"
 PREDICTED_RATINGS_FILE_NAME = "predicted_ratings"
 PREDICTED_STREAMS_FOR_USER = "predicted_streams_for_user"
 TAG_FREQUENCY_STREAMS = "tag_frequency_streams"
+SIMILAR_STREAMS_GENRATED_FILE_NAME = "similar_streams"
 
 # configurations for binning to get the ratings
 RATINGS_LOWER = 1
@@ -36,6 +43,5 @@ SAME_INTERVALS = True
 
 # logging parameters
 LOG_LEVEL = logging.INFO
-log_file_folder_location = "H:\\TeamStreamz_IW\\code\\modeling\\logs"
 log_pattern = "%(asctime)s %(levelname)s %(message)s"
 
