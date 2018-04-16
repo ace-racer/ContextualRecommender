@@ -108,7 +108,7 @@
    ```
    
 4. Get streams recommended for a user
-   GET /streams/recommendations/<userid>
+   GET /streams/recommendations/<<userid>>
    
    E.g. http://127.0.0.1:5000/streams/recommendations/958
    The response from the service is of the below format:

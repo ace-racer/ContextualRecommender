@@ -32,28 +32,25 @@ class recommender_controller:
         if original_stream_details_list is not None and len(original_stream_details_list) > 0:
             original_stream_details = original_stream_details_list[0]
             all_stream_details["Target"] = original_stream_details
-            nearest_neighbor_query = "select n1streamid, n2streamid, n3streamid, n4streamid, n5streamid from nearest_neighbor_streams where targetstreamid = \"{0}\""
-            nearest_neighbor_query_updated = nearest_neighbor_query.format(streamid)
-            print("NN query: " + nearest_neighbor_query_updated)
-            conn = sqlite3.connect(configurations.db_location)
-            try:
-                c = conn.cursor()
-                c.execute(nearest_neighbor_query_updated)
-                nearest_neighbors = c.fetchall()
-                print(nearest_neighbors)
-                neighbors = [n for n in nearest_neighbors[0]]
-                print("Number of nearest neighbors: " + str(len(neighbors)))
-                neighbor_details = controller.get_stream_details(neighbors)
 
-                if neighbor_details:
-                    all_stream_details["Neighbors"] = [neighbor_detail for neighbor_detail in neighbor_details]
+            try:
+                latest_similar_streams_file_name = self.get_latest_output_file_name(configurations.SIMILAR_STREAMS_GENRATED_FILE_NAME, False)[1]
+                latest_similar_streams_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, latest_similar_streams_file_name)
+                input_df = pd.read_csv(latest_similar_streams_file_location, index_col=0, header=None)
+                print(input_df.head())
+                similar_streams_row = input_df.loc[int(streamid)]
+                similar_streams_row = [str(int(streamid)) for streamid in similar_streams_row if not math.isnan(streamid)]
+                print("Number of similar streams: " + str(len(similar_streams_row)))
+
+                similar_stream_details = controller.get_stream_details(similar_streams_row)
+                if similar_stream_details:
+                    all_stream_details["Neighbors"] = [similar_stream for similar_stream in similar_stream_details]
 
                 return json.dumps(all_stream_details)
+
             except Exception as e:
                 print(e)
                 return None
-            finally:
-                conn.close()
 
         return None
 
@@ -86,7 +83,6 @@ class recommender_controller:
 
             except KeyError:
                 print("The user with ID: {0} was not found.".format(userid))
-                raise
             except Exception as ex:
                 print("An exception occurred: " + str(ex))
             return None
