@@ -25,6 +25,7 @@ class recommender_controller:
         :param streamid: The stream Id
         :return: The details of the streams that are the nearest neighbors of the current stream
         """
+        print("Neighbors for Stream ID requested: " + streamid)
         all_stream_details = {}
         controller = content_controller()
         original_stream_details_list = controller.get_stream_details([streamid])
@@ -36,7 +37,7 @@ class recommender_controller:
             try:
                 latest_similar_streams_file_name = self.get_latest_output_file_name(configurations.SIMILAR_STREAMS_GENRATED_FILE_NAME, False)[1]
                 latest_similar_streams_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, latest_similar_streams_file_name)
-                input_df = pd.read_csv(latest_similar_streams_file_location, index_col=0, header=None)
+                input_df = pd.read_csv(latest_similar_streams_file_location, index_col=0, header=0)
                 print(input_df.head())
                 similar_streams_row = input_df.loc[int(streamid)]
                 similar_streams_row = [str(int(streamid)) for streamid in similar_streams_row if not math.isnan(streamid)]
