@@ -5,6 +5,7 @@ from data_preparer import data_preparer
 from collaborative_filtering_modeller import collaborative_filtering_modeller
 import argparse
 from best_model_output_generator import best_model_output_generator
+from stream_tag_one_hot_encoder import stream_tag_one_hot_encoder
 
 
 def main():
@@ -16,12 +17,19 @@ def main():
     should_evaluate_models = configurations.EVALUATE_ALL_MODELS
 
     arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument('-sg', type=int, help='Whether to generate the tag frequencies for the streams.', required=False)
     arg_parser.add_argument('-g', type=int, help='Whether to generate the ratings files.', required=False)
     arg_parser.add_argument('-e', type=int, help='Evaluate all recommender models.', required=False)
     args = arg_parser.parse_args()
 
     should_generate_ratings_file = (args.g == 1)
     should_evaluate_models = (args.e == 1)
+    should_generate_tag_frequencies = (args.sg == 1)
+
+    if should_generate_tag_frequencies:
+        print("Will generate the tag frequencies...")
+        stream_tag_encoder = stream_tag_one_hot_encoder()
+        stream_tag_encoder.perform_operation()
 
     if should_generate_ratings_file:
         print("Will generate the ratings files...")

@@ -8,6 +8,9 @@ STREAM_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_details.c
 # contains the stream view information with the timestamps
 STREAM_VIEWS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_views\\0907to0908.csv"
 
+# contains the stream tag mapping filr
+STREAM_TAG_MAPPING_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_tag_mapping_updated.csv"
+
 # where all the generated files will be stored - the files follow a sequential numbering scheme
 OUTPUT_FILES_DIRECTORY = "H:\\TeamStreamz_IW\\code\\data\\generated\\ratings"
 
@@ -24,6 +27,7 @@ CONTENT_VIEWS_BY_USER_BY_CARD_RATINGS_GENERATED_FILE_NAME = "content_views_user_
 RATINGS_FILE_IN_REQUIRED_FORMAT_FILE_NAME = "ratings_file_required_format"
 PREDICTED_RATINGS_FILE_NAME = "predicted_ratings"
 PREDICTED_STREAMS_FOR_USER = "predicted_streams_for_user"
+TAG_FREQUENCY_STREAMS = "tag_frequency_streams"
 
 # configurations for binning to get the ratings
 RATINGS_LOWER = 1
