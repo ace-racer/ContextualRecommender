@@ -33,6 +33,7 @@ class content_controller:
         all_stream_details_formatted = []
         select_query_details = "select organization, streamid, streamname, cardid, cardname from {0} where streamid in ({1}) order by streamid"
 
+        original_stream_id_list = streamids
         # envelop the stream Ids in quotes
         streamids = ["\"" + streamid + "\"" for streamid in streamids]
         selectids_select_param = ",".join(streamids)
@@ -67,8 +68,6 @@ class content_controller:
                 else:
                     all_stream_tag_mapping[stream_tag_mapping_query_result[0]] = [stream_tag_mapping_query_result[1]]
 
-            #print(all_stream_tag_mapping)
-
             itr = 0
             while itr < num_stream_details:
                 stream_details_formatted = {}
@@ -76,6 +75,7 @@ class content_controller:
                 stream_details_formatted["streamid"] = current_stream_id
                 stream_details_formatted["organization"] = stream_details[itr][0]
                 stream_details_formatted["streamname"] = stream_details[itr][2]
+                stream_details_formatted["order"] = original_stream_id_list.index(str(current_stream_id))
                 stream_details_formatted["tags"] = all_stream_tag_mapping.get(current_stream_id, [])
 
                 jtr = itr
