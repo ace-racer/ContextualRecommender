@@ -1,0 +1,99 @@
+import csv
+import math
+
+import pandas as pd
+import numpy as np
+
+
+# configurations
+num_nghbrs = 5
+knn_columns_to_select = ["StreamID"]
+stream_tag_frequency_location = "/Users/shriyashekhar/Documents/IWork/ProcessedData/tfidf_values_1.csv"
+min_distance_threshold = 0
+nearest_neighbors_streams_output_file = "/Users/shriyashekhar/Documents/IWork/ProcessedData/cosine_nearest_neighbor_streams_1.csv"
+# end of configurations
+
+# constants
+NEWLINE = "\n"
+# end of constants
+
+df = pd.read_csv(stream_tag_frequency_location, header=None)
+
+stream_tag_frequencies = None
+with open(stream_tag_frequency_location, "r") as fr:
+    stream_tag_frequencies = [line.strip().split(",") for line in fr.readlines()]
+
+# remove the first column for stream IDs
+num_tags = len(df.loc[1, :])
+
+# remove the first row for headers
+num_streams = len(df[0])-1
+
+print("# Tags: " + str(num_tags))
+print("# Streams: " + str(num_streams))
+
+LOW_VALUE = 0
+
+def getColumnNames():
+    """Get the column names for the output file"""
+    column_names = ""
+
+    # Generate column names for the target from the test data
+    for column in knn_columns_to_select:
+        column_names += "Target " + column + ","
+
+    for itr in range(0, num_nghbrs):
+        for column in knn_columns_to_select:
+            column_names += "Neighbour " + str(itr + 1) + " " + column + ","
+
+    column_names += "\n"
+    return column_names
+
+
+
+def cosine_similarity(v1, v2):
+    # print(v1)
+    v1 = np.array(v1).astype(np.float)
+    v2 = np.array(v2).astype(np.float)
+    return np.dot(v1, v2) / (np.sqrt(np.sum(v1 ** 2)) * np.sqrt(np.sum(v2 ** 2)))
+
+nearest_neighbors_content = getColumnNames()
+
+for stream_row_num in range(1, num_streams + 1):
+    stream_id = stream_tag_frequencies[stream_row_num][0]
+    source_stream_tag_frequencies = stream_tag_frequencies[stream_row_num][1:68]
+    nearest_neighbors_content += stream_id + ","
+    # print("Source stream: " + stream_id)
+    distances = []
+
+    for other_stream_row_num in range(1, num_streams + 1):
+        # Get the required values from the other stream row
+        other_stream_id = stream_tag_frequencies[other_stream_row_num][0]
+        other_stream_tag_frequencies = stream_tag_frequencies[other_stream_row_num][1:68]
+        # print("    Current stream: " + other_stream_id)
+
+        if other_stream_row_num != stream_row_num:
+            distance = cosine_similarity(source_stream_tag_frequencies, other_stream_tag_frequencies)
+            # print("Distance: " + str(distance))
+            distances.append((other_stream_id, distance))
+        else:
+            distances.append((other_stream_id, LOW_VALUE))
+
+    idx = 0
+    distances = sorted(distances, key=lambda x: x[1],reverse=True)
+    # print distances
+    for stream_id_distance_mapping in distances:
+        if idx < num_nghbrs:
+            # print("Distance: " + str(stream_id_distance_mapping[1]))
+            nearest_neighbors_content += stream_id_distance_mapping[0] + ","
+            idx += 1
+        else:
+            break
+
+    nearest_neighbors_content += NEWLINE
+
+with open(nearest_neighbors_streams_output_file, "w") as fw:
+    fw.writelines(nearest_neighbors_content)
+
+print("Nearest neighbors using cosine distance generated...")
+
