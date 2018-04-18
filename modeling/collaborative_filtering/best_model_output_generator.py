@@ -2,8 +2,8 @@
 import constants
 import configurations
 from base_operations import base_operations
-from svd_algo_wrapper import svd_algo_wrapper
-from svdpp_algo_wrapper import svdpp_algo_wrapper
+from collaborative_filtering.svd_algo_wrapper import svd_algo_wrapper
+from collaborative_filtering.svdpp_algo_wrapper import svdpp_algo_wrapper
 import model_params
 
 # standard imports

@@ -20,10 +20,10 @@ import pandas
 import constants
 import configurations
 from base_operations import base_operations
-from svd_algo_wrapper import svd_algo_wrapper
-from knn_algo_wrapper import knn_algo_wrapper
-from normal_algo_wrapper import normal_algo_wrapper
-from svdpp_algo_wrapper import svdpp_algo_wrapper
+from collaborative_filtering.svd_algo_wrapper import svd_algo_wrapper
+from collaborative_filtering.knn_algo_wrapper import knn_algo_wrapper
+from collaborative_filtering.normal_algo_wrapper import normal_algo_wrapper
+from collaborative_filtering.svdpp_algo_wrapper import svdpp_algo_wrapper
 import model_params
 
 # constants

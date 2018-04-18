@@ -2,9 +2,9 @@
 import constants
 import configurations
 from base_operations import base_operations
-from jaccard_similarity import jaccard_similarity
-from custom_stream_distance import custom_stream_distance
-from cosine_similarity import cosine_similarity
+from stream_similarity.jaccard_similarity import jaccard_similarity
+from stream_similarity.custom_stream_distance import custom_stream_distance
+from stream_similarity.cosine_similarity import cosine_similarity
 
 # standard imports
 import pandas as pd

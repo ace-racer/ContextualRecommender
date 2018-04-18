@@ -1,12 +1,12 @@
 # custom imports
 import constants
 import configurations
-from data_preparer import data_preparer
-from collaborative_filtering_modeller import collaborative_filtering_modeller
+from collaborative_filtering.data_preparer import data_preparer
+from collaborative_filtering.collaborative_filtering_modeller import collaborative_filtering_modeller
 import argparse
-from best_model_output_generator import best_model_output_generator
-from stream_tag_one_hot_encoder import stream_tag_one_hot_encoder
-from stream_similarity_evaluator import stream_similarity_evaluator
+from collaborative_filtering.best_model_output_generator import best_model_output_generator
+from stream_similarity.stream_tag_one_hot_encoder import stream_tag_one_hot_encoder
+from stream_similarity.stream_similarity_evaluator import stream_similarity_evaluator
 
 
 def main():

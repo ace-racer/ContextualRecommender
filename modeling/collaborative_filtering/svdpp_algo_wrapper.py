@@ -1,4 +1,4 @@
-from collaborative_models import collaborative_models
+from collaborative_filtering.collaborative_models import collaborative_models
 import constants
 import model_params
 
