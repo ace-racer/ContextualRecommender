@@ -18,10 +18,10 @@ def main():
     should_evaluate_models = configurations.EVALUATE_ALL_MODELS
 
     arg_parser = argparse.ArgumentParser()
-    arg_parser.add_argument('-sg', type=int, help='Whether to generate the tag frequencies for the streams.', required=False)
+    arg_parser.add_argument('-sg', type=int, help='Whether to generate the tag frequencies for the streams. Enter a value of 1, if you want files to be generated and 0 otherwise.', required=False)
     arg_parser.add_argument('-d', type=str, help='The distance metric to use to compute the similar streams. Accepted values = {0},{1} and {2}'.format(constants.JACCARD_SIMILARITY, constants.CUSTOM_DISTANCE, constants.COSINE_SIMILARITY), required=False)
-    arg_parser.add_argument('-g', type=int, help='Whether to generate the ratings files.', required=False)
-    arg_parser.add_argument('-e', type=int, help='Evaluate all recommender models.', required=False)
+    arg_parser.add_argument('-g', type=int, help='Whether to generate the ratings files. Enter a value of 1, if you want files to be generated and 0 otherwise.', required=False)
+    arg_parser.add_argument('-e', type=int, help='Evaluate all recommender models. Enter a value of 1, if you want all recommender systems to be evaluated and 0 otherwise.', required=False)
     args = arg_parser.parse_args()
 
     should_generate_ratings_file = (args.g == 1)

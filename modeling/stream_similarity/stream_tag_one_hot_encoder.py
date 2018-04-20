@@ -31,7 +31,7 @@ class stream_tag_one_hot_encoder(base_operations):
         unique_tags_position_mapping = None
 
         ## Get the unique tags which are non-empty and have a name
-        with open(configurations.STREAM_TAG_MAPPING_FILE_LOCATION, "r") as fr:
+        with open(configurations.STREAM_TAG_MAPPING_FILE_LOCATION, "r", encoding="ISO-8859-1") as fr:
             for line in fr.readlines()[1:]:
                 if line:
                     line_contents = line.split(",")
@@ -44,7 +44,7 @@ class stream_tag_one_hot_encoder(base_operations):
         unique_tags_position_mapping = {elem[1]: elem[0] for elem in enumerate(unique_tags)}
 
         stream_tag_mapping_original = None
-        with open(configurations.STREAM_TAG_MAPPING_FILE_LOCATION, "r") as fr:
+        with open(configurations.STREAM_TAG_MAPPING_FILE_LOCATION, "r", encoding="ISO-8859-1") as fr:
             stream_tag_mapping_original = [tuple(line.strip().split(",")[:2]) for line in fr.readlines()]
 
         # set to contain mapping between stream and unique tags
