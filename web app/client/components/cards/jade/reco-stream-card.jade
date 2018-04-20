@@ -1,0 +1,65 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='utf-8')
+    title Concise Handlebars.js
+    // 0a. CSS
+    link(rel='stylesheet', href='style.css')
+    // 0a. JS
+    script(src='//code.jquery.com/jquery-2.0.3.min.js')
+    // online jquery.js
+    script(src='//cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.1.2/handlebars.min.js')
+    // online handlebars.js
+  body
+    // 1. Data (json format!)
+    script.
+      var url='http://127.0.0.1:5000/streams/recommendations/958';
+    #anchor-reco
+      | 
+    script#reco1(type='text/template').
+          {{#RecommendedStreams}}
+          <div class="wrapper stream">
+                    <div class="card radius shadowDepth1">
+                      <div class="card__image border-tlr-radius"><img src="../assets/images/phonehd.jpg" alt="image" class="border-tlr-radius"></div>
+                      <div class="card__content card__padding">
+                        <div class="card__meta"><a href="#">{{streamname}}</a>
+                        </div>
+                        <article class="tags">
+                          {{#each tags}}
+                              <h6><a href="#">{{this}}</a></h6>
+                          {{/each}}
+                        </article>
+                        <button id="view-card" class="btn">View Cards</button>
+                        <article class="card-names">
+                            <ul>
+                            {{#each cards}}
+                               
+                                <li class="inner-card card"> <a href="#">{{cardname}}</a></li>
+                                
+                            {{/each}}
+                            </ul>
+                        </article>
+                      </div>
+                    </div>
+                </div>
+          {{/RecommendedStreams}}
+    script.
+      var slingshot = function (url, tplId, anchor) {
+      $.getJSON(url, function(data) {
+      var template = $(tplId).html();
+      var stone = Handlebars.compile(template)(data);
+      $(anchor).append(stone);
+      });
+      }
+      slingshot('http://127.0.0.1:5000/streams/recommendations/958', '#reco1', '#anchor-reco'); // since url = 'data.json' , we can use both notations.
+    
+
+
+
+
+
+    
+
+
+
+
