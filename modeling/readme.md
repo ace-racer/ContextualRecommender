@@ -31,4 +31,5 @@
                  Accepted values = jaccard,custom and cosine
      -g G        Whether to generate the ratings files. Enter a value of 1, if you want files to be generated and 0 otherwise.
      -e E        Evaluate all recommender models. Enter a value of 1, if you want all recommender systems to be evaluated and 0 otherwise.
+	 -gp GP      Generate predictions for a user using the best collaborative filtering algorithm. Enter a value of 1, if you want the file to be generated and 0 otherwise.
     ```

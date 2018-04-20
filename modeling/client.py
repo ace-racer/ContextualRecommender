@@ -22,12 +22,14 @@ def main():
     arg_parser.add_argument('-d', type=str, help='The distance metric to use to compute the similar streams. Accepted values = {0},{1} and {2}'.format(constants.JACCARD_SIMILARITY, constants.CUSTOM_DISTANCE, constants.COSINE_SIMILARITY), required=False)
     arg_parser.add_argument('-g', type=int, help='Whether to generate the ratings files. Enter a value of 1, if you want files to be generated and 0 otherwise.', required=False)
     arg_parser.add_argument('-e', type=int, help='Evaluate all recommender models. Enter a value of 1, if you want all recommender systems to be evaluated and 0 otherwise.', required=False)
+    arg_parser.add_argument('-gp', type=int, help='Generate predictions for a user using the best collaborative filtering algorithm. Enter a value of 1, if you want the file to be generated and 0 otherwise.', required=False)
     args = arg_parser.parse_args()
 
     should_generate_ratings_file = (args.g == 1)
     should_evaluate_models = (args.e == 1)
     should_generate_tag_frequencies = (args.sg == 1)
     similar_streams_distance_metric = args.d
+    should_generate_predicted_streams_for_user = (args.gp == 1)
 
     if should_generate_tag_frequencies:
         print("Will generate the tag frequencies...")
@@ -48,10 +50,11 @@ def main():
         print("Will evaluate all recommender models...")
         all_modeller = collaborative_filtering_modeller()
         all_modeller.perform_operation()
-
-    print("Will run the best model to generate predicted ratings")
-    best_model_train_executor = best_model_output_generator()
-    best_model_train_executor.perform_operation()
+    
+    if should_generate_predicted_streams_for_user:
+        print("Will run the best model to generate predicted ratings")
+        best_model_train_executor = best_model_output_generator()
+        best_model_train_executor.perform_operation()
 
 
 if __name__ == "__main__":
