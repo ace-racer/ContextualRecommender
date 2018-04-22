@@ -25,7 +25,7 @@
           <div class="col-md-12 main-section">
             <div class="row">
               <h3 class="heading">Stream Detail</h3>
-              <h5 class="subheading">Subheading for Stream Detail goes here.</h5><!DOCTYPE html>
+              <h5 class="subheading">You are viewing the Stream Detail</h5><!DOCTYPE html>
               <html lang="en">
                 <head>
                   <meta charset="utf-8">
@@ -40,7 +40,7 @@
                 </head>
                 <body>
                   <!-- 1. Data (json format!)-->
-                  <script>var url='http://127.0.0.1:5000/streams/neighbors/1104';</script>
+                  <script></script>
                   <div id="anchor"> </div>
                   <script id="tpl11" type="text/template">
                     {{#Target}}
@@ -94,7 +94,7 @@
             </div>
             <div class="row">
               <h3 class="heading">Related Streams</h3>
-              <h5 class="subheading">Hi User, Hope you have a wonderful day</h5><!DOCTYPE html>
+              <h5 class="subheading">These are the related stream for your stream</h5><!DOCTYPE html>
               <html lang="en">
                 <head>
                   <meta charset="utf-8">
@@ -109,7 +109,7 @@
                 </head>
                 <body>
                   <!-- 1. Data (json format!)-->
-                  <script>var url='http://127.0.0.1:5000/streams/neighbors/1560'; </script>
+                  <script></script>
                   <div id="anchor1"> </div>
                   <script id="tpl22" type="text/template">
                     {{#each Neighbors}}
@@ -118,6 +118,8 @@
                                 <div class="card__image border-tlr-radius"><img src="../assets/images/nokia2.jpg" alt="image" class="border-tlr-radius"></div>
                                 <div class="card__content card__padding">
                                   <div class="card__meta"><a href="#">{{streamname}} </a>
+                                  </div>
+                                  <div class="card__meta streamid"><a href="#">{{streamid}}</a>
                                   </div>
                                   <article class="tags">
                                     {{#each tags}}

@@ -13,7 +13,6 @@ html(lang='en')
   body
     // 1. Data (json format!)
     script.
-      var url='http://127.0.0.1:5000/streams/neighbors/1560'; 
     #anchor1
       | 
     script#tpl22(type='text/template').
@@ -23,6 +22,8 @@ html(lang='en')
                       <div class="card__image border-tlr-radius"><img src="../assets/images/nokia2.jpg" alt="image" class="border-tlr-radius"></div>
                       <div class="card__content card__padding">
                         <div class="card__meta"><a href="#">{{streamname}} </a>
+                        </div>
+                        <div class="card__meta streamid"><a href="#">{{streamid}}</a>
                         </div>
                         <article class="tags">
                           {{#each tags}}

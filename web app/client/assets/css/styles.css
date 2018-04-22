@@ -42,6 +42,15 @@ h4.login {
 .reco-stream .streamid {
   display: none;
 }
+.related-stream .streamid {
+  display: none;
+}
+#view-card {
+  display: none;
+}
+.card-names {
+  display: none;
+}
 *,
 *:after,
 *:before {
