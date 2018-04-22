@@ -34,6 +34,15 @@
       {{/each}}
     </script>
     <script>
+      var url_string = window.location.href; //window.location.href
+      var url_str = new URL(url_string);
+      var c = url_str.searchParams.get("streamid"); //958
+      console.log(c);
+      
+      var base_url = 'http://127.0.0.1:5000/streams/neighbors/';
+      base_url = base_url + c;
+      console.log(base_url);
+      
       var slingshot = function (url, tplId , anchor) {
       $.getJSON(url, function(data) {
       var template = $(tplId).html();
@@ -41,7 +50,7 @@
       $(anchor).append(stone);
       });
       }
-      slingshot('http://127.0.0.1:5000/streams/neighbors/1104', '#tpl22', '#anchor1'); // since url = 'data.json' , we can use both notations.
+      slingshot(base_url, '#tpl22', '#anchor1'); // since url = 'data.json' , we can use both notations.
     </script>
   </body>
 </html>

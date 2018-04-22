@@ -9,6 +9,7 @@ module.exports = function (grunt) {
                 files: {
                     'assets/main.html': 'source/jade/main.jade',
                     'assets/recommended.html': 'source/jade/recommended.jade',
+                    'assets/login.html': 'source/jade/login.jade',
                     'components/cards/html/stream-card.html': 'components/cards/jade/stream-card.jade',
                     'components/cards/html/reco-stream-card.html': 'components/cards/jade/reco-stream-card.jade',
                     'components/related-stream-card/html/related-card.html': 'components/related-stream-card/jade/related-card.jade',

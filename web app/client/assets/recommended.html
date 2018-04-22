@@ -40,15 +40,16 @@
                 </head>
                 <body>
                   <!-- 1. Data (json format!)-->
-                  <script>var url='http://127.0.0.1:5000/streams/recommendations/958';</script>
                   <div id="anchor-reco"> </div>
                   <script id="reco1" type="text/template">
                     {{#RecommendedStreams}}
-                    <div class="wrapper stream">
+                    <div class="wrapper stream reco-stream">
                               <div class="card radius shadowDepth1">
                                 <div class="card__image border-tlr-radius"><img src="../assets/images/phonehd.jpg" alt="image" class="border-tlr-radius"></div>
                                 <div class="card__content card__padding">
                                   <div class="card__meta"><a href="#">{{streamname}}</a>
+                                  </div>
+                                  <div class="card__meta streamid"><a href="#">{{streamid}}</a>
                                   </div>
                                   <article class="tags">
                                     {{#each tags}}
@@ -61,6 +62,15 @@
                     {{/RecommendedStreams}}
                   </script>
                   <script>
+                    var url_string = window.location.href; //window.location.href
+                    var url_str = new URL(url_string);
+                    var c = url_str.searchParams.get("uname"); //958
+                    console.log(c);
+                    
+                    var base_url = 'http://127.0.0.1:5000/streams/recommendations/';
+                    base_url = base_url + c;
+                    console.log(base_url);
+                    
                     var slingshot = function (url, tplId, anchor) {
                     $.getJSON(url, function(data) {
                     var template = $(tplId).html();
@@ -68,7 +78,7 @@
                     $(anchor).append(stone);
                     });
                     }
-                    slingshot('http://127.0.0.1:5000/streams/recommendations/958', '#reco1', '#anchor-reco'); // since url = 'data.json' , we can use both notations.
+                    slingshot(base_url, '#reco1', '#anchor-reco'); // since url = 'data.json' , we can use both notations.
                   </script>
                 </body>
               </html>
