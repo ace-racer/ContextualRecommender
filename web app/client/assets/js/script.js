@@ -6,16 +6,16 @@ $( window ).on( "load", function() {
 		$(this).toggleClass('share-expanded');
     });
   
-      $(".card").on( "click", function() {
-          console.log("clicked");
-          console.log($(this));
-          var one = $(this).find('.streamid').find('a').html();
-          console.log(one);
-          var url = "main.html"+ '?streamid='+ one;
-          window.location.href = url;
-        
-               
-        });
+//      $(".card").on( "click", function() {
+//          console.log("clicked");
+//          console.log($(this));
+//          var one = $(this).find('.streamid').find('a').html();
+//          console.log(one);
+//          var url = "main.html"+ '?streamid='+ one;
+//          window.location.href = url;
+//        
+//               
+//        });
 //  $.ajax({
 //    url: 'http://127.0.0.1:5000/streams/neighbors/1104',
 //    dataType: 'json',

@@ -42,7 +42,7 @@
                   <script id="tpl11" type="text/template">
                     {{#Target}}
                     <div class="wrapper stream">
-                              <div class="card radius shadowDepth1">
+                              <div class="card radius shadowDepth1" onclick="myFunction(this)">
                                 <div class="card__image border-tlr-radius"><img src="../assets/images/phonehd.jpg" alt="image" class="border-tlr-radius"></div>
                                 <div class="card__content card__padding">
                                   <div class="card__meta"><a href="#">{{streamname}}</a>
@@ -85,6 +85,14 @@
                     });
                     }
                     slingshot(base_url, '#tpl11', '#anchor'); // since url = 'data.json' , we can use both notations.
+                    function myFunction(e) {
+                        console.log("clicked");
+                        console.log(e);
+                        var one = $(e).find('.streamid').find('a').html();
+                       console.log(one);
+                        var url = "main.html"+ '?streamid='+ one;
+                        window.location.href = url;
+                    }
                   </script>
                 </body>
               </html>
@@ -111,7 +119,7 @@
                   <script id="tpl22" type="text/template">
                     {{#each Neighbors}}
                     <div class="wrapper related-stream">
-                              <div class="card radius shadowDepth1">
+                              <div class="card radius shadowDepth1" onclick="myFunction(this)">
                                 <div class="card__image border-tlr-radius"><img src="../assets/images/nokia2.jpg" alt="image" class="border-tlr-radius"></div>
                                 <div class="card__content card__padding">
                                   <div class="card__meta"><a href="#">{{streamname}} </a>
@@ -146,6 +154,16 @@
                     });
                     }
                     slingshot(base_url, '#tpl22', '#anchor1'); // since url = 'data.json' , we can use both notations.
+                    
+                    
+                    function myFunction(e) {
+                        console.log("clicked");
+                        console.log(e);
+                        var one = $(e).find('.streamid').find('a').html();
+                       console.log(one);
+                        var url = "main.html"+ '?streamid='+ one;
+                        window.location.href = url;
+                    }
                   </script>
                 </body>
               </html>

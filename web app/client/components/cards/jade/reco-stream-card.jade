@@ -17,7 +17,7 @@ html(lang='en')
     script#reco1(type='text/template').
           {{#RecommendedStreams}}
           <div class="wrapper stream reco-stream">
-                    <div class="card radius shadowDepth1">
+                    <div class="card radius shadowDepth1" onclick="myFunction(this)">
                       <div class="card__image border-tlr-radius"><img src="../assets/images/phonehd.jpg" alt="image" class="border-tlr-radius"></div>
                       <div class="card__content card__padding">
                         <div class="card__meta"><a href="#">{{streamname}}</a>
@@ -51,6 +51,15 @@ html(lang='en')
       });
       }
       slingshot(base_url, '#reco1', '#anchor-reco'); // since url = 'data.json' , we can use both notations.
+      
+      function myFunction(e)  {
+          console.log("clicked");
+          console.log(e);
+          var one = $(e).find('.streamid').find('a').html();
+         console.log(one);
+          var url = "main.html"+ '?streamid='+ one;
+          window.location.href = url;
+      }
       
       
       
