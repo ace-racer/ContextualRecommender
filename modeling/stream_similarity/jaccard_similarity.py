@@ -7,8 +7,8 @@ import constants
 
 # constants
 NEWLINE = "\n"
-knn_columns_to_select = ["StreamID"]
-num_nghbrs = 5
+knn_columns_to_select = configurations.COLUMNS_TO_SELECT
+num_nghbrs = configurations.NUM_SIMILAR_STREAMS
 min_distance_threshold = 0
 
 class jaccard_similarity:

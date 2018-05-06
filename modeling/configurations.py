@@ -45,3 +45,5 @@ SAME_INTERVALS = True
 LOG_LEVEL = logging.INFO
 log_pattern = "%(asctime)s %(levelname)s %(message)s"
 
+# Stream-stream similarity
+COLUMNS_TO_SELECT = ["StreamID"]

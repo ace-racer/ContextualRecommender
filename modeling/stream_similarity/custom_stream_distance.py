@@ -8,7 +8,7 @@ import constants
 
 # constants
 NEWLINE = "\n"
-knn_columns_to_select = ["StreamID"]
+knn_columns_to_select = configurations.COLUMNS_TO_SELECT
 
 class custom_stream_distance:
     def __init__(self):
