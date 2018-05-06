@@ -12,7 +12,10 @@ class cosine_similarity:
         :return: The number of tags for the stream
         """
         tags_for_stream = self.df.iloc[stream_index]
-        return len(tags_for_stream[tags_for_stream == '1'])
+        if tags_for_stream[tags_for_stream == 1] is not None:
+            return len(tags_for_stream[tags_for_stream == 1])
+        else:
+            return 0
 
     def _get_number_of_streams_for_tag(self, tag_index):
         """
@@ -21,7 +24,10 @@ class cosine_similarity:
         :return:
         """
         stream_for_tag = self.df.iloc[:, tag_index]
-        return len(stream_for_tag[stream_for_tag == '1'])
+        if stream_for_tag[stream_for_tag == 1] is not None:
+             return len(stream_for_tag[stream_for_tag == 1])
+        else:
+            return 0
 
     def _get_term_frequency_for_streams(self, num_streams, num_tags):
         """
@@ -33,11 +39,11 @@ class cosine_similarity:
         tf_value = []
 
         for stream_index in range(0, num_streams):
-            num_tags_for_stream = _get_number_of_tags_for_stream(stream_index)
+            num_tags_for_stream = self._get_number_of_tags_for_stream(stream_index)
             stream_row = self.df.iloc[stream_index]
             tf_value_for_a_stream = []
             for tag_index in range(1, num_tags):
-                if stream_row[tag_index] == '1':
+                if stream_row[tag_index] == 1:
                     tf_value_for_a_stream.append(float(1.0 / (1.0 + num_tags_for_stream)))
                 else:
                     tf_value_for_a_stream.append(0)
@@ -68,12 +74,14 @@ class cosine_similarity:
 
         # The rows are the number of streams
         num_streams = self.df.shape[0]
+        print("Num Streams: " + str(num_streams))
 
         # The columns are the number of tags
         num_tags = self.df.shape[1]
+        print("Num tags: " + str(num_tags))
 
-        term_frequency_for_streams = _get_term_frequency_for_streams(num_streams, num_tags)
-        inverse_document_frequencies_for_tags = _get_inverse_document_frequency_for_tags(num_streams, num_tags)
+        term_frequency_for_streams = self._get_term_frequency_for_streams(num_streams, num_tags)
+        inverse_document_frequencies_for_tags = self._get_inverse_document_frequency_for_tags(num_streams, num_tags)
         tf_idf_values = []
         for stream_index in range(0, num_streams):
             tf_idf_values_current_row = term_frequency_for_streams[stream_index]
