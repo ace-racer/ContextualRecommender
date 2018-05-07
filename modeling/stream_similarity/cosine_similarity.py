@@ -150,5 +150,7 @@ class cosine_similarity:
                 cosine_similarity_current_stream.append(cosine_similarity_value)
             cosine_similarity_values.append(cosine_similarity_current_stream)
 
-        print(cosine_similarity_values)
+#        print(cosine_similarity_values)
+        with open(similar_streams_generated_file_location, "w") as fw:
+            fw.writelines(cosine_similarity_values)
         print("Nearest neighbors using cosine distance generated...")
