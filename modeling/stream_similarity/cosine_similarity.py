@@ -129,6 +129,10 @@ class cosine_similarity:
 
     def compute_similarities_generate_similar_streams(self, stream_tag_frequency_location, similar_streams_generated_file_location):
         self.df = pd.read_csv(stream_tag_frequency_location, header = 0, index_col = 0)
+        
+        stream_tag_frequencies = None
+        with open(stream_tag_frequency_location, "r") as fr:
+            stream_tag_frequencies = [line.strip().split(",") for line in fr.readlines()]
 
         # The rows are the number of streams
         num_streams = self.df.shape[0]
@@ -140,17 +144,46 @@ class cosine_similarity:
 
         tf_idf_values = self.compute_tf_idf_for_streams(num_streams, num_tags)
 
-        # print(tf_idf_values)
+        print(tf_idf_values)
+        LOW_VALUE = 0
+        
         nearest_neighbors_content = self._get_column_names()
         cosine_similarity_values = []
+        
         for stream_row_num in range(0, num_streams):
-            cosine_similarity_current_stream = []
-            for other_stream_row_number in range(0, num_streams):
-                cosine_similarity_value = self._compute_cosine_similarity_between_lists(tf_idf_values[stream_row_num], tf_idf_values[other_stream_row_number])
-                cosine_similarity_current_stream.append(cosine_similarity_value)
-            cosine_similarity_values.append(cosine_similarity_current_stream)
+            stream_id = stream_tag_frequencies[stream_row_num+1][0]
+            source_stream_tag_frequencies = tf_idf_values[stream_row_num][1:]
+            nearest_neighbors_content += stream_id + ","
+            # print("Source stream: " + stream_id)
+            distances = []
 
-#        print(cosine_similarity_values)
+            for other_stream_row_num in range(0, num_streams):
+                # Get the required values from the other stream row
+                other_stream_id = stream_tag_frequencies[other_stream_row_num+1][0]
+                other_stream_tag_frequencies = tf_idf_values[other_stream_row_num][1:]
+                # print("    Current stream: " + other_stream_id)
+
+                if other_stream_row_num != stream_row_num:
+                    distance = self._compute_cosine_similarity_between_lists(source_stream_tag_frequencies, other_stream_tag_frequencies)
+                     # print("Distance: " + str(distance))
+                    distances.append((other_stream_id, distance))
+                else:
+                    distances.append((other_stream_id, LOW_VALUE))
+
+            idx = 0
+            distances = sorted(distances, key=lambda x: x[1],reverse=True)
+            # print distances
+            for stream_id_distance_mapping in distances:
+                if idx < num_nghbrs:
+                    print("Distance: " + str(stream_id_distance_mapping[1]))
+                    nearest_neighbors_content += stream_id_distance_mapping[0] + ","
+                    idx += 1
+                else:
+                    break
+
+            nearest_neighbors_content += NEWLINE
+
+#        print(nearest_neighbors_content)
         with open(similar_streams_generated_file_location, "w") as fw:
-            fw.writelines(cosine_similarity_values)
+            fw.writelines(nearest_neighbors_content)
         print("Nearest neighbors using cosine distance generated...")
