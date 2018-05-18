@@ -10,5 +10,5 @@
 | --- | --- | --- |
 | 1 | analysis | Contains scripts for initial data analysis of the input data files
 | 2	| jupyter_notebooks |	Contains Jupyter notebooks for one-time data manipulation necessary for the input files
-| 3	| modeling |	Contains the scripts for the various recommendation and filtering algorithms. Uses collaborative recommendation algorithms from [here](http://surpriselib.com/). Further details [here] (https://github.com/ace-racer/ContextualRecommender/tree/master/modeling).
-| 4	| web app |	Contains the Python [Flask](http://flask.pocoo.org/) application to show how the real-time recommendation experience will be. Further details [here] (https://github.com/ace-racer/ContextualRecommender/tree/master/web%20app).
+| 3	| modeling |	Contains the scripts for the various recommendation and filtering algorithms. Uses collaborative recommendation algorithms from [here](http://surpriselib.com/). Further details [here](https://github.com/ace-racer/ContextualRecommender/tree/master/modeling).
+| 4	| web app |	Contains the Python [Flask](http://flask.pocoo.org/) application to show how the real-time recommendation experience will be. Further details [here](https://github.com/ace-racer/ContextualRecommender/tree/master/web%20app).
