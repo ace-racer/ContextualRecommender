@@ -14,7 +14,9 @@
 	4. OUTPUT_FILES_DIRECTORY - where all the generated files will be stored - the files follow a sequential numbering scheme
 	5. log_file_folder_location - where the log files will be generated
 
-2. Keep the operational parameters as all True so all files are generated
+2. Update the following values (if required):
+    1. NUM_STREAMS_PER_USER to set the number of streams that a user will be recommended via the collaborative recommender and 
+    2. NUM_SIMILAR_STREAMS to set the number of streams that are the output of the similar stream filtering
 
 3. client.py taken in multiple options.
    To see the options that are provided by client.py issue the below command:
