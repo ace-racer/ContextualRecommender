@@ -67,7 +67,7 @@ class cosine_similarity(base_operations):
             num_tags_for_stream = self._get_number_of_tags_for_stream(stream_index)
             stream_row = self.df.iloc[stream_index]
             tf_value_for_a_stream = []
-            for tag_index in range(1, num_tags):
+            for tag_index in range(0, num_tags):
                 if stream_row[tag_index] == 1:
                     tf_value_for_a_stream.append(float(1.0 / (1.0 + num_tags_for_stream)))
                 else:
@@ -90,7 +90,7 @@ class cosine_similarity(base_operations):
 
         return idf_value
 
-    def compute_tf_idf_for_streams(self, num_streams, num_tags, generate_file=False):
+    def compute_tf_idf_for_streams(self, num_streams, num_tags):
         """
          Computes the TF IDF values for tge streams and tags and returns a matrix of ||S|| * ||T|| dimension
         :param generate_file: If the output file needs to be generated
