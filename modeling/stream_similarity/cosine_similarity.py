@@ -137,6 +137,9 @@ class cosine_similarity(base_operations):
         :param similar_streams_generated_file_location: The complete location where the similar streams file will be generated
         :return: None
         """
+        # add the "StreamID" as the first element in the headers
+        tag_names = list(tag_names)
+        tag_names.insert(0, "StreamID")
         output_content = ",".join(tag_names) + NEWLINE
 
         # For each stream
@@ -152,11 +155,11 @@ class cosine_similarity(base_operations):
 
         output_directory = os.path.dirname(similar_streams_generated_file_location)
         latest_tf_idf_file = self.get_latest_output_file_name(configurations.TF_IDF_FILE_NAME, next=True)[1]
-        tfidf_output_file_location = os.path.join(output_directory, latest_tf_idf_file + ".csv")
+        tfidf_output_file_location = os.path.join(output_directory, latest_tf_idf_file)
         with open(tfidf_output_file_location, "w") as fw:
             fw.writelines(output_content)
 
-        print("Generated file with TF-IDF values.")
+        print("Generated file with TF-IDF values here {0}.".format(tfidf_output_file_location))
 
 
     def compute_similarities_generate_similar_streams(self, stream_tag_frequency_location, similar_streams_generated_file_location):
@@ -176,7 +179,9 @@ class cosine_similarity(base_operations):
 
         tf_idf_values = self.compute_tf_idf_for_streams(num_streams, num_tags)
 
-        # exclude the first row index as it says "StreamId"
+        print(self.df.columns)
+        print(self.df.index.values)
+
         self._generate_tfidf_files(tf_idf_values, self.df.columns, self.df.index.values, similar_streams_generated_file_location)
 
         LOW_VALUE = 0

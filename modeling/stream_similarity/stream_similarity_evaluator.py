@@ -51,5 +51,3 @@ class stream_similarity_evaluator(base_operations):
             self.LOG_HANDLE.error("There is no similarity measure with the name {0}".format(self.distance_measure))
             print("There is no similarity measure with the name {0}".format(self.distance_measure))
 
-
-
