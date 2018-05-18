@@ -11,8 +11,9 @@ import constants
 FILE_NUMBER_PATTERN = "_([0-9]+).csv$"
 
 class base_operations:
-    def __init__(self, source_name):
-        self.LOG_HANDLE = self.set_logging_parameters(configurations.LOG_LEVEL, source_name)
+    def __init__(self, source_name=""):
+        if source_name:
+            self.LOG_HANDLE = self.set_logging_parameters(configurations.LOG_LEVEL, source_name)
 
     def set_logging_parameters(self, log_level, source_name):
         logger = logging.getLogger(source_name)

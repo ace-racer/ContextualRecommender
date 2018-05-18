@@ -35,6 +35,7 @@ PREDICTED_RATINGS_FILE_NAME = "predicted_ratings"
 PREDICTED_STREAMS_FOR_USER = "predicted_streams_for_user"
 TAG_FREQUENCY_STREAMS = "tag_frequency_streams"
 SIMILAR_STREAMS_GENRATED_FILE_NAME = "similar_streams"
+TF_IDF_FILE_NAME = "tf_idf_streams"
 
 # configurations for binning to get the ratings
 RATINGS_LOWER = 1

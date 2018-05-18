@@ -1,15 +1,17 @@
 import math
 import pandas as pd
 import numpy as np
+import os
 
 import configurations
 import constants
+from base_operations import base_operations
 
 NEWLINE = "\n"
 knn_columns_to_select = configurations.COLUMNS_TO_SELECT
 num_nghbrs = configurations.NUM_SIMILAR_STREAMS
 
-class cosine_similarity:
+class cosine_similarity(base_operations):
     def __init__(self):
         pass
 
@@ -92,8 +94,8 @@ class cosine_similarity:
         """
          Computes the TF IDF values for tge streams and tags and returns a matrix of ||S|| * ||T|| dimension
         :param generate_file: If the output file needs to be generated
-        :param num_streams:
-        :param num_tags:
+        :param num_streams: Number of streams
+        :param num_tags: Number of tags
         :return: a matrix of ||S|| * ||T|| dimension
         """
 
@@ -126,6 +128,36 @@ class cosine_similarity:
         else:
             return np.dot(v1, v2) / (np.sqrt(np.sum(v1 ** 2)) * np.sqrt(np.sum(v2 ** 2)))
 
+    def _generate_tfidf_files(self, tf_idf_values, tag_names, stream_ids, similar_streams_generated_file_location):
+        """
+        Generate the TF-IDF files for verifying the TF-IDF scores across the streams
+        :param tf_idf_values: The matrix of of ||S|| * ||T|| dimension. List of lists.
+        :param tag_names: An array of ||T|| size
+        :param stream_ids: An array of ||S|| size
+        :param similar_streams_generated_file_location: The complete location where the similar streams file will be generated
+        :return: None
+        """
+        output_content = ",".join(tag_names) + NEWLINE
+
+        # For each stream
+        for idx, row in enumerate(tf_idf_values):
+            # add the stream ID at the front
+            output_content += str(stream_ids[idx]) + ","
+
+            # cast row values to string
+            row_str = [str(val) for val in row]
+
+            # add the TF-IDF values for the various tags
+            output_content += ",".join(row_str) + NEWLINE
+
+        output_directory = os.path.dirname(similar_streams_generated_file_location)
+        latest_tf_idf_file = self.get_latest_output_file_name(configurations.TF_IDF_FILE_NAME, next=True)[1]
+        tfidf_output_file_location = os.path.join(output_directory, latest_tf_idf_file + ".csv")
+        with open(tfidf_output_file_location, "w") as fw:
+            fw.writelines(output_content)
+
+        print("Generated file with TF-IDF values.")
+
 
     def compute_similarities_generate_similar_streams(self, stream_tag_frequency_location, similar_streams_generated_file_location):
         self.df = pd.read_csv(stream_tag_frequency_location, header = 0, index_col = 0)
@@ -144,11 +176,12 @@ class cosine_similarity:
 
         tf_idf_values = self.compute_tf_idf_for_streams(num_streams, num_tags)
 
-        print(tf_idf_values)
+        # exclude the first row index as it says "StreamId"
+        self._generate_tfidf_files(tf_idf_values, self.df.columns, self.df.index.values, similar_streams_generated_file_location)
+
         LOW_VALUE = 0
         
         nearest_neighbors_content = self._get_column_names()
-        cosine_similarity_values = []
         
         for stream_row_num in range(0, num_streams):
             stream_id = stream_tag_frequencies[stream_row_num+1][0]
@@ -175,7 +208,7 @@ class cosine_similarity:
             # print distances
             for stream_id_distance_mapping in distances:
                 if idx < num_nghbrs:
-                    print("Distance: " + str(stream_id_distance_mapping[1]))
+                    # print("Distance: " + str(stream_id_distance_mapping[1]))
                     nearest_neighbors_content += stream_id_distance_mapping[0] + ","
                     idx += 1
                 else:
