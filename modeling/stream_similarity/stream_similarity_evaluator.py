@@ -10,6 +10,7 @@ from stream_similarity.cosine_similarity import cosine_similarity
 import pandas as pd
 import os
 from collections import Counter
+import math
 
 # constants
 NEWLINE = "\n"
@@ -66,16 +67,23 @@ class stream_similarity_evaluator(base_operations):
         tag_frequency_file_df = pd.read_csv(latest_tag_frequency_file_location, header=0, index_col=0)
         all_streams = tag_frequency_file_df.index.values
 
+
         output_file_name = self.get_latest_output_file_name(configurations.SIMILAR_STREAMS_GENRATED_FILE_NAME, next=False)[1]
         output_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, output_file_name)
         output_df = pd.read_csv(output_file_location, header=0, index_col=0)
         all_streams_set = set(all_streams)
+        #print(all_streams_set)
+        #print(len(all_streams_set))
         recommended_stream_counter = Counter()
         for idx, row in output_df.iterrows():
             for val in row:
-                recommended_stream_counter[val] += 1
+                if not math.isnan(val):
+                    val_int = int(val)
+                    recommended_stream_counter[val_int] += 1
 
         recommended_streams_set = set(recommended_stream_counter.keys())
+        #print(recommended_streams_set)
+        #print(len(recommended_streams_set))
         print(recommended_stream_counter.most_common(configurations.NUM_MOST_COMMON_STREAMS))
         coverage = len(recommended_streams_set)/len(all_streams_set)
         print("Coverage = {0}".format(str(coverage)))
