@@ -14,8 +14,6 @@ def main():
     Executes methods from the modules that need to be run
     :return: None
     """
-    should_generate_ratings_file = configurations.GENERATE_RATINGS_FILES
-    should_evaluate_models = configurations.EVALUATE_ALL_MODELS
 
     arg_parser = argparse.ArgumentParser()
     arg_parser.add_argument('-sg', type=int, help='Whether to generate the tag frequencies for the streams. Enter a value of 1, if you want files to be generated and 0 otherwise.', required=False)
@@ -23,13 +21,22 @@ def main():
     arg_parser.add_argument('-g', type=int, help='Whether to generate the ratings files. Enter a value of 1, if you want files to be generated and 0 otherwise.', required=False)
     arg_parser.add_argument('-e', type=int, help='Evaluate all recommender models. Enter a value of 1, if you want all recommender systems to be evaluated and 0 otherwise.', required=False)
     arg_parser.add_argument('-gp', type=int, help='Generate predictions for a user using the best collaborative filtering algorithm. Enter a value of 1, if you want the file to be generated and 0 otherwise.', required=False)
+    arg_parser.add_argument('-all', type=int, help='Whether all options should be executed. If set to 1 will override all other values.', required=False)
     args = arg_parser.parse_args()
 
-    should_generate_ratings_file = (args.g == 1)
-    should_evaluate_models = (args.e == 1)
-    should_generate_tag_frequencies = (args.sg == 1)
-    similar_streams_distance_metric = args.d
-    should_generate_predicted_streams_for_user = (args.gp == 1)
+    should_all_options_be_executed = (args.all == 1)
+    if should_all_options_be_executed:
+        should_generate_ratings_file = True
+        should_evaluate_models = True
+        should_generate_tag_frequencies = True
+        similar_streams_distance_metric = True
+        should_generate_predicted_streams_for_user = True
+    else:
+        should_generate_ratings_file = (args.g == 1)
+        should_evaluate_models = (args.e == 1)
+        should_generate_tag_frequencies = (args.sg == 1)
+        similar_streams_distance_metric = args.d
+        should_generate_predicted_streams_for_user = (args.gp == 1)
 
     if should_generate_tag_frequencies:
         print("Will generate the tag frequencies...")

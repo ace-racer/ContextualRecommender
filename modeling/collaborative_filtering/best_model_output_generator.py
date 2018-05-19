@@ -9,6 +9,8 @@ import model_params
 # standard imports
 import pandas as pd
 import os
+from collections import Counter
+import math
 
 # Surprise library imports
 from surprise.reader import Reader
@@ -99,6 +101,8 @@ class best_model_output_generator(base_operations):
         print("Generated the streams recommended to the user")
         self.LOG_HANDLE.info("Generated the streams recommended to the user")
 
+        self.get_predictions_coverage(user_streams_to_predict_df)
+
 
     def get_streams_not_viewed_by_user(self, complete_ratings_file_location):
         """
@@ -117,3 +121,36 @@ class best_model_output_generator(base_operations):
 
         return None
 
+    def get_predictions_coverage(self, streams_to_predict_df):
+        """
+        Get the coverage of the predictions
+        :return: None
+        """
+        if streams_to_predict_df is not None:
+            all_streams = streams_to_predict_df.iloc[:, 1].astype(int)
+            all_streams_set = set(all_streams)
+            #print(all_streams_set)
+            output_file_name = self.get_latest_output_file_name(configurations.PREDICTED_STREAMS_FOR_USER, next=False)[1]
+            output_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, output_file_name)
+            output_df = pd.read_csv(output_file_location, header=None, index_col=0)
+
+            recommended_stream_counter = Counter()
+            for idx, row in output_df.iterrows():
+                for val in row:
+                    if not math.isnan(val):
+                        val_int = int(val)
+                        recommended_stream_counter[val_int] += 1
+
+            recommended_streams_set = set(recommended_stream_counter.keys())
+            #print(recommended_streams_set)
+            print("Most common {0} recommendations...".format(str(configurations.NUM_MOST_COMMON_STREAMS)))
+            print(recommended_stream_counter.most_common(configurations.NUM_MOST_COMMON_STREAMS))
+            coverage = len(recommended_streams_set)/len(all_streams_set)
+            print("Coverage = {0}".format(str(coverage)))
+
+            non_recommended_streams = all_streams_set - recommended_streams_set
+            if non_recommended_streams:
+                print("These streams were not recommended at all: ")
+                print(non_recommended_streams)
+            else:
+                print("All streams were recommended at least once")

@@ -24,7 +24,7 @@
    
    The output of the above is the below and based on the values provided different output files will be generated.   
 	
-	```usage: client.py [-h] [-sg SG] [-d D] [-g G] [-e E]
+	```usage: client.py [-h] [-sg SG] [-d D] [-g G] [-e E] [-all All]
 
      optional arguments:
      -h, --help  show this help message and exit
@@ -34,4 +34,5 @@
      -g G        Whether to generate the ratings files. Enter a value of 1, if you want files to be generated and 0 otherwise.
      -e E        Evaluate all recommender models. Enter a value of 1, if you want all recommender systems to be evaluated and 0 otherwise.
 	 -gp GP      Generate predictions for a user using the best collaborative filtering algorithm. Enter a value of 1, if you want the file to be generated and 0 otherwise.
+	 -all ALL    Whether all options should be executed. If set to 1 will override all other values.
     ```

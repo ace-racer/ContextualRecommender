@@ -59,7 +59,7 @@ class stream_similarity_evaluator(base_operations):
     def get_predictions_coverage(self):
         """
         Get the coverage of the predictions
-        :return: Coverage output
+        :return: None
         """
 
         latest_tag_frequency_file = self.get_latest_output_file_name(configurations.TAG_FREQUENCY_STREAMS, next=False)[1]
@@ -72,8 +72,7 @@ class stream_similarity_evaluator(base_operations):
         output_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, output_file_name)
         output_df = pd.read_csv(output_file_location, header=0, index_col=0)
         all_streams_set = set(all_streams)
-        #print(all_streams_set)
-        #print(len(all_streams_set))
+
         recommended_stream_counter = Counter()
         for idx, row in output_df.iterrows():
             for val in row:
@@ -82,8 +81,8 @@ class stream_similarity_evaluator(base_operations):
                     recommended_stream_counter[val_int] += 1
 
         recommended_streams_set = set(recommended_stream_counter.keys())
-        #print(recommended_streams_set)
-        #print(len(recommended_streams_set))
+
+        print("Most common {0} recommendations...".format(str(configurations.NUM_MOST_COMMON_STREAMS)))
         print(recommended_stream_counter.most_common(configurations.NUM_MOST_COMMON_STREAMS))
         coverage = len(recommended_streams_set)/len(all_streams_set)
         print("Coverage = {0}".format(str(coverage)))
