@@ -25,6 +25,7 @@ EVALUATE_ALL_MODELS = True
 RUN_BEST_MODEL = True
 NUM_STREAMS_PER_USER = 5
 NUM_SIMILAR_STREAMS = 5
+NUM_MOST_COMMON_STREAMS = 10
 
 # configs to be updated only if required
 

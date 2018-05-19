@@ -9,6 +9,7 @@ from stream_similarity.cosine_similarity import cosine_similarity
 # standard imports
 import pandas as pd
 import os
+from collections import Counter
 
 # constants
 NEWLINE = "\n"
@@ -47,7 +48,43 @@ class stream_similarity_evaluator(base_operations):
         if distance_measures_to_evaluate:
             distance_measures_to_evaluate.compute_similarities_generate_similar_streams(latest_tag_frequency_file_location, similar_streams_generated_file_location)
             self.LOG_HANDLE.info("Generated the similar streams file")
+            self.LOG_HANDLE.info("Generating metrics for the similar streams recommender")
+            self.get_predictions_coverage()
         else:
             self.LOG_HANDLE.error("There is no similarity measure with the name {0}".format(self.distance_measure))
             print("There is no similarity measure with the name {0}".format(self.distance_measure))
+
+
+    def get_predictions_coverage(self):
+        """
+        Get the coverage of the predictions
+        :return: Coverage output
+        """
+
+        latest_tag_frequency_file = self.get_latest_output_file_name(configurations.TAG_FREQUENCY_STREAMS, next=False)[1]
+        latest_tag_frequency_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, latest_tag_frequency_file)
+        tag_frequency_file_df = pd.read_csv(latest_tag_frequency_file_location, header=0, index_col=0)
+        all_streams = tag_frequency_file_df.index.values
+
+        output_file_name = self.get_latest_output_file_name(configurations.SIMILAR_STREAMS_GENRATED_FILE_NAME, next=False)[1]
+        output_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, output_file_name)
+        output_df = pd.read_csv(output_file_location, header=0, index_col=0)
+        all_streams_set = set(all_streams)
+        recommended_stream_counter = Counter()
+        for idx, row in output_df.iterrows():
+            for val in row:
+                recommended_stream_counter[val] += 1
+
+        recommended_streams_set = set(recommended_stream_counter.keys())
+        print(recommended_stream_counter.most_common(configurations.NUM_MOST_COMMON_STREAMS))
+        coverage = len(recommended_streams_set)/len(all_streams_set)
+        print("Coverage = {0}".format(str(coverage)))
+
+        non_recommended_streams = all_streams_set - recommended_streams_set
+        if non_recommended_streams:
+            print("These streams were not recommended at all: ")
+            print(non_recommended_streams)
+        else:
+            print("All streams were recommended at least once")
+
 

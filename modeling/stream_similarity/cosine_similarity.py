@@ -179,8 +179,8 @@ class cosine_similarity(base_operations):
 
         tf_idf_values = self.compute_tf_idf_for_streams(num_streams, num_tags)
 
-        print(self.df.columns)
-        print(self.df.index.values)
+        #print(self.df.columns)
+        #print(self.df.index.values)
 
         self._generate_tfidf_files(tf_idf_values, self.df.columns, self.df.index.values, similar_streams_generated_file_location)
 

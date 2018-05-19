@@ -52,8 +52,8 @@ class collaborative_filtering_modeller(base_operations):
         # Divide the data set into the training and test sets
         trainset, testset = train_test_split(ratings_dataset, test_size=model_params.test_set_size)
 
-        # Add different algorithms here
-        collaborative_algorithms = [normal_algo_wrapper(), knn_algo_wrapper(), svd_algo_wrapper(), svdpp_algo_wrapper()]
+        # Add different algorithms here - Removed SVD PP algorithm
+        collaborative_algorithms = [normal_algo_wrapper(), knn_algo_wrapper(), svd_algo_wrapper()]
 
         rmse_values = {}
 
