@@ -163,7 +163,7 @@ class cosine_similarity(base_operations):
 
 
     def compute_similarities_generate_similar_streams(self, stream_tag_frequency_location, similar_streams_generated_file_location):
-        self.df = pd.read_csv(stream_tag_frequency_location, header = 0, index_col = 0)
+        self.df = pd.read_csv(stream_tag_frequency_location, header = 0, index_col = 0, encoding="ISO-8859-1")
         
         stream_tag_frequencies = None
         with open(stream_tag_frequency_location, "r") as fr:
