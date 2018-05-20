@@ -27,7 +27,7 @@ class best_model_output_generator(base_operations):
     def __init__(self):
         super(best_model_output_generator, self).__init__(constants.COLLABORATIVE_FILTERING_MODELER_NAME)
         # the best algorithm
-        self.best_algo = svd_algo_wrapper()
+        self.best_algo = configurations.CHOSEN_COLLABORATIVE_ALGORITHM()
 
     def perform_operation(self):
         self.LOG_HANDLE.info("Running the best collaborative filtering algorithm...")

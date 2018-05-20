@@ -13,6 +13,8 @@
 	3. STREAM_TAG_MAPPING_FILE_LOCATION - contains the stream tag mappings
 	4. OUTPUT_FILES_DIRECTORY - where all the generated files will be stored - the files follow a sequential numbering scheme
 	5. log_file_folder_location - where the log files will be generated
+	6. CHOSEN_COLLABORATIVE_ALGORITHM - the algorithm to use to perform the collaborative filtering - values from knn_algo_wrapper, svd_algo_wrapper and svdpp_algo_wrapper. 
+	   The best parameters as defined in model_params.py for the algorithm will be used to generate the ratings for the test data set.
 
 2. Update the following values (if required):
     1. NUM_STREAMS_PER_USER to set the number of streams that a user will be recommended via the collaborative recommender and 

@@ -9,7 +9,7 @@ from surprise.model_selection import GridSearchCV
 
 class knn_algo_wrapper(collaborative_models):
     """
-    The KNN algorithm
+    The KNN algorithm with cosine similarity as the similarity metric
     """
     def __init__(self):
         super(knn_algo_wrapper, self).__init__(constants.KNN_ALGO_NAME)
@@ -25,8 +25,13 @@ class knn_algo_wrapper(collaborative_models):
             print("Evaluate RMSE on test data")
             self.LOG_HANDLE.info("Evaluate RMSE on test data")
 
-            # Use the famous SVD algorithm.
-            algo = KNNWithMeans()
+            similarity_options = {
+                'name': 'cosine',
+                'user_based': False,
+            }
+
+            # Use the KNN algorithm
+            algo = KNNWithMeans(sim_options = similarity_options)
 
             # Train the algorithm on the trainset, and predict ratings for the testset
             algo.fit(train_set)
@@ -45,16 +50,41 @@ class knn_algo_wrapper(collaborative_models):
             print("Running grid search to find optimal hyper parameters")
             self.LOG_HANDLE.info("Running grid search to find optimal hyper parameters")
 
-            param_grid = {'k': [30, 40, 50], 'min_k': [1, 3, 5]}
+            param_grid = {'k': [30, 40, 50], 'min_k': [1, 3, 5],
+            'sim_options':
+                {
+                    'name': ['cosine', 'pearson', 'msd'],
+                    'user_based': [False]
+                }
+            }
             gs = GridSearchCV(KNNWithMeans, param_grid, measures=model_params.all_models_training_error_measures, cv=model_params.cross_validation_folds)
             gs.fit(train_set)
 
             # best RMSE score
+            print("Best RMSE after CV: ")
             print(gs.best_score['rmse'])
             self.LOG_HANDLE.info(gs.best_score['rmse'])
 
             # combination of parameters that gave the best RMSE score
+            print("Best parameters after CV: ")
             print(gs.best_params['rmse'])
             self.LOG_HANDLE.info(gs.best_params['rmse'])
 
+
+    def train_best_model_generate_ratings_test(self, ratings_set, test_set):
+        """
+        Train the best model (with minimum RMSE) on the complete ratings set and then compute the ratings for the test set
+        :param ratings_set: The complete ratings data set
+        :param test_set: The streams for the users for which ratings are not yet available
+        :return: A data frame of the form user, stream, predicted rating
+        """
+        if ratings_set and test_set:
+            print("Training the best model and generating the ratings for the test data set")
+            self.LOG_HANDLE.info("Training the best model and generating the ratings for the test data set")
+
+            algo = KNNWithMeans(**model_params.knn_means_best_params)
+            algo.fit(ratings_set)
+
+            predictions = algo.test(test_set)
+            return predictions
 

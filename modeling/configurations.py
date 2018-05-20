@@ -1,5 +1,9 @@
 import logging
 
+from collaborative_filtering.knn_algo_wrapper import knn_algo_wrapper
+from collaborative_filtering.svd_algo_wrapper import svd_algo_wrapper
+from collaborative_filtering.svdpp_algo_wrapper import svdpp_algo_wrapper
+
 # configs to be updated as required
 
 # contains the stream details - stream, tag, cards info
@@ -16,6 +20,9 @@ OUTPUT_FILES_DIRECTORY = "H:\\TeamStreamz_IW\\code\\data\\generated\\ratings"
 
 # where all the log files will be created
 log_file_folder_location = "H:\\TeamStreamz_IW\\code\\modeling\\logs"
+
+# The collaborative filtering algorithm to choose - currently set to KNN with item similarity
+CHOSEN_COLLABORATIVE_ALGORITHM = knn_algo_wrapper
 
 # ******************** Below parameters to be updated only if really required ********************
 
