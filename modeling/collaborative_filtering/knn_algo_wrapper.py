@@ -26,7 +26,7 @@ class knn_algo_wrapper(collaborative_models):
             self.LOG_HANDLE.info("Evaluate RMSE on test data")
 
             similarity_options = {
-                'name': 'cosine',
+                'name': 'msd',
                 'user_based': False,
             }
 
