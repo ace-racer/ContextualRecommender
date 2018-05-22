@@ -24,6 +24,9 @@ log_file_folder_location = "H:\\TeamStreamz_IW\\code\\modeling\\logs"
 # The collaborative filtering algorithm to choose - currently set to KNN with item similarity
 CHOSEN_COLLABORATIVE_ALGORITHM = knn_algo_wrapper
 
+# The file containing the user details
+USER_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\users_roles_updated.csv"
+
 # ******************** Below parameters to be updated only if really required ********************
 
 # operational params - update as required
@@ -56,3 +59,7 @@ log_pattern = "%(asctime)s %(levelname)s %(message)s"
 
 # Stream-stream similarity
 COLUMNS_TO_SELECT = ["StreamID"]
+
+# User attributes for filtering
+USER_ATTRIBUTES_TO_SELECT = ["Role"]
+USER_ID_COLUMN_NAME = "User_Id"

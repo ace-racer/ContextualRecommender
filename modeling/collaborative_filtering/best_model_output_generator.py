@@ -46,68 +46,72 @@ class best_model_output_generator(base_operations):
         self.LOG_HANDLE.info("Reading user ratings from: " + latest_actual_ratings_file_location)
         print("Reading existing user ratings")
 
-        # TODO: Add other logic to get streams for which to predict ratings
-        user_streams_to_predict_df = self.get_streams_not_viewed_by_user(latest_actual_ratings_file_location)
+        latest_complete_stream_details_file_name = self.get_latest_output_file_name(configurations.TAG_FREQUENCY_STREAMS, next=False)[1]
+        latest_complete_stream_details_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, latest_complete_stream_details_file_name)
+        self.LOG_HANDLE.info("Obtained latest stream details from : " + latest_complete_stream_details_location)
 
-        # user_streams_to_predict = Dataset.load_from_df(user_streams_to_predict_df, Reader(rating_scale=(0, configurations.RATINGS_UPPER)))
-        data_auto_folds_train_ratings = DatasetAutoFolds(latest_ratings_file_location, reader)
-        data_auto_folds_test_ratings = DatasetAutoFolds(df=user_streams_to_predict_df, reader = Reader(rating_scale=(0, configurations.RATINGS_UPPER)))
+        # user_streams_to_predict_df = self.get_streams_not_viewed_by_user(latest_actual_ratings_file_location)
+        user_streams_to_predict_df = self.get_unviewed_streams_permissible_for_user(latest_actual_ratings_file_location, latest_complete_stream_details_location)
 
-        ratings_dataset = data_auto_folds_train_ratings.build_full_trainset()
-        test_dataset = data_auto_folds_test_ratings.build_full_trainset().build_testset()
+        if user_streams_to_predict_df is not None:
+            data_auto_folds_train_ratings = DatasetAutoFolds(latest_ratings_file_location, reader)
+            data_auto_folds_test_ratings = DatasetAutoFolds(df=user_streams_to_predict_df, reader = Reader(rating_scale=(0, configurations.RATINGS_UPPER)))
 
-        predictions = self.best_algo.train_best_model_generate_ratings_test(ratings_dataset, test_dataset)
+            ratings_dataset = data_auto_folds_train_ratings.build_full_trainset()
+            test_dataset = data_auto_folds_test_ratings.build_full_trainset().build_testset()
 
-        # print the predictions to a file - http://surprise.readthedocs.io/en/stable/predictions_module.html?highlight=prediction%20class
-        prediction_output = constants.COMMA_STR.join(constants.PREDICTED_RATINGS_FILE_COLUMN_NAMES) + NEWLINE
-        predictions_for_users = {}
+            predictions = self.best_algo.train_best_model_generate_ratings_test(ratings_dataset, test_dataset)
 
-        for prediction in predictions:
-            # The uid, iid and estimated rating
-            prediction_output += str(prediction[0]) + constants.COMMA_STR + str(prediction[1]) + constants.COMMA_STR + str(prediction[3]) + NEWLINE
-            if predictions_for_users.get(str(prediction[0])):
-                predictions_for_users[str(prediction[0])].append((str(prediction[1]), str(prediction[3])))
-            else:
-                predictions_for_users[str(prediction[0])] = [(str(prediction[1]), str(prediction[3]))]
+            # print the predictions to a file - http://surprise.readthedocs.io/en/stable/predictions_module.html?highlight=prediction%20class
+            prediction_output = constants.COMMA_STR.join(constants.PREDICTED_RATINGS_FILE_COLUMN_NAMES) + NEWLINE
+            predictions_for_users = {}
 
-        prediction_output_file_name = self.get_latest_output_file_name(configurations.PREDICTED_RATINGS_FILE_NAME)[1]
-        prediction_output_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, prediction_output_file_name)
+            for prediction in predictions:
+                # The uid, iid and estimated rating
+                prediction_output += str(prediction[0]) + constants.COMMA_STR + str(prediction[1]) + constants.COMMA_STR + str(prediction[3]) + NEWLINE
+                if predictions_for_users.get(str(prediction[0])):
+                    predictions_for_users[str(prediction[0])].append((str(prediction[1]), str(prediction[3])))
+                else:
+                    predictions_for_users[str(prediction[0])] = [(str(prediction[1]), str(prediction[3]))]
 
-        with open(prediction_output_location, "w") as fw:
-            fw.writelines(prediction_output)
+            prediction_output_file_name = self.get_latest_output_file_name(configurations.PREDICTED_RATINGS_FILE_NAME)[1]
+            prediction_output_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, prediction_output_file_name)
 
-        print("Generated the prediction results file")
-        self.LOG_HANDLE.info("Generated the prediction results file")
+            with open(prediction_output_location, "w") as fw:
+                fw.writelines(prediction_output)
 
-        # Sort the predictions for the users
-        for user in predictions_for_users:
-            predictions_for_users[user] = sorted(predictions_for_users[user], reverse=True, key=lambda x: x[1])
+            print("Generated the prediction results file")
+            self.LOG_HANDLE.info("Generated the prediction results file")
 
-        predicted_streams_content = ""
-        for user in predictions_for_users:
-            predicted_streams_content += str(user) + constants.COMMA_STR
-            num_streams_for_user = min(configurations.NUM_STREAMS_PER_USER, len(predictions_for_users[user]))
-            for stream_id, _ in predictions_for_users[user][:num_streams_for_user]:
-                predicted_streams_content += str(stream_id) + constants.COMMA_STR
+            # Sort the predictions for the users
+            for user in predictions_for_users:
+                predictions_for_users[user] = sorted(predictions_for_users[user], reverse=True, key=lambda x: x[1])
 
-            predicted_streams_content += NEWLINE
+            predicted_streams_content = ""
+            for user in predictions_for_users:
+                predicted_streams_content += str(user) + constants.COMMA_STR
+                num_streams_for_user = min(configurations.NUM_STREAMS_PER_USER, len(predictions_for_users[user]))
+                for stream_id, _ in predictions_for_users[user][:num_streams_for_user]:
+                    predicted_streams_content += str(stream_id) + constants.COMMA_STR
 
-        predicted_streams_output_file_name = self.get_latest_output_file_name(configurations.PREDICTED_STREAMS_FOR_USER)[1]
-        predicted_streams_output_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, predicted_streams_output_file_name)
+                predicted_streams_content += NEWLINE
 
-        with open(predicted_streams_output_location, "w") as fw:
-            fw.writelines(predicted_streams_content)
+            predicted_streams_output_file_name = self.get_latest_output_file_name(configurations.PREDICTED_STREAMS_FOR_USER)[1]
+            predicted_streams_output_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, predicted_streams_output_file_name)
 
-        print("Generated the streams recommended to the user")
-        self.LOG_HANDLE.info("Generated the streams recommended to the user")
+            with open(predicted_streams_output_location, "w") as fw:
+                fw.writelines(predicted_streams_content)
 
-        self.get_predictions_coverage(user_streams_to_predict_df)
+            print("Generated the streams recommended to the user")
+            self.LOG_HANDLE.info("Generated the streams recommended to the user")
+
+            self.get_predictions_coverage(user_streams_to_predict_df)
 
 
     def get_streams_not_viewed_by_user(self, complete_ratings_file_location):
         """
         Get the streams that have not yet been viewed by the user
-        :param complete_ratings_file_location:
+        :param complete_ratings_file_location: Location of the complete ratings file
         :return: A dataframe with the user stream details and 0 as ratings
         """
         if complete_ratings_file_location:
@@ -116,7 +120,62 @@ class best_model_output_generator(base_operations):
             for index, row in ratings_df.iterrows():
                 for stream_id in ratings_df:
                     if row[stream_id] == 0:
+                        # User, Stream ID, Rating
                         required_ratings.append([str(index), str(stream_id), str(row[stream_id])])
+            return pd.DataFrame(required_ratings)
+
+        return None
+
+    def get_unviewed_streams_permissible_for_user(self, complete_ratings_file_location, complete_stream_details_location):
+        """
+        Get the streams that have not yet been viewed by the user and which are the users are premitted to see
+        :param complete_ratings_file_location:  Location of the complete ratings file
+        :param complete_stream_details_location: Location of the file with details of all the streams
+        :return:
+        """
+        if complete_ratings_file_location and complete_stream_details_location:
+            ratings_df = pd.read_csv(complete_ratings_file_location, header=0, index_col=0, encoding="ISO-8859-1")
+
+            if not os.path.exists(configurations.USER_DETAILS_FILE_LOCATION):
+                self.LOG_HANDLE.error("The path for the user details file {0} does not exist.".format(configurations.USER_DETAILS_FILE_LOCATION))
+                print("The path for the user details file {0} does not exist. Check the configurations with key: USER_DETAILS_FILE_LOCATION".format(configurations.USER_DETAILS_FILE_LOCATION))
+                return None
+
+            user_details_df = pd.read_csv(configurations.USER_DETAILS_FILE_LOCATION, header=0, encoding="ISO-8859-1")
+            streams_with_tags_df = pd.read_csv(complete_stream_details_location, header=0, index_col=0, encoding="ISO-8859-1")
+            print("Stream tag frequencies file location: " + complete_stream_details_location)
+            required_ratings = []
+            for index, row in ratings_df.iterrows():
+                for stream_id in ratings_df:
+                    if row[stream_id] == 0:
+                        user_id = index
+                        attribute_values = []
+                        for attribute in configurations.USER_ATTRIBUTES_TO_SELECT:
+                            attribute_values.append(user_details_df.loc[user_details_df[configurations.USER_ID_COLUMN_NAME] == user_id][attribute].values[0])
+
+                        should_add_stream = True
+                        attribute_value = ""
+                        for attribute_value in attribute_values:
+                            print("Attribute value:" + attribute_value)
+
+                            # check if the attribute value exists as a tag for the streams
+                            if attribute_value in streams_with_tags_df.columns:
+                                print("Obtained in streams: " + attribute_value)
+
+                                # get the value of the attribute in the stream
+                                stream_attribute_value = int(streams_with_tags_df.at[stream_id, str(attribute_value)])
+
+                                # if the value of the attribute in the stream is 0
+                                if stream_attribute_value == 0:
+                                    should_add_stream = False
+                                    break
+
+                        if should_add_stream:
+
+                            # User ID, Stream ID, Rating
+                            required_ratings.append([str(index), str(stream_id), str(row[stream_id])])
+                        else:
+                            self.LOG_HANDLE.info("Not added the stream {0} for the user {1} due to the attribute: {2}".format(str(stream_id), str(index), attribute_value))
             return pd.DataFrame(required_ratings)
 
         return None
