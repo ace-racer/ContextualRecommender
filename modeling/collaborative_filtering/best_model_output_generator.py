@@ -94,6 +94,8 @@ class best_model_output_generator(base_operations):
                 for stream_id, _ in predictions_for_users[user][:num_streams_for_user]:
                     predicted_streams_content += str(stream_id) + constants.COMMA_STR
 
+                # have the same number of values for each row
+                predicted_streams_content += constants.COMMA_STR * (configurations.NUM_STREAMS_PER_USER - num_streams_for_user)
                 predicted_streams_content += NEWLINE
 
             predicted_streams_output_file_name = self.get_latest_output_file_name(configurations.PREDICTED_STREAMS_FOR_USER)[1]
@@ -148,7 +150,7 @@ class best_model_output_generator(base_operations):
             required_ratings = []
             for index, row in ratings_df.iterrows():
                 for stream_id in ratings_df:
-                    if stream_id in available_streams_with_tags:
+                    if int(stream_id) in available_streams_with_tags:
                         if row[stream_id] == 0:
                             user_id = index
                             attribute_values = []
@@ -158,12 +160,9 @@ class best_model_output_generator(base_operations):
                             should_add_stream = True
                             attribute_value = ""
                             for attribute_value in attribute_values:
-                                print("Attribute value:" + attribute_value)
 
                                 # check if the attribute value exists as a tag for the streams
                                 if attribute_value in streams_with_tags_df:
-                                    print("Obtained in streams: " + attribute_value)
-                                    print("Stream ID {0} and attribute value {1}".format(stream_id, str(attribute_value)))
 
                                     # get the value of the attribute in the stream
                                     stream_attribute_value = int(streams_with_tags_df.at[int(stream_id), str(attribute_value)])
@@ -197,7 +196,7 @@ class best_model_output_generator(base_operations):
             #print(all_streams_set)
             output_file_name = self.get_latest_output_file_name(configurations.PREDICTED_STREAMS_FOR_USER, next=False)[1]
             output_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, output_file_name)
-            output_df = pd.read_csv(output_file_location, header=None, index_col=0)
+            output_df = pd.read_csv(output_file_location, header=None, index_col=0, encoding="ISO-8859-1")
 
             recommended_stream_counter = Counter()
             for idx, row in output_df.iterrows():
