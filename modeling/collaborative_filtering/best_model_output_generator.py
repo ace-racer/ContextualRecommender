@@ -143,39 +143,45 @@ class best_model_output_generator(base_operations):
 
             user_details_df = pd.read_csv(configurations.USER_DETAILS_FILE_LOCATION, header=0, encoding="ISO-8859-1")
             streams_with_tags_df = pd.read_csv(complete_stream_details_location, header=0, index_col=0, encoding="ISO-8859-1")
+            available_streams_with_tags = set(streams_with_tags_df.index.values)
             print("Stream tag frequencies file location: " + complete_stream_details_location)
             required_ratings = []
             for index, row in ratings_df.iterrows():
                 for stream_id in ratings_df:
-                    if row[stream_id] == 0:
-                        user_id = index
-                        attribute_values = []
-                        for attribute in configurations.USER_ATTRIBUTES_TO_SELECT:
-                            attribute_values.append(user_details_df.loc[user_details_df[configurations.USER_ID_COLUMN_NAME] == user_id][attribute].values[0])
+                    if stream_id in available_streams_with_tags:
+                        if row[stream_id] == 0:
+                            user_id = index
+                            attribute_values = []
+                            for attribute in configurations.USER_ATTRIBUTES_TO_SELECT:
+                                attribute_values.append(user_details_df.loc[user_details_df[configurations.USER_ID_COLUMN_NAME] == user_id][attribute].values[0])
 
-                        should_add_stream = True
-                        attribute_value = ""
-                        for attribute_value in attribute_values:
-                            print("Attribute value:" + attribute_value)
+                            should_add_stream = True
+                            attribute_value = ""
+                            for attribute_value in attribute_values:
+                                print("Attribute value:" + attribute_value)
 
-                            # check if the attribute value exists as a tag for the streams
-                            if attribute_value in streams_with_tags_df.columns:
-                                print("Obtained in streams: " + attribute_value)
+                                # check if the attribute value exists as a tag for the streams
+                                if attribute_value in streams_with_tags_df:
+                                    print("Obtained in streams: " + attribute_value)
+                                    print("Stream ID {0} and attribute value {1}".format(stream_id, str(attribute_value)))
 
-                                # get the value of the attribute in the stream
-                                stream_attribute_value = int(streams_with_tags_df.at[stream_id, str(attribute_value)])
+                                    # get the value of the attribute in the stream
+                                    stream_attribute_value = int(streams_with_tags_df.at[int(stream_id), str(attribute_value)])
 
-                                # if the value of the attribute in the stream is 0
-                                if stream_attribute_value == 0:
-                                    should_add_stream = False
-                                    break
+                                    # if the value of the attribute in the stream is 0
+                                    if stream_attribute_value == 0:
+                                        should_add_stream = False
+                                        break
 
-                        if should_add_stream:
+                            if should_add_stream:
 
-                            # User ID, Stream ID, Rating
-                            required_ratings.append([str(index), str(stream_id), str(row[stream_id])])
-                        else:
-                            self.LOG_HANDLE.info("Not added the stream {0} for the user {1} due to the attribute: {2}".format(str(stream_id), str(index), attribute_value))
+                                # User ID, Stream ID, Rating
+                                required_ratings.append([str(index), str(stream_id), str(row[stream_id])])
+                            else:
+                                self.LOG_HANDLE.info("Not added the stream {0} for the user {1} due to the attribute: {2}".format(str(stream_id), str(index), attribute_value))
+                    else:
+                        self.LOG_HANDLE.error("Stream with ID {0} does not contain tag details. ".format(str(stream_id)))
+                        print("Stream with ID {0} does not contain tag details. ".format(str(stream_id)))
             return pd.DataFrame(required_ratings)
 
         return None
