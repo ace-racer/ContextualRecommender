@@ -37,6 +37,7 @@ html(lang='en')
       var url_string = window.location.href; //window.location.href
       var url_str = new URL(url_string);
       var c = url_str.searchParams.get("uname"); //958
+      sessionStorage.setItem("uname", c);
       console.log(c);
       
       var base_url = 'http://127.0.0.1:5000/streams/recommendations/';

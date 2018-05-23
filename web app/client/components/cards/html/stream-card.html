@@ -48,9 +48,8 @@
       var url_str = new URL(url_string);
       var c = url_str.searchParams.get("streamid"); //958
       console.log(c);
-      
-      var base_url = 'http://127.0.0.1:5000/streams/neighbors/';
-      base_url = base_url + c;
+      var user_id = sessionStorage.getItem("uname");
+      var base_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=' + c + "&userid=" + user_id;
       console.log(base_url);
       
       var slingshot = function (url, tplId, anchor) {
