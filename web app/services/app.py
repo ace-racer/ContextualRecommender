@@ -40,11 +40,14 @@ def addUserView():
             return operation_result[1]
     return "OK"
 
-@app.route('/streams/neighbors/<streamid>')
-def getStreamDetails(streamid):
-    if streamid:
+@app.route('/streams/neighbors')
+def getStreamDetails():
+    streamid = request.args.get("streamid")
+    userid = request.args.get("userid")
+    print("StreamID {0} and UserId: {1}".format(streamid, userid))
+    if streamid and userid:
         controller = recommender_controller()
-        stream_details = controller.get_nearest_neighbors_by_streamid(streamid)
+        stream_details = controller.get_nearest_neighbors_by_streamid(streamid, userid)
         if stream_details is None:
             return "No streams with the streamid {0}".format(streamid)
         return stream_details

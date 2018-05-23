@@ -62,6 +62,7 @@
                     var url_string = window.location.href; //window.location.href
                     var url_str = new URL(url_string);
                     var c = url_str.searchParams.get("uname"); //958
+					sessionStorage.setItem("uname", c);
                     console.log(c);
                     
                     var base_url = 'http://127.0.0.1:5000/streams/recommendations/';
@@ -80,6 +81,7 @@
                     function myFunction(e)  {
                         console.log("clicked");
                         console.log(e);
+						user_name = sessionStorage.getItem("uname");
                         var one = $(e).find('.streamid').find('a').html();
                        console.log(one);
                         var url = "main.html"+ '?streamid='+ one;
