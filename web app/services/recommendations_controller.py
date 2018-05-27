@@ -82,7 +82,7 @@ class recommender_controller:
                 print("Number of recommended streams: " + str(len(recommended_streams_row)))
 
                 recommended_streams = controller.get_stream_details(recommended_streams_row)
-                filtered_recommended_streams = self.filter_streams_user_permitted_to_view(recommended_streams, configurations.USER_DETAILS_FILE_LOCATION, latest_stream_tag_mapping_file_location)
+                filtered_recommended_streams = self.filter_streams_user_permitted_to_view(recommended_streams, configurations.USER_DETAILS_FILE_LOCATION, latest_stream_tag_mapping_file_location, userid)
 
                 if filtered_recommended_streams:
                     all_recommended_stream_details["RecommendedStreams"] = filtered_recommended_streams
@@ -124,13 +124,51 @@ class recommender_controller:
                 return largest_output_file_number, file_name_pattern + constants.UNDERSCORE_STR + str(largest_output_file_number) + constants.CSV_FILE_EXTENSION
 
 
-    def filter_streams_user_permitted_to_view(self, candidate_streams, user_details_file_location, stream_tag_mapping_file_location):
+    def filter_streams_user_permitted_to_view(self, candidate_streams, user_details_file_location, stream_tag_mapping_file_location, userid):
         """
         Filter the streams the user is permitted to view
         :param candidate_streams: The list of candidate streams to be filtered
         :param user_details_file_location: The location of the user details file
         :param stream_tag_mapping_file_location: The location of the file containing the stream tag mapping
+        :param userid: The ID of the current user
         :return: the streams that the user is permitted to view
         """
+        if not os.path.exists(user_details_file_location):
+            print("The path for the user details file {0} does not exist.".format(user_details_file_location))
+            return candidate_streams
+
+        user_details_df = pd.read_csv(user_details_file_location, header=0, encoding="ISO-8859-1")
+        streams_with_tags_df = pd.read_csv(stream_tag_mapping_file_location, header=0, index_col=0, encoding="ISO-8859-1")
+
+        available_streams_with_tags = set(streams_with_tags_df.index.values)
+        permitted_streams = []
+        for stream in candidate_streams:
+            stream_id = stream["streamid"]
+            if int(stream_id) in available_streams_with_tags:
+                attribute_values = []
+                for attribute in configurations.USER_ATTRIBUTES_TO_SELECT:
+                    attribute_values.append(user_details_df.loc[user_details_df[configurations.USER_ID_COLUMN_NAME] == user_id][attribute].values[0])
+
+                should_add_stream = True
+                attribute_value = ""
+
+                for attribute_value in attribute_values:
+
+                    # check if the attribute value exists as a tag for the streams
+                    if attribute_value in streams_with_tags_df:
+
+                        # get the value of the attribute in the stream
+                        stream_attribute_value = int(streams_with_tags_df.at[int(stream_id), str(attribute_value)])
+
+                        # if the value of the attribute in the stream is 0
+                        if stream_attribute_value == 0:
+                            should_add_stream = False
+                            break
+
+                if should_add_stream:
+                    permitted_streams.append(stream)
+                else:
+                    self.LOG_HANDLE.info("Not added the stream {0} for the user {1} due to the attribute: {2}".format(str(stream_id), userid, attribute_value))
+
         return candidate_streams
 
