@@ -168,7 +168,7 @@ class recommender_controller:
                 if should_add_stream:
                     permitted_streams.append(stream)
                 else:
-                    self.LOG_HANDLE.info("Not added the stream {0} for the user {1} due to the attribute: {2}".format(str(stream_id), userid, attribute_value))
+                    print("Not added the stream {0} for the user {1} due to the attribute: {2}".format(str(stream_id), userid, attribute_value))
 
         return candidate_streams
 
