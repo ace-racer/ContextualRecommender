@@ -38,6 +38,10 @@ class recommender_controller:
             try:
                 latest_similar_streams_file_name = self.get_latest_output_file_name(configurations.SIMILAR_STREAMS_GENRATED_FILE_NAME, False)[1]
                 latest_similar_streams_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, latest_similar_streams_file_name)
+
+                latest_stream_tag_mapping_file_name = self.get_latest_output_file_name(configurations.TAG_FREQUENCY_STREAMS, False)[1]
+                latest_stream_tag_mapping_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, latest_stream_tag_mapping_file_name)
+
                 input_df = pd.read_csv(latest_similar_streams_file_location, index_col=0, header=0)
                 print(input_df.head())
                 similar_streams_row = input_df.loc[int(streamid)]
@@ -45,14 +49,17 @@ class recommender_controller:
                 print("Number of similar streams: " + str(len(similar_streams_row)))
 
                 similar_stream_details = controller.get_stream_details(similar_streams_row)
-                if similar_stream_details:
-                    all_stream_details["Neighbors"] = [similar_stream for similar_stream in similar_stream_details]
+
+                filtered_similar_streams = self.filter_streams_user_permitted_to_view(similar_stream_details, configurations.USER_DETAILS_FILE_LOCATION, latest_stream_tag_mapping_file_location, userid)
+                if filtered_similar_streams:
+                    all_stream_details["Neighbors"] = filtered_similar_streams
 
                 return json.dumps(all_stream_details)
 
             except Exception as e:
                 print(e)
-                return None
+                raise
+                #return None
 
         return None
 
@@ -71,8 +78,7 @@ class recommender_controller:
                 latest_predicted_streams_file_name = self.get_latest_output_file_name(configurations.PREDICTED_STREAMS_FOR_USER, False)[1]
                 latest_predicted_streams_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, latest_predicted_streams_file_name)
 
-                latest_stream_tag_mapping_file_name = self.get_latest_output_file_name(configurations.TAG_FREQUENCY_STREAMS, False)[1]
-                latest_stream_tag_mapping_file_location = os.path.join(configurations.OUTPUT_FILES_DIRECTORY, latest_stream_tag_mapping_file_name)
+
 
                 input_df = pd.read_csv(latest_predicted_streams_file_location, index_col=0, header=None)
                 print(input_df.head())
@@ -82,12 +88,12 @@ class recommender_controller:
                 print("Number of recommended streams: " + str(len(recommended_streams_row)))
 
                 recommended_streams = controller.get_stream_details(recommended_streams_row)
-                filtered_recommended_streams = self.filter_streams_user_permitted_to_view(recommended_streams, configurations.USER_DETAILS_FILE_LOCATION, latest_stream_tag_mapping_file_location, userid)
+                filtered_recommended_streams = recommended_streams
 
                 if filtered_recommended_streams:
                     all_recommended_stream_details["RecommendedStreams"] = filtered_recommended_streams
                 else:
-                    print("The user is authorized to view any of the similar streams")
+                    print("The user is not authorized to view any of the similar streams")
 
                 return json.dumps(all_recommended_stream_details)
 
@@ -137,17 +143,19 @@ class recommender_controller:
             print("The path for the user details file {0} does not exist.".format(user_details_file_location))
             return candidate_streams
 
+        print("Getting the streams user is permitted to view")
         user_details_df = pd.read_csv(user_details_file_location, header=0, encoding="ISO-8859-1")
         streams_with_tags_df = pd.read_csv(stream_tag_mapping_file_location, header=0, index_col=0, encoding="ISO-8859-1")
 
         available_streams_with_tags = set(streams_with_tags_df.index.values)
         permitted_streams = []
+        print("Number of streams in candidate: " + str(len(candidate_streams)))
         for stream in candidate_streams:
             stream_id = stream["streamid"]
             if int(stream_id) in available_streams_with_tags:
                 attribute_values = []
                 for attribute in configurations.USER_ATTRIBUTES_TO_SELECT:
-                    attribute_values.append(user_details_df.loc[user_details_df[configurations.USER_ID_COLUMN_NAME] == user_id][attribute].values[0])
+                    attribute_values.append(user_details_df.loc[user_details_df[configurations.USER_ID_COLUMN_NAME] == int(userid)][attribute].values[0])
 
                 should_add_stream = True
                 attribute_value = ""
@@ -169,6 +177,6 @@ class recommender_controller:
                     permitted_streams.append(stream)
                 else:
                     print("Not added the stream {0} for the user {1} due to the attribute: {2}".format(str(stream_id), userid, attribute_value))
-
-        return candidate_streams
+        print("Number of permitted streams: " + str(len(permitted_streams)))
+        return permitted_streams
 
