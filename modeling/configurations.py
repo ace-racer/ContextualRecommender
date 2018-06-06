@@ -3,6 +3,7 @@ import logging
 from collaborative_filtering.knn_algo_wrapper import knn_algo_wrapper
 from collaborative_filtering.svd_algo_wrapper import svd_algo_wrapper
 from collaborative_filtering.svdpp_algo_wrapper import svdpp_algo_wrapper
+from collaborative_filtering.normal_algo_wrapper import normal_algo_wrapper
 
 # configs to be updated as required
 
@@ -22,7 +23,7 @@ OUTPUT_FILES_DIRECTORY = "H:\\TeamStreamz_IW\\code\\data\\generated\\ratings"
 log_file_folder_location = "H:\\TeamStreamz_IW\\code\\modeling\\logs"
 
 # The collaborative filtering algorithm to choose - currently set to KNN with item similarity
-CHOSEN_COLLABORATIVE_ALGORITHM = knn_algo_wrapper
+CHOSEN_COLLABORATIVE_ALGORITHM = svd_algo_wrapper
 
 # The file containing the user details
 USER_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\users_roles_updated.csv"

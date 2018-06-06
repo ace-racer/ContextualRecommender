@@ -180,7 +180,7 @@ class best_model_output_generator(base_operations):
                                 self.LOG_HANDLE.info("Not added the stream {0} for the user {1} due to the attribute: {2}".format(str(stream_id), str(index), attribute_value))
                     else:
                         self.LOG_HANDLE.error("Stream with ID {0} does not contain tag details. ".format(str(stream_id)))
-                        print("Stream with ID {0} does not contain tag details. ".format(str(stream_id)))
+                        # print("Stream with ID {0} does not contain tag details. ".format(str(stream_id)))
             return pd.DataFrame(required_ratings)
 
         return None
