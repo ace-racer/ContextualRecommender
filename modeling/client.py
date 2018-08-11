@@ -43,7 +43,7 @@ def main():
 
     if should_tags_be_generated:
         print("Tags will be generated from the complete stream details")
-        tag_generator = configurations.TAG_GENERATION_ALGORITHM
+        tag_generator = configurations.TAG_GENERATION_ALGORITHM()
         tag_generator.generate_tags()
     
     if should_generate_tag_frequencies:

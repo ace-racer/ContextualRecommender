@@ -22,7 +22,7 @@ STREAM_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_details.c
 STREAM_VIEWS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_views\\0907to0908.csv"
 
 # contains the stream tag mapping file
-STREAM_TAG_MAPPING_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_tag_mapping_original.csv"
+STREAM_TAG_MAPPING_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_tag_mapping_generated.csv"
 
 # where all the generated files will be stored - the files follow a sequential numbering scheme
 OUTPUT_FILES_DIRECTORY = "H:\\TeamStreamz_IW\\code\\data\\generated\\ratings"

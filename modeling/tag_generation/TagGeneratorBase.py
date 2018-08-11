@@ -17,7 +17,7 @@ class TagGeneratorBase(base_operations):
         complete_stream_details_df = pd.read_csv(configurations.COMPLETE_STREAM_DETAILS_LOCATION, encoding="ISO-8859-1")
         if complete_stream_details_df is not None:
             complete_stream_details_dict = {}
-            for _, row in complete_stream_details_df.iter_rows():
+            for _, row in complete_stream_details_df.iterrows():
                 
                 stream_id = str(row["id"])
                 # if the stream ID already exists in the dictionary
