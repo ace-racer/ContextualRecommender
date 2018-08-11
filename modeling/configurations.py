@@ -5,7 +5,15 @@ from collaborative_filtering.svd_algo_wrapper import svd_algo_wrapper
 from collaborative_filtering.svdpp_algo_wrapper import svdpp_algo_wrapper
 from collaborative_filtering.normal_algo_wrapper import normal_algo_wrapper
 
+from tag_generation.TopKWordsTagGenerator import TopKWordsTagGenerator
+
 # configs to be updated as required
+
+# contins the complete stream details
+COMPLETE_STREAM_DETAILS_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\complete_stream_details.csv"
+
+# specify the tag generation algorithm class
+TAG_GENERATION_ALGORITHM = TopKWordsTagGenerator
 
 # contains the stream details - stream, tag, cards info
 STREAM_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_details.csv"
@@ -13,7 +21,7 @@ STREAM_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_details.c
 # contains the stream view information with the timestamps
 STREAM_VIEWS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_views\\0907to0908.csv"
 
-# contains the stream tag mapping filr
+# contains the stream tag mapping file
 STREAM_TAG_MAPPING_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_tag_mapping_original.csv"
 
 # where all the generated files will be stored - the files follow a sequential numbering scheme

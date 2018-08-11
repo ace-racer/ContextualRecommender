@@ -7,7 +7,7 @@ import argparse
 from collaborative_filtering.best_model_output_generator import best_model_output_generator
 from stream_similarity.stream_tag_one_hot_encoder import stream_tag_one_hot_encoder
 from stream_similarity.stream_similarity_evaluator import stream_similarity_evaluator
-
+from tag_generation.TagGeneratorBase import TagGeneratorBase
 
 def main():
     """
@@ -16,6 +16,7 @@ def main():
     """
 
     arg_parser = argparse.ArgumentParser()
+    arg_parser.add_argument('-tags', type=int, help='Whether to generate the tags from the complete stream details.', required=False)
     arg_parser.add_argument('-sg', type=int, help='Whether to generate the tag frequencies for the streams. Enter a value of 1, if you want files to be generated and 0 otherwise.', required=False)
     arg_parser.add_argument('-d', type=str, help='The distance metric to use to compute the similar streams. Accepted values = {0},{1} and {2}'.format(constants.JACCARD_SIMILARITY, constants.CUSTOM_DISTANCE, constants.COSINE_SIMILARITY), required=False)
     arg_parser.add_argument('-g', type=int, help='Whether to generate the ratings files. Enter a value of 1, if you want files to be generated and 0 otherwise.', required=False)
@@ -31,13 +32,20 @@ def main():
         should_generate_tag_frequencies = True
         similar_streams_distance_metric = True
         should_generate_predicted_streams_for_user = True
+        should_tags_be_generated = True
     else:
         should_generate_ratings_file = (args.g == 1)
         should_evaluate_models = (args.e == 1)
         should_generate_tag_frequencies = (args.sg == 1)
         similar_streams_distance_metric = args.d
         should_generate_predicted_streams_for_user = (args.gp == 1)
+        should_tags_be_generated = (args.tags == 1)
 
+    if should_tags_be_generated:
+        print("Tags will be generated from the complete stream details")
+        tag_generator = configurations.TAG_GENERATION_ALGORITHM
+        tag_generator.generate_tags()
+    
     if should_generate_tag_frequencies:
         print("Will generate the tag frequencies...")
         stream_tag_encoder = stream_tag_one_hot_encoder()

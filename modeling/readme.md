@@ -15,6 +15,8 @@
 	5. log_file_folder_location - where the log files will be generated
 	6. CHOSEN_COLLABORATIVE_ALGORITHM - the algorithm to use to perform the collaborative filtering - values from knn_algo_wrapper, svd_algo_wrapper and svdpp_algo_wrapper. 
 	   The best parameters as defined in model_params.py for the algorithm will be used to generate the ratings for the test data set.
+    7. COMPLETE_STREAM_DETAILS_LOCATION - contains the complete stream details from where the tags will be generated.
+
 
 2. Update the following values (if required):
     1. NUM_STREAMS_PER_USER to set the number of streams that a user will be recommended via the collaborative recommender and 
@@ -26,10 +28,11 @@
    
    The output of the above is the below and based on the values provided different output files will be generated.   
 	
-	```usage: client.py [-h] [-sg SG] [-d D] [-g G] [-e E] [-all All]
+	```usage: client.py [-h] [-tags tags] [-sg SG] [-d D] [-g G] [-e E] [-all All]
 
      optional arguments:
      -h, --help  show this help message and exit
+     -tags tags  Whether to generate the tags from the complete stream details
      -sg SG      Whether to generate the tag frequencies for the streams. Enter a value of 1, if you want files to be generated and 0 otherwise.
      -d D        The distance metric to use to compute the similar streams.
                  Accepted values = jaccard,custom and cosine
