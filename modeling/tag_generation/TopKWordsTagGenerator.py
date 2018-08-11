@@ -7,6 +7,8 @@ from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
 from nltk.tokenize import RegexpTokenizer
 from collections import Counter
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
 
 import configurations
 import constants
@@ -35,14 +37,33 @@ class TopKWordsTagGenerator(TagGeneratorBase):
             
             word_tokens = tokenizer.tokenize(content)
             
-            filtered_content = [w for w in word_tokens if not w in stop_words and w != ""]
-            top_k_most_common = Counter(filtered_content).most_common(self.TOP_K_K_VALUE)
+            filtered_content_list = [w for w in word_tokens if not w in stop_words and w != ""]
+            if configurations.GENERATE_WORD_CLOUD_FOR_STREAMS:
+                if not os.path.exists(configurations.WORD_CLOUD_FOLDER_NAME):
+                    os.makedirs(configurations.WORD_CLOUD_FOLDER_NAME)
+                
+                self.generate_word_cloud(k, filtered_content_list)
+
+            top_k_most_common = Counter(filtered_content_list).most_common(self.TOP_K_K_VALUE)
             
             # Add the top K most common words as tags
             for item in top_k_most_common:
                 stream_id_tag_list.append((str(k), str(item[0])))
 
         self.create_stream_tag_mapping_file(stream_id_tag_list)
+
+    def generate_word_cloud(self, stream_id, filtered_content_list):
+        if filtered_content_list:
+            filtered_content = " ".join(filtered_content_list)
+
+            # Refer sample here: https://github.com/amueller/word_cloud/blob/master/examples/simple.py
+            wordcloud = WordCloud(max_font_size=40).generate(filtered_content)
+            plt.figure()
+            plt.imshow(wordcloud, interpolation="bilinear")
+            plt.axis("off")
+            complete_location = os.path.join(configurations.WORD_CLOUD_FOLDER_NAME, str(stream_id) + "." + constants.WORDCLOUD_FILE_EXTENSION)
+            plt.savefig(complete_location)
+
 
 
 

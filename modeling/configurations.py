@@ -9,7 +9,7 @@ from tag_generation.TopKWordsTagGenerator import TopKWordsTagGenerator
 
 # configs to be updated as required
 
-# contins the complete stream details
+# contains the complete stream details
 COMPLETE_STREAM_DETAILS_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\complete_stream_details.csv"
 
 # specify the tag generation algorithm class
@@ -45,6 +45,7 @@ RUN_BEST_MODEL = True
 NUM_STREAMS_PER_USER = 5
 NUM_SIMILAR_STREAMS = 5
 NUM_MOST_COMMON_STREAMS = 10
+GENERATE_WORD_CLOUD_FOR_STREAMS = True
 
 # configs to be updated only if required
 
@@ -56,6 +57,7 @@ PREDICTED_STREAMS_FOR_USER = "predicted_streams_for_user"
 TAG_FREQUENCY_STREAMS = "tag_frequency_streams"
 SIMILAR_STREAMS_GENRATED_FILE_NAME = "similar_streams"
 TF_IDF_FILE_NAME = "tf_idf_streams"
+WORD_CLOUD_FOLDER_NAME = "wordclouds"
 
 # configurations for binning to get the ratings
 RATINGS_LOWER = 1
