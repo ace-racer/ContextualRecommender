@@ -39,7 +39,7 @@ class TagGeneratorBase(base_operations):
             for stream_id_tag in stream_id_tag_list:
                 output_content += str(stream_id_tag[0]) + "," + stream_id_tag[1] + "\n"
             
-            with open(configurations.STREAM_TAG_MAPPING_FILE_LOCATION, "w") as fw:
+            with open(configurations.STREAM_TAG_MAPPING_FILE_LOCATION, "w", encoding = "ISO-8859-1") as fw:
                 fw.writelines(output_content)
             
             print("Output tags written to file here: " + configurations.STREAM_TAG_MAPPING_FILE_LOCATION)

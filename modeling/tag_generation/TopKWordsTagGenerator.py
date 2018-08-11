@@ -5,6 +5,7 @@ import os
 
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize
+from nltk.tokenize import RegexpTokenizer
 from collections import Counter
 
 import configurations
@@ -27,8 +28,14 @@ class TopKWordsTagGenerator(TagGeneratorBase):
 
         for k in complete_stream_details_dict:
             content = complete_stream_details_dict[k]
-            word_tokens = word_tokenize(content)
-            filtered_content = [w for w in word_tokens if not w in stop_words]
+            content = content.lower()
+
+            # only select non-punctuation marks (loses - which connects words)
+            tokenizer = RegexpTokenizer(r'\w+')
+            
+            word_tokens = tokenizer.tokenize(content)
+            
+            filtered_content = [w for w in word_tokens if not w in stop_words and w != ""]
             top_k_most_common = Counter(filtered_content).most_common(self.TOP_K_K_VALUE)
             
             # Add the top K most common words as tags
