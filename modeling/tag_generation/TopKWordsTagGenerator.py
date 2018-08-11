@@ -4,7 +4,6 @@ import numpy as np
 import os
 
 from nltk.corpus import stopwords
-from nltk.tokenize import word_tokenize
 from nltk.tokenize import RegexpTokenizer
 from collections import Counter
 from wordcloud import WordCloud
