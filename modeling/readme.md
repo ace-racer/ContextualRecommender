@@ -1,10 +1,12 @@
-### Recommender system models
+### Tag generation and recommender system modeling
 
 #### Dependencies:
 1. Surprise library: http://surpriselib.com/
    Install using Anaconda in windows systems:
    ```conda install -c conda-forge scikit-surprise```
    Details for other OS in the same link as above.
+2. NLTK : https://www.nltk.org/install.html
+3. Download NLTK supporting files by following the instructions [here](https://www.nltk.org/data.html) 
 
 #### How to run
 1. Update the values of the below parameters in the configurations.py file:
