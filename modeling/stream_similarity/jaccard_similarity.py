@@ -43,7 +43,7 @@ class jaccard_similarity:
 
     def compute_similarities_generate_similar_streams(self, stream_tag_frequency_location, similar_streams_generated_file_location):
     
-        df = pd.read_csv(stream_tag_frequency_location, header=None)
+        df = pd.read_csv(stream_tag_frequency_location, header=None, encoding='utf-8')
 
         stream_tag_frequencies = None
         with open(stream_tag_frequency_location, "r") as fr:
