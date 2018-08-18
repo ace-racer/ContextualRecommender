@@ -10,13 +10,14 @@ from tag_generation.TopKWordsTagGenerator import TopKWordsTagGenerator
 # configs to be updated as required
 
 # contains the complete stream details
-COMPLETE_STREAM_DETAILS_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\complete_stream_details.csv"
+COMPLETE_STREAM_DETAILS_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\tag_generation_content\\card_module_details.csv"
 
 # specify the tag generation algorithm class
 TAG_GENERATION_ALGORITHM = TopKWordsTagGenerator
 
 # contains the stream details - stream, tag, cards info
-STREAM_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_details.csv"
+# STREAM_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_details.csv"
+STREAM_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\tag_generation_content\\stream_details.csv"
 
 # contains the stream view information with the timestamps
 STREAM_VIEWS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_views\\0907to0908.csv"
