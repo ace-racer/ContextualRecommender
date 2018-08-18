@@ -23,10 +23,10 @@ class TagGeneratorBase(base_operations):
                 # if the stream ID already exists in the dictionary
                 if complete_stream_details_dict.get(stream_id):
                     existing_content = complete_stream_details_dict[stream_id]
-                    new_content = existing_content + "\n" + row["HTML_CONTENT"]
+                    new_content = existing_content + "\n" + str(row["HTML_CONTENT"])
                     complete_stream_details_dict[stream_id] = new_content
                 else:
-                    complete_stream_details_dict[stream_id] = row["HTML_CONTENT"]
+                    complete_stream_details_dict[stream_id] = str(row["HTML_CONTENT"])
             
             return complete_stream_details_dict
 

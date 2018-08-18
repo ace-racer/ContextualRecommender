@@ -6,14 +6,15 @@ from collaborative_filtering.svdpp_algo_wrapper import svdpp_algo_wrapper
 from collaborative_filtering.normal_algo_wrapper import normal_algo_wrapper
 
 from tag_generation.TopKWordsTagGenerator import TopKWordsTagGenerator
+from tag_generation.TagGenerationRake import RakeTagGenerator
 
 # configs to be updated as required
 
 # contains the complete stream details
-COMPLETE_STREAM_DETAILS_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\tag_generation_content\\card_module_details.csv"
+COMPLETE_STREAM_DETAILS_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\tag_generation_content\\card_details_with_content.csv"
 
 # specify the tag generation algorithm class
-TAG_GENERATION_ALGORITHM = TopKWordsTagGenerator
+TAG_GENERATION_ALGORITHM = RakeTagGenerator
 
 # contains the stream details - stream, tag, cards info
 # STREAM_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_details.csv"

@@ -179,7 +179,7 @@ class Rake(object):
         return phrase_list
 
 
-from rake_nltk import Rake
+# from rake_nltk import Rake
 import configurations
 import constants
 from base_operations import base_operations
