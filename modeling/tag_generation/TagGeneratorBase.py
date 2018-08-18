@@ -10,7 +10,7 @@ from base_operations import base_operations
 
 class TagGeneratorBase(base_operations):
     def __init__(self):
-        pass
+        self._nan = "nan"
 
     def get_stream_details(self):
         print("Reading the stream details...")
@@ -20,13 +20,15 @@ class TagGeneratorBase(base_operations):
             for _, row in complete_stream_details_df.iterrows():
                 
                 stream_id = str(row["CARDID"])
-                # if the stream ID already exists in the dictionary
-                if complete_stream_details_dict.get(stream_id):
-                    existing_content = complete_stream_details_dict[stream_id]
-                    new_content = existing_content + "\n" + str(row["HTML_CONTENT"])
-                    complete_stream_details_dict[stream_id] = new_content
-                else:
-                    complete_stream_details_dict[stream_id] = str(row["HTML_CONTENT"])
+                row_content = str(row["HTML_CONTENT"])
+                if row_content and self._nan not in row_content:
+                    # if the stream ID already exists in the dictionary
+                    if complete_stream_details_dict.get(stream_id):
+                        existing_content = complete_stream_details_dict[stream_id]
+                        new_content = existing_content + "\n" + row_content
+                        complete_stream_details_dict[stream_id] = new_content
+                    else:
+                        complete_stream_details_dict[stream_id] = row_content
             
             return complete_stream_details_dict
 

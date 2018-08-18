@@ -6,8 +6,9 @@ from tag_generation.TagGeneratorBase import TagGeneratorBase
 
 class RakeTagGenerator(TagGeneratorBase):
     def __init__(self):
-        print("The RAKE tag generator will be used. " )
+        print("The RAKE tag generator will be used." )
         self._rake = Rake()
+        TagGeneratorBase.__init__(self)
 
     def generate_tags(self):
         complete_stream_details_dict = self.get_stream_details()
