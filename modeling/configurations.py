@@ -14,7 +14,7 @@ from tag_generation.TagGenerationRake import RakeTagGenerator
 COMPLETE_STREAM_DETAILS_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\tag_generation_content\\card_details_with_content.csv"
 
 # specify the tag generation algorithm class
-TAG_GENERATION_ALGORITHM = RakeTagGenerator
+TAG_GENERATION_ALGORITHM = TopKWordsTagGenerator
 
 # contains the stream details - stream, tag, cards info
 # STREAM_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_details.csv"
@@ -47,7 +47,7 @@ RUN_BEST_MODEL = True
 NUM_STREAMS_PER_USER = 5
 NUM_SIMILAR_STREAMS = 5
 NUM_MOST_COMMON_STREAMS = 10
-GENERATE_WORD_CLOUD_FOR_STREAMS = True
+GENERATE_WORD_CLOUD_FOR_STREAMS = False
 
 # configs to be updated only if required
 

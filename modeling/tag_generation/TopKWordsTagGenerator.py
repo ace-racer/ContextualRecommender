@@ -18,6 +18,7 @@ class TopKWordsTagGenerator(TagGeneratorBase):
     def __init__(self):
         self.TOP_K_K_VALUE = 5
         print("The Top K words tag generator will be used with K = " + str(self.TOP_K_K_VALUE))
+        TagGeneratorBase.__init__(self)
 
     def generate_tags(self):
         complete_stream_details_dict = self.get_stream_details()
