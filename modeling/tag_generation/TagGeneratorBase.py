@@ -19,7 +19,7 @@ class TagGeneratorBase(base_operations):
             complete_stream_details_dict = {}
             for _, row in complete_stream_details_df.iterrows():
                 
-                stream_id = str(row["CARDID"])
+                stream_id = str(row["DECKID"])
                 row_content = str(row["HTML_CONTENT"])
                 if row_content and self._nan not in row_content:
                     # if the stream ID already exists in the dictionary

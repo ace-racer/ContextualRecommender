@@ -16,7 +16,7 @@ from tag_generation.TagGeneratorBase import TagGeneratorBase
 
 class TopKWordsTagGenerator(TagGeneratorBase):
     def __init__(self):
-        self.TOP_K_K_VALUE = 5
+        self.TOP_K_K_VALUE = configurations.NUM_TAGS_TO_GENERATE
         print("The Top K words tag generator will be used with K = " + str(self.TOP_K_K_VALUE))
         TagGeneratorBase.__init__(self)
 

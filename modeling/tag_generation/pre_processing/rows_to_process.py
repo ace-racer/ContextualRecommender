@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import re
 
-FILES_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\content"
+FILES_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\tag_generation_content"
 SOURCE_FILE_NAME = "card_module_details.csv"
 TARGET_FILE_NAME = "card_module_details_to_process.csv"
 
