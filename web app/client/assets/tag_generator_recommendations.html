@@ -21,7 +21,7 @@
         <div class="row">
           <div class="col-md-12 main-section">
             <div class="row">
-              <h3 class="heading">Stream Detail</h3>
+              <h3 class="heading">Tag generation for stream id 163</h3>
               <h5 class="subheading">You are viewing the Stream Detail</h5><!DOCTYPE html>
               <html lang="en">
                 <head>
@@ -38,8 +38,8 @@
                 <body>
                   <!-- 1. Data (json format!)-->
                   <script></script>
-                  <div id="anchor"> </div>
-                  <script id="tpl11" type="text/template">
+                  <div id="tag-gen-anchor"> </div>
+                  <script id="tag-gen-stream-card" type="text/template">
                     {{#Target}}
                     <div class="wrapper stream">
                               <div class="card radius shadowDepth1" onclick="myFunction(this)">
@@ -71,10 +71,11 @@
                     var url_string = window.location.href; //window.location.href
                     var url_str = new URL(url_string);
                     var c = url_str.searchParams.get("streamid"); //958
-                    console.log("c is stream c"+c);
+                    console.log("New C"+c);
                     var user_id = sessionStorage.getItem("uname");
-                    var base_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=' + c + "&userid=" + user_id;
-                    console.log("base url is" +base_url);
+                    //var base_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=' + c + "&userid=" + user_id;
+                    var data_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=163&userid=1';
+                    console.log("New base url is" +base_url);
                     
                     var slingshot = function (url, tplId, anchor) {
                     $.getJSON(url, function(data) {
@@ -83,7 +84,7 @@
                     $(anchor).append(stone);
                     });
                     }
-                    slingshot(base_url, '#tpl11', '#anchor'); // since url = 'data.json' , we can use both notations.
+                    slingshot(data_url , '#tag-gen-stream-card', '#tag-gen-anchor'); // since url = 'data.json' , we can use both notations.
                     function myFunction(e) {
                         console.log("clicked");
                         console.log(e);
@@ -97,7 +98,7 @@
               </html>
             </div>
             <div class="row">
-              <h3 class="heading">Related Streams</h3>
+              <h3 class="heading">These are the related streams</h3>
               <h5 class="subheading">These are the related stream for your stream</h5><!DOCTYPE html>
               <html lang="en">
                 <head>
@@ -114,8 +115,8 @@
                 <body>
                   <!-- 1. Data (json format!)-->
                   <script></script>
-                  <div id="anchor1"> </div>
-                  <script id="tpl22" type="text/template">
+                  <div id="tag-gen-anchor1"> </div>
+                  <script id="tag-gen-related-card" type="text/template">
                     {{#each Neighbors}}
                     <div class="wrapper related-stream">
                               <div class="card radius shadowDepth1" onclick="myFunction(this)">
@@ -142,7 +143,8 @@
                     console.log(c);
                     
                     var user_id = sessionStorage.getItem("uname");
-                    var base_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=' + c + "&userid=" + user_id;
+                    //var base_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=' + c + "&userid=" + user_id;
+                    var data_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=163&userid=1';
                     
                     
                     //base_url = base_url + c;
@@ -155,7 +157,7 @@
                     $(anchor).append(stone);
                     });
                     }
-                    slingshot(base_url, '#tpl22', '#anchor1'); // since url = 'data.json' , we can use both notations.
+                    slingshot(data_url, '#tag-gen-related-card', '#tag-gen-anchor1'); // since url = 'data.json' , we can use both notations.
                     
                     
                     function myFunction(e) {

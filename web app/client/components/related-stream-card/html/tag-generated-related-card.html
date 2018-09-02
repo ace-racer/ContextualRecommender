@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Stream-card</title>
+    <title>Related Card</title>
     <!-- 0a. CSS-->
     <link rel="stylesheet" href="style.css">
     <!-- 0a. JS-->
@@ -14,57 +14,56 @@
   <body>
     <!-- 1. Data (json format!)-->
     <script></script>
-    <div id="anchor"> </div>
-    <script id="tpl11" type="text/template">
-      {{#Target}}
-      <div class="wrapper stream">
+    <div id="tag-gen-anchor1"> </div>
+    <script id="tag-gen-related-card" type="text/template">
+      {{#each Neighbors}}
+      <div class="wrapper related-stream">
                 <div class="card radius shadowDepth1" onclick="myFunction(this)">
-                  <div class="card__image border-tlr-radius"><img src="../assets/images/phonehd.jpg" alt="image" class="border-tlr-radius"></div>
+                  <div class="card__image border-tlr-radius"><img src="../assets/images/nokia2.jpg" alt="image" class="border-tlr-radius"></div>
                   <div class="card__content card__padding">
-                    <div class="card__meta"><a href="#">{{streamname}}</a>
+                    <div class="card__meta"><a href="#">{{streamname}} </a>
+                    </div>
+                    <div class="card__meta streamid"><a href="#">{{streamid}}</a>
                     </div>
                     <article class="tags">
                       {{#each tags}}
                           <h6><a href="#">{{this}}</a></h6>
                       {{/each}}
                     </article>
-                    <button id="view-card" class="btn">View Cards</button>
-                    <article class="card-names">
-                        <ul>
-                        {{#each cards}}
-                           
-                            <li class="inner-card card"> <a href="#">{{cardname}}</a></li>
-                            
-                        {{/each}}
-                        </ul>
-                    </article>
                   </div>
                 </div>
-            </div>
-      {{/Target}}
+              </div>
+      {{/each}}
     </script>
     <script>
       var url_string = window.location.href; //window.location.href
       var url_str = new URL(url_string);
       var c = url_str.searchParams.get("streamid"); //958
-      console.log("c is stream c"+c);
-      var user_id = sessionStorage.getItem("uname");
-      var base_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=' + c + "&userid=" + user_id;
-      console.log("base url is" +base_url);
+      console.log(c);
       
-      var slingshot = function (url, tplId, anchor) {
+      var user_id = sessionStorage.getItem("uname");
+      //var base_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=' + c + "&userid=" + user_id;
+      var data_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=163&userid=1';
+      
+      
+      //base_url = base_url + c;
+      //console.log(base_url);
+      
+      var slingshot = function (url, tplId , anchor) {
       $.getJSON(url, function(data) {
       var template = $(tplId).html();
       var stone = Handlebars.compile(template)(data);
       $(anchor).append(stone);
       });
       }
-      slingshot(base_url, '#tpl11', '#anchor'); // since url = 'data.json' , we can use both notations.
+      slingshot(data_url, '#tag-gen-related-card', '#tag-gen-anchor1'); // since url = 'data.json' , we can use both notations.
+      
+      
       function myFunction(e) {
           console.log("clicked");
           console.log(e);
           var one = $(e).find('.streamid').find('a').html();
-          console.log(one);
+         console.log(one);
           var url = "main.html"+ '?streamid='+ one;
           window.location.href = url;
       }

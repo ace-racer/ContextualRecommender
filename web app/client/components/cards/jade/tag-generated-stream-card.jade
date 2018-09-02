@@ -13,9 +13,9 @@ html(lang='en')
   body
     // 1. Data (json format!)
     script.
-    #anchor
+    #tag-gen-anchor
       | 
-    script#tpl11(type='text/template').
+    script#tag-gen-stream-card(type='text/template').
           {{#Target}}
           <div class="wrapper stream">
                     <div class="card radius shadowDepth1" onclick="myFunction(this)">
@@ -46,10 +46,11 @@ html(lang='en')
       var url_string = window.location.href; //window.location.href
       var url_str = new URL(url_string);
       var c = url_str.searchParams.get("streamid"); //958
-      console.log("c is stream c"+c);
+      console.log("New C"+c);
       var user_id = sessionStorage.getItem("uname");
-      var base_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=' + c + "&userid=" + user_id;
-      console.log("base url is" +base_url);
+      //var base_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=' + c + "&userid=" + user_id;
+      var data_url = 'http://127.0.0.1:5000/streams/neighbors?streamid=163&userid=1';
+      console.log("New base url is" +base_url);
       
       var slingshot = function (url, tplId, anchor) {
       $.getJSON(url, function(data) {
@@ -58,7 +59,7 @@ html(lang='en')
       $(anchor).append(stone);
       });
       }
-      slingshot(base_url, '#tpl11', '#anchor'); // since url = 'data.json' , we can use both notations.
+      slingshot(data_url , '#tag-gen-stream-card', '#tag-gen-anchor'); // since url = 'data.json' , we can use both notations.
       function myFunction(e) {
           console.log("clicked");
           console.log(e);

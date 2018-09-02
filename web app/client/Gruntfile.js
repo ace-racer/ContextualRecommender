@@ -10,9 +10,12 @@ module.exports = function (grunt) {
                     'assets/main.html': 'source/jade/main.jade',
                     'assets/recommended.html': 'source/jade/recommended.jade',
                     'assets/login.html': 'source/jade/login.jade',
+                    'assets/tag_generator_recommendations.html': 'source/jade/tag_generator_recommendations.jade',
                     'components/cards/html/stream-card.html': 'components/cards/jade/stream-card.jade',
+                    'components/cards/html/tag-generated-stream-card.html': 'components/cards/jade/tag-generated-stream-card.jade',
                     'components/cards/html/reco-stream-card.html': 'components/cards/jade/reco-stream-card.jade',
                     'components/related-stream-card/html/related-card.html': 'components/related-stream-card/jade/related-card.jade',
+                    'components/related-stream-card/html/tag-generated-related-card.html': 'components/related-stream-card/jade/tag-generated-related-card.jade',
                     'components/template/html/temp.html': 'components/template/jade/temp.jade',
                     'components/template/html/related-temp.html': 'components/template/jade/related-temp.jade'
                 }
