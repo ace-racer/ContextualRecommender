@@ -17,10 +17,17 @@ class TagGeneratorBase(base_operations):
         complete_stream_details_df = pd.read_csv(configurations.COMPLETE_STREAM_DETAILS_LOCATION, encoding="ISO-8859-1")
         if complete_stream_details_df is not None:
             complete_stream_details_dict = {}
+            self._stream_id_stream_title_dict = {}
             for _, row in complete_stream_details_df.iterrows():
                 
                 stream_id = str(row["DECKID"])
+                stream_title = str(row["DECKNAME"])
                 row_content = str(row["HTML_CONTENT"])
+
+                # TODO: add the card title and the module name to the content on which the tags can be generated
+                card_title =str(row["CARDTITLE"])
+                module_name = str(row["MODULENAME"])
+                
                 if row_content and self._nan not in row_content:
                     # if the stream ID already exists in the dictionary
                     if complete_stream_details_dict.get(stream_id):
@@ -29,6 +36,7 @@ class TagGeneratorBase(base_operations):
                         complete_stream_details_dict[stream_id] = new_content
                     else:
                         complete_stream_details_dict[stream_id] = row_content
+                        self._stream_id_stream_title_dict[stream_id] = stream_title
             
             return complete_stream_details_dict
 
@@ -39,7 +47,7 @@ class TagGeneratorBase(base_operations):
         output_content = ""
         if stream_id_tag_list and len(stream_id_tag_list) > 0:
             for stream_id_tag in stream_id_tag_list:
-                output_content += str(stream_id_tag[0]) + "," + stream_id_tag[1] + "\n"
+                output_content += str(stream_id_tag[1]) + "," + stream_id_tag[0] + "," + self._stream_id_stream_title_dict.get(stream_id_tag[0])  + "\n"
             
             with open(configurations.STREAM_TAG_MAPPING_FILE_LOCATION, "w", encoding = "ISO-8859-1") as fw:
                 fw.writelines(output_content)
