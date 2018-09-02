@@ -9,6 +9,7 @@ USER_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\users_roles_update
 # location of the stream details with the extracted content
 STREAM_DETAILS_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\card_module_details_content_extracted.csv"
 
+# location of the stream tag mapping file
 STREAM_TAG_MAPPING_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_tag_mapping_generated.csv"
 
 # ******************** Below parameters to be updated only if really required ********************

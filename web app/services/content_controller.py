@@ -116,6 +116,45 @@ class content_controller:
                 # get the details for the streams sorted by the stream id
                 required_stream_details_df = stream_details_df[stream_details_df[configurations.STREAM_ID_COLUMN_NAME].isin(unique_stream_ids)].sort_values(by=[configurations.STREAM_ID_COLUMN_NAME])
                 
+                stream_tag_mapping_df = pd.read_csv(configurations.STREAM_TAG_MAPPING_FILE_LOCATION, encoding = "ISO-8859-1", names=["Tag", configurations.STREAM_ID_COLUMN_NAME, "Stream Name"])
+
+                required_stream_tag_mapping_df = stream_tag_mapping_df[stream_tag_mapping_df[configurations.STREAM_ID_COLUMN_NAME].isin(unique_stream_ids)].sort_values(by=[configurations.STREAM_ID_COLUMN_NAME])
+                all_stream_tag_mapping = {}
+
+                for _, row in required_stream_tag_mapping_df.iterrows():
+                    if all_stream_tag_mapping.get(row[configurations.STREAM_ID_COLUMN_NAME]):
+                        all_stream_tag_mapping[row[configurations.STREAM_ID_COLUMN_NAME]].append(row["Tag"])
+                    else:
+                        all_stream_tag_mapping[row[configurations.STREAM_ID_COLUMN_NAME]] = [row["Tag"]]
+                
+                stream_details = required_stream_details_df.iterrows()
+                num_stream_details = required_stream_details_df.shape[0]
+                itr = 0
+                while itr < num_stream_details:
+                    stream_details_formatted = {}
+                    current_stream_id = stream_details[itr][1][configurations.STREAM_ID_COLUMN_NAME]
+                    stream_details_formatted["streamid"] = current_stream_id
+                    stream_details_formatted["organization"] = None
+                    stream_details_formatted["streamname"] = stream_details[itr][1]["DECKNAME"]
+                    stream_details_formatted["order"] = streamids.index(int(current_stream_id))
+                    stream_details_formatted["tags"] = all_stream_tag_mapping.get(current_stream_id, [])
+
+                    jtr = itr
+                    cards = []
+                    while jtr < num_stream_details and stream_details[jtr][1][configurations.STREAM_ID_COLUMN_NAME] == current_stream_id:
+                        card_details = {}
+                        card_details["cardid"] = stream_details[jtr][1]["CARDID"]
+                        card_details["cardname"] = stream_details[jtr][1]["CARDTITLE"]
+                        card_details["content"] = stream_details[jtr][1]["HTML_CONTENT"]
+                        cards.append(card_details)
+
+                        jtr += 1
+
+                    stream_details_formatted["cards"] = cards
+                    all_stream_details_formatted.append(stream_details_formatted)
+                    itr = jtr
+
+                return all_stream_details_formatted
 
             else:
                 raise ValueError("The stream details file cannot be found")
