@@ -127,14 +127,14 @@ class content_controller:
                     else:
                         all_stream_tag_mapping[row[configurations.STREAM_ID_COLUMN_NAME]] = [row["Tag"]]
                 
-                stream_details = required_stream_details_df.iterrows()
+                stream_details = list(required_stream_details_df.iterrows())
                 num_stream_details = required_stream_details_df.shape[0]
                 itr = 0
                 while itr < num_stream_details:
                     stream_details_formatted = {}
                     current_stream_id = stream_details[itr][1][configurations.STREAM_ID_COLUMN_NAME]
                     stream_details_formatted["streamid"] = current_stream_id
-                    stream_details_formatted["organization"] = None
+                    stream_details_formatted["organization"] = ""
                     stream_details_formatted["streamname"] = stream_details[itr][1]["DECKNAME"]
                     stream_details_formatted["order"] = streamids.index(int(current_stream_id))
                     stream_details_formatted["tags"] = all_stream_tag_mapping.get(current_stream_id, [])
@@ -145,12 +145,12 @@ class content_controller:
                         card_details = {}
                         card_details["cardid"] = stream_details[jtr][1]["CARDID"]
                         card_details["cardname"] = stream_details[jtr][1]["CARDTITLE"]
-                        card_details["content"] = stream_details[jtr][1]["HTML_CONTENT"]
+                        card_details["content"] = stream_details[jtr][1]["HTML_CONTENT"] if str(stream_details[jtr][1]["HTML_CONTENT"]).lower() != "nan" else ""
                         cards.append(card_details)
 
                         jtr += 1
-
-                    stream_details_formatted["cards"] = cards
+                    
+                    stream_details_formatted["cards"] = cards[:min(len(cards), configurations.MAX_CARDS_PER_STREAM)]
                     all_stream_details_formatted.append(stream_details_formatted)
                     itr = jtr
 
