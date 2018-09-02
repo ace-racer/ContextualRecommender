@@ -11,7 +11,7 @@ from tag_generation.TagGenerationRake import RakeTagGenerator
 # configs to be updated as required
 
 # contains the complete stream details
-COMPLETE_STREAM_DETAILS_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\tag_generation_content\\card_module_details_content_extracted.csv"
+COMPLETE_STREAM_DETAILS_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\card_module_details_content_extracted.csv"
 
 # specify the tag generation algorithm class
 TAG_GENERATION_ALGORITHM = TopKWordsTagGenerator
@@ -27,7 +27,7 @@ STREAM_VIEWS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_views\\0907
 STREAM_TAG_MAPPING_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_tag_mapping_generated.csv"
 
 # where all the generated files will be stored - the files follow a sequential numbering scheme
-OUTPUT_FILES_DIRECTORY = "H:\\TeamStreamz_IW\\code\\data\\generated\\ratings"
+OUTPUT_FILES_DIRECTORY = "H:\\TeamStreamz_IW\\code\\data\\generated"
 
 # where all the log files will be created
 log_file_folder_location = "H:\\TeamStreamz_IW\\code\\modeling\\logs"
