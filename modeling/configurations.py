@@ -7,6 +7,7 @@ from collaborative_filtering.normal_algo_wrapper import normal_algo_wrapper
 
 from tag_generation.TopKWordsTagGenerator import TopKWordsTagGenerator
 from tag_generation.TagGenerationRake import RakeTagGenerator
+from tag_generation.TagGenerationTFIDF import TagGenerationTFIDF
 
 # configs to be updated as required
 
@@ -14,7 +15,7 @@ from tag_generation.TagGenerationRake import RakeTagGenerator
 COMPLETE_STREAM_DETAILS_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\card_module_details_content_extracted.csv"
 
 # specify the tag generation algorithm class
-TAG_GENERATION_ALGORITHM = TopKWordsTagGenerator
+TAG_GENERATION_ALGORITHM = TagGenerationTFIDF
 
 # contains the stream details - stream, tag, cards info
 # STREAM_DETAILS_FILE_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\stream_details.csv"
