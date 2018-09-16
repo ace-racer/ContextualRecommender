@@ -5,7 +5,11 @@ import re
 
 def striphtml(data):
     p = re.compile(r'<.*?>')
-    return p.sub('', data)
+    return p.sub(' ', data)
+
+def strip_malformed_html(data):
+    p = re.compile(r'<.*?\.\.\.')
+    return p.sub(' ', data)
 
 # configurations
 FILES_LOCATION = "H:\\TeamStreamz_IW\\code\\data\\tag_generation_content"
@@ -36,10 +40,11 @@ for idx, row in input_df.iterrows():
             source_data = row[TEXTDETAILS]
             source_data = source_data.replace("&nbsp;", " ")
             source_data = source_data.replace(u'\xa0', ' ')
-            input_df.loc[idx, HTML_CONTENT_COLUMN_NAME] = striphtml(source_data)
+            extracted_content = striphtml(source_data.strip())
+            input_df.loc[idx, HTML_CONTENT_COLUMN_NAME] = strip_malformed_html(extracted_content.strip())
 
 
 input_df = input_df[input_df[SHOULD_PROCESS] == 1]
-input_df[HTML_CONTENT_COLUMN_NAME] = input_df[HTML_CONTENT_COLUMN_NAME].replace('\n','', regex=True)
+input_df[HTML_CONTENT_COLUMN_NAME] = input_df[HTML_CONTENT_COLUMN_NAME].replace('\n',' ', regex=True)
 input_df.to_csv(output_file, index=False, encoding="ISO-8859-1")
 print("Output file with the html text is generated.")
