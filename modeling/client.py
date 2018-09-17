@@ -39,6 +39,9 @@ def main():
         should_tags_be_generated = True
         should_generate_tag_frequencies = True
         similar_streams_distance_metric = constants.COSINE_SIMILARITY
+        should_generate_ratings_file = False
+        should_evaluate_models = False
+        should_generate_predicted_streams_for_user = False
     else:
         should_generate_ratings_file = (args.g == 1)
         should_evaluate_models = (args.e == 1)
