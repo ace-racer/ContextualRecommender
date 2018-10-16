@@ -68,10 +68,11 @@ def get_similar_streams_based_on_history(viewed_streams, weight_pattern = linear
         similarity_sum = np.zeros(similarities.shape[0])
     
         for x, viewed_stream in enumerate(viewed_streams):
-            stream_index = stream_content_df[stream_content_df["StreamID"]==viewed_stream].index[0]
-            weight_factor = weight_pattern(x, max_viewed_streams_to_consider)
-            # print(weight_factor)
-            similarity_sum = similarity_sum + (weight_factor * np.array(similarities[stream_index]))
+            if not stream_content_df[stream_content_df["StreamID"]==viewed_stream].empty:
+                stream_index = stream_content_df[stream_content_df["StreamID"]==viewed_stream].index[0]
+                weight_factor = weight_pattern(x, max_viewed_streams_to_consider)
+                # print(weight_factor)
+                similarity_sum = similarity_sum + (weight_factor * np.array(similarities[stream_index]))
         
         
         #print(similarity_sum)
