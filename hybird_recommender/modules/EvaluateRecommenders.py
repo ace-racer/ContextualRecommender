@@ -32,6 +32,7 @@ if __name__ == "__main__":
     recent_viewed_stream_ids = [x[0] for x in recent_viewed_streams]
     print("recent viewed streams...")
     print(recent_viewed_stream_ids)
-    recommended_stream_ids = CombinedRecommender.get_recommended_stream_ids(userid, recent_viewed_stream_ids)
+    recommended_stream_ids, selection_reasoning = CombinedRecommender.get_recommended_stream_ids(userid, recent_viewed_stream_ids)
     show_recommended_streams(recommended_stream_ids)
+    print(selection_reasoning)
 
