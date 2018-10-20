@@ -10,8 +10,13 @@ stream_views_df['TIMESTAMP'] = pd.to_datetime(stream_views_df['TIMESTAMP'], form
 
 def show_recommended_streams(recommendations):
     recommended_streams = [x[0] for x in recommendations]
+    print("Recommended streams:")
+    print(recommended_streams)
     recommended_stream_content_df = stream_content_df[stream_content_df["StreamID"].isin(recommended_streams)]
-    print(recommended_stream_content_df)
+    if recommended_stream_content_df.empty:
+        print("Content for the recommended streams are not available")
+    else:
+        print(recommended_stream_content_df)
 
 
 if __name__ == "__main__":
@@ -19,6 +24,7 @@ if __name__ == "__main__":
     recent_viewed_streams = UserStreamViews.get_latest_streams_for_user(stream_views_df, userid)
     print(recent_viewed_streams)
     recent_viewed_stream_ids = [x[0] for x in recent_viewed_streams]
+    print("recent viewed streams...")
     print(recent_viewed_stream_ids)
     recommended_stream_ids = CombinedRecommender.get_recommended_stream_ids(userid, recent_viewed_stream_ids)
     show_recommended_streams(recommended_stream_ids)
