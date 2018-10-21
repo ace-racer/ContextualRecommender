@@ -92,6 +92,9 @@ def get_similar_streams_based_on_history(viewed_streams, weight_pattern = linear
         candidate_streams = [x for x in stream_similarity if (x[1] > 0) and (x[0] not in viewed_streams)]
         
         num_candidate_streams = len(candidate_streams)
+
+        if num_candidate_streams == 0:
+            print("None of the streams in history have their content available")
         
         return candidate_streams[:min(num_candidate_streams, max_similar_streams)]
             

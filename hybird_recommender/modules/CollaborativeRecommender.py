@@ -51,6 +51,8 @@ def get_similar_streams_based_on_other_users(current_user_id, max_similar_stream
         
         # candidate users are those which are other users closest to the current user
         candidate_users = [x for x in user_similarity if (x[0] != current_user_id) and (x[1] > 0.6)]
+        # print("Users the current user is most similar to: ")
+        # print(candidate_users)
         
         num_candidate_users = len(candidate_users)
         candidate_users = candidate_users[:min(num_candidate_users, max_similar_streams)]
@@ -60,7 +62,7 @@ def get_similar_streams_based_on_other_users(current_user_id, max_similar_stream
         stream_views_sum = np.zeros(features_df.shape[1])
         
         # get the sum of the views
-        for x, candidate_user in enumerate(candidate_users):
+        for candidate_user in candidate_users:
             
             # weigh scores by similarity measure
             weight_factor = candidate_user[1]
@@ -83,12 +85,15 @@ def get_similar_streams_based_on_other_users(current_user_id, max_similar_stream
         # sort the stream views on the sum in descending order
         streams_with_sum_views.sort(key = lambda x: x[1], reverse = True)
         
-        #print(streams_with_sum_views)
+        # print(streams_with_sum_views)
         
         # candidate streams are those which have greater than 0 views
         candidate_streams = [x for x in streams_with_sum_views if (x[1] > 0)]
         
         num_candidate_streams = len(candidate_streams)
+
+        if num_candidate_streams == 0:
+            print("There are no candidate streams based on similar users")
         
         return candidate_streams[:min(num_candidate_streams, max_similar_streams)]
             
