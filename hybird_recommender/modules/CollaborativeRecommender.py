@@ -12,7 +12,7 @@ content_views_per_user_scaled_df = pd.read_csv("../data/content_views_per_user_s
 new_column_names = ["UserID"]
 new_column_names.extend(content_views_per_user_scaled_df.columns[1:])
 content_views_per_user_scaled_df.columns = new_column_names
-content_views_per_user_scaled_df.head()
+# content_views_per_user_scaled_df.head()
 
 features_df = content_views_per_user_scaled_df.drop("UserID", axis=1)
 user_similarities = cosine_similarity(features_df.values)

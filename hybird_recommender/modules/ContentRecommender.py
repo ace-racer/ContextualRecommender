@@ -25,15 +25,15 @@ def preprocess(tokens):
 
 stream_content_df['Content_processed'] = stream_content_df['Content'].map(word_tokenize)
 stream_content_df['Content_processed'] = stream_content_df.Content_processed.apply(preprocess)
-stream_content_df.head()
+#stream_content_df.head()
 
 stream_content_df['Content_processed'] = stream_content_df['Content_processed'].apply(lambda x: " ".join(x))
-stream_content_df.head()
+#stream_content_df.head()
 
 all_streams_cleaned_text = stream_content_df['Content_processed']
 all_streams_tfidf_vectorizer = TfidfVectorizer(min_df = 2)
 all_streams_tfidf = all_streams_tfidf_vectorizer.fit_transform(all_streams_cleaned_text)
-all_streams_tfidf
+#all_streams_tfidf
 
 token_values = {all_streams_tfidf_vectorizer.vocabulary_[token]: token for token in all_streams_tfidf_vectorizer.vocabulary_}
 
@@ -94,7 +94,8 @@ def get_similar_streams_based_on_history(viewed_streams, weight_pattern = linear
         num_candidate_streams = len(candidate_streams)
 
         if num_candidate_streams == 0:
-            print("None of the streams in history have their content available")
+            # print("None of the streams in history have their content available")
+            return None
         
         return candidate_streams[:min(num_candidate_streams, max_similar_streams)]
             

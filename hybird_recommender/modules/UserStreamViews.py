@@ -10,7 +10,7 @@ def get_latest_streams_for_user(stream_views_df, userid, max_views_to_consider =
     """
     
     # sort the streams views in descending order by time
-    print(stream_views_df.head())
+    # print(stream_views_df.head())
     stream_views_df = stream_views_df.sort_values(by="TIMESTAMP", ascending=False)
     stream_views_for_user_df = stream_views_df[stream_views_df["USERID"] == userid]
     

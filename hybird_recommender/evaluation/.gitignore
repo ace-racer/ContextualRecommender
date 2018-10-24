@@ -1,0 +1,6 @@
+data/
+.ipynb_checkpoints/
+*.txt
+*.pyc
+*.log
+generated/
