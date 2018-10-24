@@ -93,7 +93,8 @@ def get_similar_streams_based_on_other_users(current_user_id, max_similar_stream
         num_candidate_streams = len(candidate_streams)
 
         if num_candidate_streams == 0:
-            print("There are no candidate streams based on similar users")
+            # print("There are no candidate streams based on similar users")
+            return None
         
         return candidate_streams[:min(num_candidate_streams, max_similar_streams)]
             
