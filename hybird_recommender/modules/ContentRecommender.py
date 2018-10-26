@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
 
-stream_content_df = pd.read_csv("../data/stream_content.csv", header=0, encoding="ISO-8859-1")
+stream_content_df = pd.read_csv("../data/stream_content_processed.csv", header=0, encoding="ISO-8859-1")
 
 def preprocess(tokens):
     

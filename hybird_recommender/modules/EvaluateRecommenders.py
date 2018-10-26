@@ -3,7 +3,7 @@ import UserStreamViews
 import pandas as pd
 import sys
 
-stream_content_df = pd.read_csv("../data/stream_content.csv", header=0, encoding="ISO-8859-1")
+stream_content_df = pd.read_csv("../data/stream_content_processed.csv", header=0, encoding="ISO-8859-1")
 
 stream_views_df = pd.read_csv("../data/content_views_raw.csv", header=0)
 
